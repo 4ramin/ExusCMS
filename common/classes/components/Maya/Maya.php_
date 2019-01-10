@@ -1,0 +1,200 @@
+<?php
+
+	if(!defined("__FLOWER__")) exit();
+
+	class maya{
+		
+		private static $self = NULL;
+		private $addon_text = NULL;
+		private $global_static = 0;
+		private $text_i = 0;
+		private $text_z = 0;
+		private $debug = TRUE;
+		
+		var $self_position = 0;
+		var $text_len = 0;
+		
+		function __construct(){}
+	
+		static function &getself(){
+			static $obj = null;
+			if(!$obj) $obj = new maya();
+
+			return $obj;
+		}
+		
+		function line_execute_match_left($start, $rule, $text, $mode){
+			$self = self::getself();
+			
+			$check_rule = mb_strpos($rule, '||', 0, 'utf-8');
+			
+			if($check_rule!== false){
+				$check_rule = explode('||',$rule);
+				
+				foreach($check_rule as $val){
+					if($mode=='equal'){
+						if(mb_substr(mb_substr($text, $this->text_i, 'utf-8'), 0, mb_strlen($val, 'utf-8'), 'utf-8') == $val){
+							return $start+1;
+						}
+					}
+				}
+				
+				return -1;
+			}else{
+				$check_rule = $rule;
+				
+				if($mode=='equal'){
+					if(mb_substr(mb_substr($text, $this->text_i, 'utf-8'), 0, mb_strlen($val, 'utf-8'), 'utf-8') == $val){
+						return $start + 1;
+					}
+				}
+					
+				return -1;
+			}
+		}
+		
+		function line_execute_match_right($start, $rule, $text, $mode){
+			$self = self::getself();
+			$self->global_static = FALSE;
+			
+			$check_rule_split = mb_strpos($rule, '||', 'utf-8');
+			
+			if($check_rule_split!== false){
+				$check_rule = explode('||',$rule);
+				foreach($check_rule as $val){
+					if($mode=='like'){
+						$check_arr = $this->addon_text==NULL ? mb_strpos(mb_substr($text, $self->text_i, 'utf-8'), $val, 0, 'utf-8') : mb_strpos(mb_substr($text, $self->text_i, 'utf-8'), $self->addon_text.$val, 0, 'utf-8');
+						if($check_arr!== false){
+							return $start+1;
+						}
+					}elseif($mode=='equal'){
+						$rep_a = $this->addon_text==NULL ? mb_substr(mb_substr($text,$self->text_i, 'utf-8'), mb_strlen(mb_substr($text, $self->text_i, 'utf-8'), 'utf-8')-mb_strlen($val, 'utf-8'), mb_strlen($val, 'utf-8'), 'utf-8') : mb_substr(mb_substr($text,$self->text_i, 'utf-8'), (mb_strlen(mb_substr($text, $self->text_i, 'utf-8'), 'utf-8') - mb_strlen($val, 'utf-8')) - mb_strlen($this->addon_text, 'utf-8'), mb_strlen($val, 'utf-8') + mb_strlen($this->addon_text, 'utf-8'), 'utf-8');
+						$rep_b = $this->addon_text==NULL ? $val : $this->addon_text.$val;
+						
+						if($rep_a == $rep_b){
+							return $start+1;
+						}
+					}
+				}
+				
+				return -1;
+			}else{
+				$check_rule = $rule;
+				
+				if($mode=='like'){
+					$check_rule = $this->addon_text==NULL ? mb_strpos(mb_substr($text, $this->text_i, 'utf-8'), $check_rule, 0, 'utf-8') : mb_strpos(mb_substr($text, $this->text_i, 'utf-8'), $this->addon_text.$check_rule, 0, 'utf-8');
+				
+					if($check_rule!== false){
+						$self->text_i = $check_rule;
+						return $start+1;
+					}
+				}elseif($mode=='equal'){
+					if(mb_substr(mb_substr($text, $self->text_i, 'utf-8'), mb_strlen(mb_substr($text, $self->text_i, 'utf-8'), 'utf-8') - mb_strlen($val, 'utf-8'), mb_strlen($val, 'utf-8'), 'utf-8') == $val){
+						return $start+1;
+					}
+				}
+					
+				return -1;
+			}
+		}
+		
+		function line_pass($start, $rule, $text, $passage=0){
+			$self = self::getself();
+			
+			$check_rule = mb_strpos($rule, '||', 0, 'utf-8');
+
+			if($check_rule!== false){
+				$check_rule = explode('||',$rule);
+				
+				foreach($check_rule as $val){
+					$pattern_pos = mb_strpos($text, $val, $start, 'utf-8');
+					if($pattern_pos!== false){
+						return $self->line_pass($pattern_pos + 1, $rule, $text, $passage==0 ? mb_strlen($rule, 'utf-8') : $passage);
+					}
+				}
+				
+				$self->text_i = $start;
+				return mb_strlen($rule, 'utf-8')+1;
+			}else{
+				$pattern_pos = mb_strpos($text, $rule, $start, 'utf-8');
+				
+				if($pattern_pos!== false){
+					return $self->line_pass($pattern_pos+1, $rule, $text);
+				}else{
+					$self->text_i = $start;
+					return $passage==0 ? mb_strlen($rule, 'utf-8')+1 : $passage+1;
+				}
+			}
+		}
+		
+		function line_add($start, $rule){
+			$this->addon_text = $rule;
+			return $start+1;
+		}
+		
+		function line_execute($start, $rule, $pattern, $text){
+			$self = self::getself();
+			$pattern_pos = mb_strpos($rule, $pattern, 0, 'utf-8');
+			$escape_pos = mb_substr($rule, $pattern_pos + 1, 1, 'utf-8');
+			
+			if($pattern_pos!== false){
+				if($escape_pos==='^'){
+					$self->line_execute($pattern_pos, mb_substr($rule,$pattern_pos), $pattern, $text);
+				}else{
+					switch ($pattern):
+					case "+":
+						return $self->line_add($pattern_pos, mb_substr($rule, $start, $pattern_pos));
+						break;
+					case "$":
+						return $self->line_execute_match_left($pattern_pos, mb_substr($rule, $start, $pattern_pos), $text, 'equal', 'utf-8');
+						break;
+					case "#":
+						return $self->line_execute_match_right($pattern_pos, mb_substr($rule, $start, $pattern_pos), $text, 'like', 'utf-8');
+						break;
+					case "!":
+						return $self->line_execute_match_right($pattern_pos, mb_substr($rule, $start, $pattern_pos), $text, 'equal', 'utf-8');
+						break;
+					case "^":
+						return $self->line_execute_match_right($pattern_pos, mb_substr($rule, $start, $pattern_pos), $text, 'equallower', 'utf-8');
+						break;
+					case "@":
+						return $self->line_pass($pattern_pos, mb_substr($rule, $start, $pattern_pos), $text, 'utf-8');
+						break;
+					default:
+						break;
+					endswitch;
+				}
+			}else{
+				return -1;
+			}
+		}
+		
+		static function execute($rule, $text, $type, $debug=FALSE){
+			$self = self::getself();
+			
+			$self->debug = $debug;
+			$self->text_i = 0;
+			
+			$match_rule_init = array('!', '#', '@', '$', '+');
+			
+			$rule_len = mb_strlen($rule, 'utf-8');
+			$text_len = mb_strlen($text, 'utf-8');
+			
+			if($rule_len==0) return;
+			if($text_len==0) return;
+			
+			$i = 0;
+			for($i; $i < $rule_len; $i++){
+				$pattern_pass = mb_substr($rule,$i,1, 'utf-8');
+				echo '<br/>'.$i;
+				if(in_array($pattern_pass, $match_rule_init)){
+					$self_position = $self->line_execute(0, mb_substr($rule, $i+1, 'utf-8'), $pattern_pass, $text);
+					if($self_position==-1) return FALSE;
+					$i = $i + $self_position;
+				}
+			}
+			
+			return TRUE;
+		}
+		
+	}

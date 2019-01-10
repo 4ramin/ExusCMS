@@ -1,0 +1,36 @@
+.tags img{
+	float: left;
+	width: 180px;
+	display: inline-block;
+	border: 1px solid #EEE;
+	height: 180px !important;
+}
+/*.tags{
+	 display: block;
+	width:195px;
+	height: 250px;
+	float:left;
+	background-color:#fff;
+	padding: 3px 3.3%;
+	text-align: center;
+}*/
+
+a{text-decoration:none}
+
+.none{
+	float: left;
+	width: 180px;
+	display: inline-block;
+	border: 1px solid #EEE;
+	height: 180px !important;
+	background-image: url(library/img/nocover.png);
+	background-size: cover;
+	object-fit: cover;
+}
+/* Album */
+.album img{width: 100%;display: inline-block;height: 150px!important;border-radius: 0px !important;box-shadow: none !important;background-color: black;}
+.album{display: block;width: 195px;height: 170px;margin:2% 0px 2% 3.7%;float: left;background-color: #fff;padding: 5px;text-align: center}
+.albumbox{margin-top:10px;padding:10px;}
+.albumbox .albuminfo{display: flex;padding-bottom: 15px;border-bottom: 1px solid #bbb;margin-bottom: 15px;}
+.albumbox .album_title{float: left;font-weight: 100;font-size: 25px;line-height: 50px;}
+.albumbox .artist{color: #6283e4;display: inline-block;}

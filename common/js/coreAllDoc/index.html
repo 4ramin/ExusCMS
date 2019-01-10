@@ -1,0 +1,1212 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+	<!--//META-->
+	<meta charset="utf-8">
+	<meta name="theme-color" content="#1A70DC">
+	<meta name="generator" content="exuscms">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="apple-mobile-web-app-title" content="exuscms" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!--//CSS-->
+	<link rel="stylesheet" href="styles/purebasic.css">
+	<link rel="stylesheet" href="default.css">
+
+	<!--//JS-->
+	<script src="jquery-3.2.1.min.js"></script>
+	<script src="highlight.pack.js"></script>
+	<script src="core_all.js"></script>
+
+	<!--[if lt IE 9]>
+		<script src="./library/js/ie/html5shiv.js"></script>
+		<script src="./library/js/ie/response.min.js"></script>
+	<![endif]-->
+	<!--[if IE 9]>
+		<script src="./library/js/ie/ie9.js"></script>
+	<![endif]-->
+	<!--[if IE 8]>
+		<script src="./library/js/ie/ie8.js"></script>
+	<![endif]-->
+	<!--[if IE 7]>
+		<script src="./library/js/ie/ie7.js"></script>
+	<![endif]-->
+
+	<!--//TITLE-->
+	<title>메인 페이지</title>
+</head>
+
+<body>
+<div id="header">
+	<div class="logo">
+		<img src="logo.png"/>
+	</div>
+</div>
+<div class="container">
+<div class="sidemenu">
+	<ul>
+		<li><a href="#base64">Base64</a></li>
+		<li><a href="#base">Base</a></li>
+		<li><a href="#base">브라우저</a></li>
+		<li><a href="#battery">배터리</a></li>
+		<li><a href="#audio">오디오</a></li>
+		<li><a href="#array">배열</a></li>
+		<li><a href="#request">전송</a></li>
+	</ul>
+</div>
+
+<div class="main_fix">
+<h1 id="base64">Base64 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Base64.encode(String input):String</p>
+				<p>문자열을 Base64로 인코딩한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Base64.encode(String input):String</p>
+				<p>Base64 문자열을 디코딩한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 id="base">Base 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Base.resetNaviCache():Void</p>
+				<p>Navigator 캐시를 새로 받아온다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Base.resetWinCache(String input):String</p>
+				<p>Windows 캐시를 새로 받아온다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 id="request">전송 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.encodeURIComponentbyCharset(String data, String charset):String</p>
+				<p>문자열을 특정 CharSet으로 인코딩한다.</p>
+				<p class="encodeURIComponentbyCharset"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.isSSL():Boolean</p>
+				<p>호스트가 SSL 프로토콜인지 확인한다.</p>
+				<p class="isSSL"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.isUrlExists(String url, Function callback):Boolean</p>
+				<p>특정 주소가 유효한지 확인한다.</p>
+				<p class="isUrlExists"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.addAjaxCallback(id, callback):Void</p>
+				<p>Ajax 요청 콜백 함수를 추가한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.ajaxFailCallbacks(id, callback):Void</p>
+				<p>Ajax 요청 실패 콜백 함수를 추가한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.xhr(type, url, params, async):String</p>
+				<p>XHR 요청을 시도한다.</p>
+				<p class="xhr"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.ajax(type, url, params, callback, datatype, message, userargs):=>ajaxCallback, ajaxFailCallbacks</p>
+				<p>Ajax 요청을 시도한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.workerXHR(params, callback, retcallback):Void</p>
+				<p>XHR 워커에 메시지를 전송한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Request.createXhrObject():Object</p>
+				<p>새로운 XHR 오브젝트를 반환한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 id="browser">브라우저 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isLocalhost():Boolean</p>
+				<p>현재 주소가 로컬호스트인지 확인한다.</p>
+				<p class="isLocalhost"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasTouchScreen():Boolean</p>
+				<p>터치스크린을 지원하는지 확인한다.</p>
+				<p class="hasTouchScreen"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isEmbededObject(String id):Boolean</p>
+				<p>엘리먼트 노드의 속성이 Embed나 Object인지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isChromeApp():Boolean</p>
+				<p>자바스크립트가 크롬앱에서 구동중인지 확인한다.</p>
+				<p class="isChromeApp"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasConsole():Boolean</p>
+				<p>브라우저가 콘솔을 지원하는지 확인한다.</p>
+				<p class="hasConsole"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasReplaceState():Boolean</p>
+				<p>브라우저가 히스토리 변경을 지원하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.redirectToCompleteHost():Boolean</p>
+				<p>정상적으로 완성된 호스트로 리다이렉트한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getAllPerformType():Array</p>
+				<p>모든 Perform 타입을 반환한다.</p>
+				<p class="getAllPerformType"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getHardwareCur():Array</p>
+				<p>Hardware Concurrency를 반환한다.</p>
+				<p class="getHardwareCur"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.is64Bit():Boolean</p>
+				<p>UserAgent로 브라우저가 64비트인지 확인한다.</p>
+				<p class="is64Bit"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getChromeVersion():String</p>
+				<p>크롬의 버전을 가져온다.</p>
+				<p class="getChromeVersion"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isWebVideo(String url):String</p>
+				<p>비디오 주소가 mp4나 webm 확장자를 포함하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isMozila():Boolean</p>
+				<p>브라우저 유형이 파이어폭스인지 확인한다.</p>
+				<p class="isMozila"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.parseHTML():String</p>
+				<p>HTML 태그를 분석한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isTouchSupport():Boolean</p>
+				<p>터치스크린이 정상적으로 지원하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasPointerEvents():Boolean</p>
+				<p>브라우저가 포인터 이벤트를 지원하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isTouchable():Boolean</p>
+				<p>터치스크린이 정상적으로 지원하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getFirstScriptTag():String</p>
+				<p>HEAD에 포함된 첫번째 스크립트 주소를 반환한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.disableContextMenu():String</p>
+				<p>오른쪽 마우스 클릭을 제한한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.disableDrag():String</p>
+				<p>마우스 드래그 드롭을 제한한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getTitle():String</p>
+				<p>브라우저 제목을 가져온다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.setTitle(String title):Void</p>
+				<p>브라우저 제목을 지정한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getHash():String</p>
+				<p>브라우저 주소의 해시(www.ex.com [#~~])를 반환한다</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.printInnerHTML(String id):Void</p>
+				<p>특정 Element의 내용을 인쇄한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.Print():Void</p>
+				<p>인쇄화면을 띄운다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getSearchEngineQuery(String engine = {'yahoo', 'google', 'bing', 'baidu', 'yandex', 'duckduckgo', 'gigablast'}, String keyword):String</p>
+				<p>검색어를 포함하는 검색엔진의 주소를 가져온다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isSupportCssAnimation():Boolean</p>
+				<p>CSS 애니메이션을 지원하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getHead():String</p>
+				<p>HTML의 첫번째 헤더를 반환한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getCharSet():String</p>
+				<p>문서의 CharSet을 가져온다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isWin():Boolean</p>
+				<p>브라우저의 UserAgent로 윈도우 환경인지 확인한다.</p>
+				<p class="isWin"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isFirefox():Boolean</p>
+				<p>브라우저의 UserAgent로 파이어폭스 환경인지 확인한다.</p>
+				<p class="isFirefox"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isNetscape():Boolean</p>
+				<p>브라우저의 UserAgent로 넷스케이프 환경인지 확인한다.</p>
+				<p class="isNetscape"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isOpera():Boolean</p>
+				<p>브라우저의 UserAgent로 오페라 환경인지 확인한다.</p>
+				<p class="isOpera"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isChrome():Boolean</p>
+				<p>브라우저의 UserAgent로 크롬 환경인지 확인한다.</p>
+				<p class="isChrome"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isGecko():Boolean</p>
+				<p>브라우저의 UserAgent로 게코 환경인지 확인한다.</p>
+				<p class="isGecko"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isKonqueror():Boolean</p>
+				<p>브라우저의 UserAgent로 캉커러 환경인지 확인한다.</p>
+				<p class="isKonqueror"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isSafari():Boolean</p>
+				<p>브라우저의 UserAgent로 사파리 환경인지 확인한다.</p>
+				<p class="isSafari"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isIE():Boolean</p>
+				<p>브라우저의 UserAgent로 인터넷 익스플로러 환경인지 확인한다.</p>
+				<p class="isIE"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isiOS():Boolean</p>
+				<p>브라우저의 UserAgent로 iOS 환경인지 확인한다.</p>
+				<p class="isiOS"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isMacPlatform():Boolean</p>
+				<p>브라우저의 UserAgent로 맥 플렛폼 환경인지 확인한다.</p>
+				<p class="isMacPlatform"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isBlackBerry():Boolean</p>
+				<p>브라우저의 UserAgent로 블랙베리 환경인지 확인한다.</p>
+				<p class="isBlackBerry"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isMac():Boolean</p>
+				<p>브라우저의 UserAgent로 맥 환경인지 확인한다.</p>
+				<p class="isMac"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getLang():String</p>
+				<p>브라우저의 언어를 확인한다.</p>
+				<p class="getLang"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.doCapture():Blob</p>
+				<p>내장 카메라를 사용하여 이미지를 캡쳐한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.startWebCam(Function errCallback):mediaStream</p>
+				<p>웹캠으로 녹화를 시작한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.isSupportPjax():Boolean</p>
+				<p>PJAX를 지원하는지 확인한다. (자바스크립트)</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasConnection():Boolean</p>
+				<p>인터넷이 접속되었는지 확인한다.</p>
+				<p class="hasConnection"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasVibrator():Boolean</p>
+				<p>장치가 진동할 수 있는지 확인한다.</p>
+				<p class="hasVibrator"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.mobileVibrate(Integer ms):Void</p>
+				<p>장치를 진동시킨다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getCanvas():Canvas</p>
+				<p>캔버스를 가져온다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.hasDom(elem):Boolean</p>
+				<p>문서가 특정 Element를 포함하고 있는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.Redirect(String url, Boolean hasRedirect):Boolean</p>
+				<p>문서가 특정 주소로 리다이렉트한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.answerCallback(msg, callback):Void</p>
+				<p>Confirm 창을 띄우고 사용자가 동의하면 콜백 함수를 호출한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.answerRedirect(msg, url):Void</p>
+				<p>Confirm 창을 띄우고 사용자가 동의하면 특정주소로 리다이렉트시킨다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.getWindowsVersion():String</p>
+				<p>윈도우 버전을 가져온다.</p>
+				<p class="getWindowsVersion"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Browser.Bookmark(url, title):Void</p>
+				<p>즐겨찾기 화면이나 메시지를 띄운다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 id="battery">배터리 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Battery.isGet():Boolean</p>
+				<p>장치가 배터리를 사용중인지 확인한다.</p>
+				<p class="bisGet"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Battery.charingTime():String</p>
+				<p>배터리의 남은 충전시간을 가져온다.</p>
+				<p class="charingTime"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Battery.dischargingTime():String</p>
+				<p>배터리의 남은 시간을 가져온다.</p>
+				<p class="dischargingTime"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Battery.level():String</p>
+				<p>배터리의 레벨을 가져온다.</p>
+				<p class="blevel"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h1 id="array">배열 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.forEach(array, callback):Void</p>
+				<p>배열의 각 개체를 참조하는 Callback 메소드를 호출한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.canPush():Boolean</p>
+				<p>배열에 추가 요소를 주입할 수 있는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getMinValue(Array arr):Integer</p>
+				<p>배열 요소에서 가장 작은 값을 가져온다.</p>
+				<p class="getMinValue"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getLessValue(arr, val, min):Integer</p>
+				<p>배열 요소에서 val값보다 같거나 크고 min값보다 작은 값을 가져온다. (val => result && result < min)</p>
+				<p class="getLessValue"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getLessIndex(arr, val, min):Integer</p>
+				<p>배열 요소에서 val값보다 같거나 크고 min값보다 작은 요소들의 인덱스들을 가져온다. (val => result && result < min)</p>
+				<p class="getLessIndex"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getMoreValue(arr, val, min):Integer</p>
+				<p>배열 요소에서 val값보다 같거나 크고 min값보다 큰 값들을 가져온다. (val => result && result > min)</p>
+				<p class="getMoreValue"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getMoreIndex(arr, val, min):Integer</p>
+				<p>배열 요소에서 val값보다 같거나 크고 min값보다 큰 요소들의 인덱스들을 가져온다. (val => result && result > min)</p>
+				<p class="getMoreIndex"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getRandom(Array arr):Array</p>
+				<p>배열 요소에서 무작위로 요소를 가져온다.</p>
+				<p class="getRandom"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.getUnique(Array arr):Array</p>
+				<p>배열 요소에서 유니크한 값을 가진 배열의 요소들을 가져온다.</p>
+				<p class="getUnique"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.initArray(Arguments args):Array</p>
+				<p>배열을 생성한다.</p>
+				<p class="initArray"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.isArrayEqual(Array arr1, Array arr2):Boolean</p>
+				<p>두개의 배열이 동일한지 확인한다.</p>
+				<p class="isArrayEqual"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.sort(Array arr):Array</p>
+				<p>배열을 정렬한다.</p>
+				<p class="sort"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.replace(Array arr, String find, String replace):Array</p>
+				<p>배열에서 특정문자열을 변경한다.</p>
+				<p class="replace"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.Search(Array arr, Object obj):Boolean</p>
+				<p>배열에서 특정 오브젝트를 검색한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Arr.filterMax(arr, max):Array</p>
+				<p>배열에서 max 값보다 큰 값을 가지는 배열들을 반환한다.</p>
+				<p class="filterMax"></p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<h1 id="audio">오디오 함수</h1>
+
+<table class="tbl_board">
+	<caption class="hide">메서드</caption>
+	<colgroup>
+		<col style="width:22px">
+		<col style="">
+		<col style="width:160px">
+	</colgroup>
+	<thead>
+		<tr>
+		<th scope="col"></th>
+		<th scope="col">메서드</th>
+		<th scope="col">정의 주체</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.isCanPlay(element, String type, String codecs = ""):Boolean</p>
+				<p>Audio Element가 특정 오디오 코덱을 사용하여 정상적으로 재생이 가능한지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.isSupport():Boolean</p>
+				<p>HTML5 오디오가 정상적으로 지원하는지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.isPlaying():Boolean</p>
+				<p>HTML5 오디오가 재생중인지 확인한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.loadAudio(String src):Void</p>
+				<p>HTML5 오디오의 주소를 지정한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.playAudio():Void</p>
+				<p>HTML5 오디오를 재생한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.pauseAudio():Void</p>
+				<p>HTML5 오디오를 일시정지한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.getContext():Object</p>
+				<p>Audio Context를 반환한다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<p>Audio.closeAudioEffect(input, output, AudioNode):Void</p>
+				<p>Audio Node를 닫는다.</p>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
+</body>
+
+<script src="load.js"></script>

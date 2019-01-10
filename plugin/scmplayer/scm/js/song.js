@@ -1,0 +1,1 @@
+define(["knockout"],function(a){return function(c){var b=this;c=c||{};this.title=a.observable(c.title||"");this.url=a.observable(c.url||"");this.on=a.observable(false);this.isValid=a.computed(function(){return(typeof b.url()==="string")&&b.url()!=""})}});

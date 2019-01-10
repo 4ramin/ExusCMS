@@ -1,0 +1,184 @@
+<style>
+body{
+	background-color: #eee;
+	padding: 0px;
+	margin: 0px;
+}
+.precode {
+    white-space: pre-wrap;
+}
+.chatper {
+    background-color: #257ec7;
+    width: 100%;
+    display: initial;
+    padding: 3px 5px;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 700;
+}
+.query {
+    background-color: #e9f2fb;
+    padding: 3px 5px;
+    font-size: 12px;
+    border: 1px dashed #90dfff;
+    display: inline-block;
+	min-width: 500px;
+}
+.output {
+    background-color: #eee;
+    padding: 3px 5px;
+    font-size: 11px;
+    border: 1px dotted #b7b1b1;
+    display: inline-block;
+	font-weight: 400;
+	min-width: 500px;
+	border-radius: 3px;
+}
+.content {
+	width: 515px;
+	margin: 10px auto;
+	padding: 3px 5px;
+	border-radius: 3px;
+	background-color: #fff;
+}
+</style>
+
+<body>
+<div class="content">
+<div class="precode">
+<!--SELECT ALL TABLE-->
+<div class="chatper">SELECT ALL TABLE</div>
+
+<div class="query">Db::getQuery('!SELECT', 'def_module', [], '*');</div>
+
+<div class="output">SELECT * FROM def_module</div>
+<!--SELECT-->
+<div class="chatper">SELECT</div>
+
+<div class="query">Db::getQuery('SELECT', 'TABLE', [
+	['', 'row', '==', ':args1']
+], '*', '');</div>
+
+<div class="output">SELECT * FROM TABLE WHERE  row == :args1</div>
+<!--UPDATE-->
+<div class="chatper">UPDATE</div>
+
+<div class="query">Db::getQuery('UPDATE', 'TABLE', [
+	['', 'row', '==', ':args1']
+]);</div>
+
+<div class="output">UPDATE TABLE SET  row == :args1</div>
+<!--DELETE-->
+<div class="chatper">DELETE</div>
+
+<div class="query">$outText = Db::getQuery('DELETE', 'TABLE', [
+	['', 'row', '==', ':args1']
+]);</div>
+
+<div class="output">DELETE FROM TABLE WHERE  row == :args1</div>
+<!--ALIAS-->
+<div class="chatper">ALIAS</div>
+
+<div class="query">db::getQuery('SELECT','def_document_music',[],'count(*)', 'one');</div>
+
+<div class="output">SELECT count(*) FROM def_document_music AS one </div>
+<!--OBJECT OUTPUT-->
+<div class="chatper">OBJECT OUTPUT</div>
+
+<div class="query">$output = db::Query('SELECT', 'TABLE', [
+	['', 'row', '=', ':args1', $args]
+], 'count(*)', 'one', '', 'object');
+
+return $output->data();</div>
+
+<div class="output">dbItem Object
+(
+    [sth] => PDOStatement Object
+        (
+            [queryString] => SELECT count(*) FROM TABLE WHERE row = :args1 
+        )
+
+    [result] => senkawa
+)</div>
+<!--OBJECT ALL OUTPUT-->
+<div class="chatper">OBJECT ALL OUTPUT</div>
+
+<div class="query">$output = db::Query('SELECT', 'TABLE', [
+	['', 'row', '=', ':args1', $args]
+], '*', 'all', '', 'object');
+
+return $output->data();</div>
+
+<div class="output">dbItem Object
+(
+    [sth] => PDOStatement Object
+        (
+            [queryString] => SELECT * FROM TABLE WHERE row = :args1 
+        )
+    [result] => Array
+        (
+            [0] => Array
+                (
+                    [mlayout] => senkawa
+                    [layout] => senkawa
+                    [module] => music
+                    [title] => 테스트
+                    [srl] => 1
+                    [bdname] => index
+                    [skin] => music
+                    [m.skin] => 0
+                    [isdef] => 
+                )
+
+        )
+)</div>
+<!--GET OBJECT ROW-->
+<div class="chatper">GET OBJECT ROW</div>
+
+<div class="query">$output = db::Query('SELECT', 'TABLE', [
+	['', 'row', '=', ':args1', $args]
+], '*', 'all', '', 'object');
+			
+return $output->data("mlayout");
+--------------------------------------
+return $output->data()['mlayout'];</div>
+
+<div class="output">data</div>
+<!--ALIAS OUTPUT-->
+<div class="chatper">ALIAS OUTPUT</div>
+
+<div class="query">$output = db::Query('SELECT', 'TABLE', [
+	['', 'row', '=', ':args1', $args]
+], '1 as `Exists`', 'alias');
+
+return $output['Exists'];</div>
+<!--SELECT EXAMPLE-->
+<div class="chatper">ALIAS OUTPUT</div>
+
+<div class="query">$outText = db::getQuery('SELECT','TABLE',[
+],'count(*)', 'one');
+
+$sth = db::Compile($outText);
+$output = db::getOutput($sth, 'one', "object");
+
+echo print_r($output);
+
+--------------------------------------------------------
+
+$outText = db::Query('SELECT','def_document_music',[
+],'count(*)', '', 'one', 'object');
+
+echo print_r($outText);</div>
+
+<div class="output">dbItem Object
+(
+    [sth] => PDOStatement Object
+        (
+            [queryString] => SELECT count(*) FROM TABLE AS one 
+        )
+
+    [result] => 4
+)</div>
+</div>
+</div>
+</body>

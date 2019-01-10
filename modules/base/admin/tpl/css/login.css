@@ -1,0 +1,12 @@
+.list_area a,p{font-size:11px;}
+.ctr_area input{height: 27px;font-size: 11px;}
+.login_form .alert_area{margin:15px;border:1px solid #BBBBBB;border-radius:3px;}
+.login_form .alert{max-height: 150px;overflow: auto;margin:5px;}
+.login_form label{font-size:11px;float: left;text-align: right;width: 70px;line-height: 2.1;}
+.login_form .ctr_area{margin-top:20px;}
+.login_form .controls input{width: 100%;border-radius:3px;border:1px solid #ddd;padding: 3px;padding: 5px 9px;line-height: 1.5;}
+.login_form .pad_alert{padding-top:10px;}
+.login_form .submit input{width: 100%;border: 1px solid #ddd;padding: 5px 9px;border-radius: 3px;line-height: 1.5;}
+.login_form .submit{padding-top: 20px;}
+.login_form{border-radius: 5px;border: 2px solid #757575;padding:15px;width: 300px;margin: 45px auto;-webkit-box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.28);-moz-box-shadow:    3px 3px 8px 0px rgba(50, 50, 50, 0.28);box-shadow:         3px 3px 8px 0px rgba(50, 50, 50, 0.28);}
+.login_title{color:#393939;padding-bottom: 15px;border-bottom: 1px solid #c1bdbd;}

@@ -1,0 +1,64 @@
+/* Element Reset */
+html, h1, h2, h3, h4, h5, h6, form, fieldset {margin: 0;padding: 0;border: 0;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;vertical-align: baseline;}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline;}
+form {margin: 0}
+head {position: relative}
+body {margin: 0;padding: 0;-ms-overflow-style: -ms-autohiding-scrollbar;-webkit-text-size-adjust: none;word-wrap: break-word;-webkit-backface-visibility: hidden;backface-visibility: hidden}
+html {overflow-y: scroll;}
+html,body {min-height: 100%}
+audio, canvas, progress, video {display: inline-block}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}
+progress {vertical-align: baseline}
+hr {display: none}
+ul, li, ol, dl, dd, dt {list-style: none;padding: 0;margin: 0;}
+
+button {width: auto;overflow: visible;border: 0 none;background-color: transparent;cursor: pointer}
+button,input {border-radius: 0;overflow: visible}
+button,select {text-transform: none}
+label,input[type="button"],input[type="submit"],input[type="image"],button,.btn {cursor: pointer;}
+label,input,button,select,img {vertical-align: middle}
+img {border-style: none;max-width: 100%;}
+img,video,embed {-ms-interpolation-mode: bicubic;}
+fieldset,img {border: none;vertical-align: middle}
+textarea {overflow: auto;width: 100%;margin: 0;padding: 4px 6px;border: 1px solid;border-color: #CCC #DDD #DDD #CCC;border-radius: 3px;box-shadow: inset 1px 1px 4px rgba(0, 0, 0, .06);}
+input {-webkit-text-fill-color: #555;caret-color: red;}
+input,select {vertical-align: middle;}
+input[type="submit"] {cursor: pointer;}
+* {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;-webkit-text-size-adjust: 100%;-moz-text-size-adjust: 100%;-ms-text-size-adjust: 100%;/*-webkit-transition: all 0.1s ease;-moz-transition: all 0.1s ease;-o-transition: all 0.1s ease;transition: all 0.1s ease;*/-webkit-box-flex: 0 0 330px;-webkit-tap-highlight-color: transparent;font-smooth: always;-webkit-font-smoothing: subpixel-antialiased;font-stretch: ultra-condensed;}
+
+/* Font Reset */
+a {text-decoration: none;background-color: transparent;-webkit-text-decoration-skip: objects}
+a:active,a:hover {outline-width: 0}
+p,h2,h3 {orphans: 3;widows: 3;}
+h2,h3 {page-break-after: avoid;}
+nav ul,nav li {margin: 0;list-style: none;list-style-image: none;}
+strong,b,th {font-weight: bold;}
+ol,ul {list-style: none;-webkit-font-smoothing: subpixel-antialiased}
+blockquote,q {quotes: none}
+pre {white-space: pre;white-space: pre-wrap;word-wrap: break-word;padding: 15px;}
+pre,blockquote {border: 1px solid #999;page-break-inside: avoid;}
+
+/* Table Reset */
+table {border-collapse: collapse;border-spacing: 0}
+table > tbody > tr > td,table > thead > tr > th {vertical-align: middle}
+tr,td {-moz-column-count: 1;-moz-column-gap: 0;column-count: 1;column-gap: 0}
+abbr[title],acronym[title] {text-decoration: none}
+
+/* Cursor Reset */
+.c_crosshair {cursor: crosshair;}
+.c_help {cursor: help;}
+.c_wait {cursor: wait;}
+.c_help {cursor: help;}
+.c_pointer {cursor: pointer;}
+
+input::-ms-clear {display: none}
+input:-webkit-autofill {-webkit-box-shadow: 0 0 0px 1000px white inset;}
+::-webkit-input-placeholder {color: #999}
+::-webkit-scrollbar {width: 8px;}
+::-webkit-scrollbar-track {background: #f1f1f1;}
+::-webkit-scrollbar-thumb {background: #888;}
+::-webkit-scrollbar-thumb:hover {background: #555;}
+::-moz-selection,::selection {color: rgba(19, 66, 138, 0.85);background: #f1f8ff}
+.fl {float: left}
+.fr {float: right}

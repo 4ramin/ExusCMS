@@ -1,0 +1,63 @@
+/* Lyrics */
+.lyrics_focus{
+    position: fixed !important;
+    top: 30%;
+    display: unset;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 1 !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 95%;
+    transform: translate(-50%, -50%);
+}
+.lyrics_display{
+	display: block;
+	position: relative;
+}
+.lyrics_display_expand_bar{height: 5px;background-color: #2591ff;}
+/*.lyrics_display{color: #353535;font-size: 11px;font-weight: bold;text-align: center;padding: 25px;margin: 10px 15px 20px 15px;background-color: #f9f9f9;border: 1px solid #d0d0d0;border-radius: 3.3px;}*/
+.lyrics_display > div{
+	padding: 0px 3px 0px 3px;
+	position: absolute;
+	bottom: 52px;
+	background-color: rgba(8, 8, 8, 0.75);
+	border-radius: 2px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+.lyrics_focus .lyric_with_jp,
+.lyrics_focus .lyric_etc,
+.lyrics_focus .lyric_with_jpsound{
+	font-size:25px !important
+}
+.lyric_with_jp,
+.lyric_etc,
+.lyric_with_jpsound{
+	-webkit-box-shadow: 0px 0px 27px -8px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 27px -8px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 27px -8px rgba(0,0,0,0.75);
+	font-weight:bold;
+	font-size:13px;
+	text-align: left;
+	font-family: Roboto,-webkit-pictograph;-webkit-box-decoration-break: clone;
+}
+.focus_lyrics{
+	background-color: #f8f8f8 !important;
+	font-weight: 100;
+	color: #4885f9;
+	border-left: 0;
+	border-right: 0;
+	font-size:1qpx;
+	font-family: -webkit-pictograph;
+	z-index: 1;}
+#lyrics_skip{max-height:190px;overflow:scroll;text-align:center;max-width:500px;margin:15px auto;border:1px solid #d1cece;}
+#lyrics_skip::-webkit-scrollbar {width: 12px;}
+#lyrics_skip::-webkit-scrollbar-thumb {border-radius:  12px;border:  4px solid rgba(255,255,255,0);background-clip:  content-box;_background-color:  #bfbfbf;background-color:  #A0A0A0;}
+.lyric_with_jpsound{color:#e62929;}
+.lyric_with_jp{color:#3297e2;}
+.lyric_etc{color:#fff;}
+.lyrics_display_expand{display:none;z-index:9999;height:180px;overflow:auto;padding: 0px 10px;margin: 10px 15px 0px 15px;font-family: monospace;font-size: 11px;margin: 0 auto;border: 3px solid #000000;border-top:0px}
+.lyrics_display_expand>div{font-size:13px;display: list-item;}
+.lyrics_display_expand::-webkit-scrollbar {width: 15px;background-color: #EEE;}
+.lyrics_display_expand::-webkit-scrollbar-thumb {background-color: darkgrey;outline: 1px solid slategrey;border-radius: 0px;}

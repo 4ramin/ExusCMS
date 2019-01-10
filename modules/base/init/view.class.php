@@ -1,0 +1,1319 @@
+<?php
+
+	/**
+	 * Exuscms
+	 *
+	 * @author exuscms
+	 * @copyright (c) Copyright exuscms
+	 * @license GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
+	 */
+	 
+	final class init_view
+	{
+		
+		protected $acceptedModuleType = array('view', 'controller');
+		protected $exceptModule = array('music', 'document');
+		protected $isAcceptAttacker = false;
+		
+		public $isAjax = null;
+		public $requestModuleID = null;
+		public $is_modified = null;
+		public $requestMethod = null;
+		public $module = null;
+		public $languageFile = null;
+		public $langType = null;
+		
+		function __construct() 
+		{
+			ob_clean();
+			if (class_exists('base')) 
+			{
+				$this->base = new base();
+			}
+			else 
+			{
+				return $this->setError($this->lang['notfoundbaseresource']);
+			}
+			
+			$this->init = new stdClass();
+			$this->init->model = $this->base->getModel('init');
+		}
+		
+		function jsMinify() 
+		{
+			$jsBuff = '';
+			$js_list = $this->base->getJS();
+			$jsRule = sha1(serialize($js_list));
+
+			$jsFile = __DIR.'/file/cache/'.$jsRule.'.js';
+			$jsWebFile = '/file/cache/'.$jsRule.'.js';
+			
+			if (file_exists($jsFile) && !maya::execute('$http||https$', $jsWebFile, 'boolean', false)) 
+			{
+				$this->base->emptyJS();
+				$this->base->addJS($jsWebFile);
+			} 
+			else 
+			{
+				foreach ($js_list as $val) 
+				{
+					$filename = preg_replace('/(\?[a-z0-9]{1,500})/', '', $val);
+					$localJS = __ROOT_DIR. preg_replace('/(\?\d{1,500})/', '', $filename);
+					if (file_exists($localJS)) 
+					{
+						$this->getContentRetFile($localJS, 'jsbuffer');
+					} 
+					else 
+					{
+						//$this->getContentRetFile($val, 'jsbuffer');
+					}
+					
+					$jsBuff .= "\n\n";
+					
+					$jsBuff .= "/* #".str_repeat("■", strlen($filename))."# */";
+					$jsBuff .= "\n\n";
+					$jsBuff .= "/* Original File : ";
+					$jsBuff .= $filename;
+					$jsBuff .= " */";
+					$jsBuff .= "\n\n";
+					$jsBuff .= "/* #".str_repeat("■", strlen($filename))."# */";
+					$jsBuff .= "\n\n";
+					$jsBuff .= $this->base->get('jsbuffer');
+					
+					file_put_contents($jsFile, $jsBuff);
+				}
+			}
+		}
+		
+		function jsBodyMinify() 
+		{
+			$jsBuff = '';
+			$js_list = $this->base->getBodyJS();
+			$jsRule = sha1(serialize($js_list));
+
+			$jsFile = sprintf("%s/file/cache/%s.js", __DIR, $jsRule);
+			$jsWebFile = sprintf("/file/cache/%s.js", $jsRule);
+			
+			if (file_exists($jsFile) && !maya::execute('$http||https$', $jsWebFile, 'boolean', false)) 
+			{
+				$this->base->emptyBodyJS();
+				$this->base->addJS($jsWebFile, 'body');
+			} 
+			else 
+			{
+				foreach ($js_list as $val) 
+				{
+					$filename = preg_replace('/(\?[a-z0-9]{1,500})/','',$val);
+					$localJS = __ROOT_DIR . preg_replace('/(\?\d{1,500})/','',$filename);
+					if (file_exists($localJS)) 
+					{
+						$this->getContentRetFile($localJS, 'jsbuffer');
+					} 
+					else 
+					{
+						//$this->getContentRetFile($val, 'jsbuffer');
+					}
+					
+					$jsBuff .= "\n\n";
+					$jsBuff .= "/* #".str_repeat("■", strlen($filename))."# */";
+					$jsBuff .= "\n\n";
+					$jsBuff .= "/* Original File : ";
+					$jsBuff .= $filename;
+					$jsBuff .= " */";
+					$jsBuff .= "\n\n";
+					$jsBuff .= "/* #".str_repeat("■", strlen($filename))."# */";
+					$jsBuff .= "\n\n";
+					$jsBuff .= $this->base->get('jsbuffer');
+					
+					file_put_contents($jsFile, $jsBuff);
+				}
+			}
+		}
+		
+		function cssMinify() 
+		{
+			$cssBuff = '';
+			$css_list = $this->base->getCSS();
+			$cssRule = sha1(serialize($css_list));
+			
+			$cssFile = __DIR.'/file/cache/'.$cssRule.'.css';
+			$cssWebFile = '/file/cache/'.$cssRule.'.css';
+			
+			if (file_exists($cssFile) && !maya::execute('$http||https$', $cssWebFile, 'boolean', false)) 
+			{
+				$this->base->emptyCSS();
+				$this->base->addCSS($cssWebFile);
+			} 
+			else 
+			{
+				foreach ($css_list as $val) 
+				{
+					$filename = preg_replace('/(\?[a-z0-9]{1,500})/', '', $val);
+					$localCSS = __ROOT_DIR. preg_replace('/(\?\d{1,500})/', '', $filename);
+					
+					if (file_exists($localCSS)) 
+					{
+						$this->getContentRetFile($localCSS, 'cssbuffer');
+					} 
+					else 
+					{
+						$this->getContentRetFile($val, 'cssbuffer');
+					}
+					
+					$cssBuff .= $this->base->get('cssbuffer');
+					
+					$cssBuff = preg_replace_callback('/url\(([^\)]+)\)/i', function($matches) use($filename) 
+					{
+						$url = trim($matches[1], '\'"');
+						
+						if (!preg_match("/^\//i", $url)) 
+						{
+							return sprintf('url("%s/%s");', dirname($filename), $url);
+						} 
+						else if (preg_match("/^data:/i", $url)) 
+						{
+							return sprintf('url("%s");', $url);
+						} 
+						else if (preg_match("/^\\//i", $url)) 
+						{
+							return sprintf('url("%s");', $url);
+						}
+					}, $cssBuff);
+					
+					$cssBuff = preg_replace("@/\s*\*.*?\*/\s*|\s+@s", " ", $cssBuff);
+					
+					file_put_contents($cssFile, $cssBuff);
+				}
+			}
+		}
+		
+		function setMaintenance($message) 
+		{
+			$this->getPlugin('after', 'setMaintenance', $this);
+			$this->base->set('skin', sprintf("%s/tpl/setMaintenance.php", __MOD));
+			$this->base->set('msg', $message);
+			include($this->base->get('skin'));
+			exit();
+		}
+		
+		function setError($message) 
+		{
+			if ($this->error == 1) 
+			{
+				//exit($message);
+			}
+			
+			$this->accept_type = $_SERVER['HTTP_ACCEPT'];
+			
+			if (substr($this->accept_type, 0, 5) == "image") 
+			{
+				$image_args = new stdClass();
+				$image_args->source = sprintf("%s%s/invalid.png", __DIR, __SYSTEM__ATTACH);
+				$image_args->image = image::virtualimage($image_args);
+				
+				image::draw($image_args);
+				exit();
+			} 
+			else 
+			{
+				if ($this->requestMethod=='GET') 
+				{
+					$mid = $this->base->get_params(__MODULEID, 'string');
+					if ($mid == 'message') 
+					{
+						exit($message);
+					}
+					
+					//unset($this);
+					
+					$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS); //DEBUG_BACKTRACE_PROVIDE_OBJECT
+					$this->base->set_params(__MODULEID, 'message', $this->requestMethod);
+					$this->base->set_params(__ACTION, 'dispMessage', $this->requestMethod);
+					$this->base->set('errorMsg', $message);
+					$this->base->set('backTrace', $backtrace);
+					$this->error = 1;
+					$this->httpRequest();
+					
+					return false;
+				} 
+				else if ($this->requestMethod == 'POST') 
+				{
+					return $this->base->response("type", "error", "html", $msg);
+				}
+			}
+			
+			return false;
+		}
+		
+		//룰셋을 적용한다.
+		function applyRuleset() 
+		{
+			$ruleset = sprintf("%s/ruleset/%s.php", $this->moduleDirectory, $this->requestMethod);
+			
+			if (file_exists($ruleset) && $this->requestMethod !='REQUEST') 
+			{
+				include($ruleset);
+				
+				foreach ($_ruleset as $key=>$val) 
+				{
+					if (isset($_ruleset[$key])) 
+					{
+						$vars = ($this->requestMethod === "GET") ? $this->base->get_params($key, 'string') : ($this->requestMethod === "POST" ? $this->base->post_params($key) : null);
+						
+						if ($vars) 
+						{
+							$vars = $this->base->filterVars($_ruleset[$key], $vars);
+							$this->base->set_params($key, $vars, $this->requestMethod);
+						}
+					}
+				}
+			}
+		}
+		
+		//모듈 언어파일을 가져온다.
+		function loadModuleLanguage() 
+		{
+			$this->languageFile = sprintf("%s/lang/%s.php", $this->moduleDirectory, $this->langType);
+			
+			if (file_exists($this->languageFile) && is_file($this->languageFile) && is_readable($this->languageFile)) 
+			{
+				include $this->languageFile;
+				$this->{$this->moduleID}->lang = $lang;
+			} 
+			else 
+			{
+				$this->languageFile = sprintf("%s/lang/%s.php", $this->moduleDirectory, $this->defaultLanguage);
+				
+				if (file_exists($this->languageFile)) 
+				{
+					include $this->languageFile;
+					$this->{$this->moduleID}->lang = $lang;
+				}
+			}
+		}
+		
+		//모듈 기본 프로퍼티를 지정한다.
+		function setModuleBasicProperty() 
+		{
+			if (in_array($this->module, $this->exceptModule) && is_array($this->exceptModule)) 
+			{
+				$this->moduleDirectory = sprintf("%s/board/%s", __MOD, $this->module);
+				$this->moduleID = "board";
+			} 
+			else if (!empty($this->module)) 
+			{
+				$this->moduleDirectory = sprintf("%s/%s", __MOD, $this->module);
+				$this->moduleID = $this->module;
+			} 
+			else 
+			{
+				return $this->setError($this->lang['invalid']);
+			}
+		}
+		
+		//모듈 클래스를 가져온다.
+		function loadModuleClass($baseComponent, $requestType) 
+		{
+			$prefixHandler = $this->requestMethod === "GET" ? 'view' : ($this->requestMethod === "POST" ? 'controller' : null);
+
+			if ($prefixHandler !== null) 
+			{
+				$this->requestHandler = sprintf("%s_%s", $this->moduleID, $prefixHandler);
+				$requestHandlerInterface = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.interface');
+				$requestHandlerAbstract = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.abstract');
+				
+				$abstractbaseComponent = sprintf("%s/%s.abstract.php", $this->moduleDirectory, $requestType);
+				$this->base->includeFile($abstractbaseComponent, $requestHandlerAbstract, false);
+				
+				$interfacebaseComponent = sprintf("%s/%s.interface.php", $this->moduleDirectory, $requestType);
+				$this->base->includeFile($interfacebaseComponent, $requestHandlerInterface, false);
+				$this->base->includeFile($baseComponent, $this->requestHandler);
+				
+				$baseDefined = sprintf("%s/base.defined.php", $this->moduleDirectory, $requestType);
+				
+				if (file_exists($baseDefined)) 
+				{
+					include($baseDefined);
+				}
+			}
+		}
+		
+		//모듈클래스를 만든다.
+		function makeModuleClass() 
+		{
+			$this->{$this->moduleID} = new stdClass();
+			
+			if (method_exists($this->moduleHandler, 'init')) 
+			{
+				$this->{$this->moduleID} = $this->moduleHandler->init($this) ? $this->moduleHandler->init($this) : new stdClass();
+			} 
+			else 
+			{
+				$this->{$this->moduleID} = new stdClass();
+			}
+			
+			$this->{$this->moduleID}->module = $this->module;
+			$this->{$this->moduleID}->module_id = $this->base->get_params(__MODULEID, 'string');
+		}
+		
+		//게시판 기본 프로퍼티를 지정한다.
+		function setBoardProperty() 
+		{
+			$this->{$this->moduleID}->model = new board_model($this);
+			$this->{$this->moduleID}->category_list = (array)$this->{$this->moduleID}->model->getModuleCategoryList($this->{$this->moduleID}->module_id);
+			$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/tpl", __MOD, $this->module);
+			$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
+		}
+		
+		//모델 핸들러를 지정한다.
+		function setModel() 
+		{
+			$this->modelObject = $this->moduleID.'_model';
+			
+			if (class_exists($this->modelObject)) 
+			{
+				$this->{$this->moduleID}->model = new $this->modelObject($this);
+			}
+		}
+		
+		//설정파일을 가져온다.
+		function loadSettingFile() 
+		{
+			$this->settingFile = sprintf("%s/tpl/%s/_setting.php", $this->moduleDirectory, $this->module);
+			
+			if (file_exists($this->settingFile) && is_readable($this->settingFile)) 
+			{
+				include $this->settingFile;
+			}
+		}
+		
+		//페이지가 변경되었는지를 확인한다.
+		function checkModified() 
+		{
+			$this->{$this->moduleID}->isAjax = (request::isAjax() === TRUE) ? TRUE : false;
+			$this->{$this->moduleID}->hasReferer = (request::hasReferer() === TRUE) ? TRUE : false;
+			
+			if ($this->requestMethod === "GET" && $this->{$this->moduleID}->hasReferer) 
+			{
+				$this->referer = request::get_ref();
+				parse_str(parse_url($this->referer, PHP_URL_QUERY), $this->referer_param);
+				
+				if (request::decodeBinaryNumbericPassword($this->base->get_params('RToken'),'001') === date('His')) 
+				{
+					$this->{$this->moduleID}->is_modified = true;
+					$this->base->set_params('RToken', '', $this->requestMethod);
+				} 
+				else 
+				{
+					$this->{$this->moduleID}->is_modified = ($this->referer_param === $_GET) ? false : TRUE;
+				}
+			} 
+			else 
+			{
+				$this->{$this->moduleID}->is_modified = true;
+			}
+		}
+		
+		//모듈 핸들러를 초기화한다.
+		function initializeModuleHandler() 
+		{
+			if (class_exists($this->requestHandler)) 
+			{
+				$this->moduleHandler = new $this->requestHandler();
+			} 
+			else 
+			{
+				return $this->setError($this->lang['notfoundbaseresource']);
+			}
+		}
+		
+		//인스턴스 오브젝트를 가져온다.
+		function getInstanceObject() 
+		{
+			if (class_exists($this->moduleID)) 
+			{
+				$this->requestmoduleID = new $this->moduleID();
+			} 
+			else 
+			{
+				return $this->setError($this->lang['notfoundbaseresource']);
+			}
+		}
+		
+		//모듈 프로퍼티를 지정한다.
+		function setModuleProperty($requestType) 
+		{
+			if (isset($requestType)) 
+			{
+				if (in_array($requestType, $this->acceptedModuleType)) 
+				{
+					if ($this->base->isInstalled()) 
+					{
+						$moduleConfig = json_decode($this->init->model->getModuleConfig($this->requestModuleID));
+						$this->{$this->moduleID}->config = $moduleConfig ? $moduleConfig : array();
+					} 
+					else 
+					{
+						$this->{$this->moduleID}->config = new stdClass();
+					}
+					
+					if ($requestType == 'view') 
+					{
+						if ($this->moduleID == 'board' && class_exists('board_model')) 
+						{
+							$this->setBoardProperty();
+						} 
+						else 
+						{
+							$this->setModel();
+							$this->{$this->moduleID}->tpl_path = sprintf("%s/%s/tpl/", __MOD, $this->module);
+						}
+					}
+					else 
+					{
+						$this->setModel();
+					}
+				} 
+				else 
+				{
+					return $this->setError($this->lang['invalid']);
+				}
+			} 
+			else 
+			{
+				return $this->setError($this->lang['invalid']);
+			}
+		}
+		
+		//모델링 모듈을 가져온다.
+		function loadModelingModule() 
+		{
+			$itemObject = sprintf("%s/item.class.php", $this->moduleDirectory);
+			$modelObject = sprintf("%s/model.class.php", $this->moduleDirectory);
+			
+			$this->base->includeFile(
+				false, 
+				$modelObject, $this->moduleID.'_model', 
+				$itemObject, $this->moduleID.'_item'
+			);
+		}
+		
+		//오브젝트 클래스를 불러온다.
+		function loadObjectClass() 
+		{
+			$objectClass = sprintf("%s/init/object.class.php", __MOD);
+			$moduleObjectClass = sprintf("%s/init/moduleobject.class.php", __MOD);
+			
+			$this->base->includeFile(
+				true, 
+				$objectClass, "Object", 
+				$moduleObjectClass, "ModuleObject"
+			);
+		}
+		
+		//메소드 요청
+		function method() 
+		{
+			if (!isset($this->{$this->moduleID}->private_action)) 
+			{
+				$this->{$this->moduleID}->private_action = array();
+			}
+			
+			if (!isset($this->{$this->moduleID}->default_action)) 
+			{
+				$this->{$this->moduleID}->default_action = array();
+			}
+			
+			if (class_exists($this->requestHandler)) 
+			{
+				$this->callMethod
+				(
+					$this->module, 
+					$this->moduleHandler, 
+					($this->{$this->moduleID}->default_action ? $this->{$this->moduleID}->default_action : []), 
+					($this->{$this->moduleID}->private_action ? $this->{$this->moduleID}->private_action : [])
+				);
+			}
+		}
+		
+		//모듈 초기화
+		function initializeModule($requestType='view') 
+		{
+			$this->getPlugin('before','initializeModule', $this);
+			if (!in_array($requestType, $this->acceptedModuleType)) 
+			{
+				return $this->setError($this->lang['invalid']);
+			}
+			
+			$this->loadObjectClass();
+			$this->setModuleBasicProperty();
+			
+			if (is_dir($this->moduleDirectory) && is_string($this->moduleID)) 
+			{
+				$this->applyRuleset();
+				$baseComponent = sprintf("%s/%s.class.php", $this->moduleDirectory, $requestType);
+				
+				if (file_exists($baseComponent) && is_file($baseComponent) && is_readable($baseComponent)) 
+				{
+					$class = sprintf("%s/%s.class.php", $this->moduleDirectory, 'base');
+					if (file_exists($class) && is_file($class) && is_readable($class)) 
+					{
+						$this->base->includeFile($class, $this->moduleID);
+						$this->getInstanceObject();
+						
+						if (is_object($this->requestmoduleID) && class_exists($this->moduleID)) 
+						{
+							$this->loadModuleClass($baseComponent, $requestType);
+							$this->initializeModuleHandler();
+							$this->loadModelingModule();
+							$this->makeModuleClass();
+						} 
+						else 
+						{
+							return $this->setError($this->lang['invalid']);
+						}
+				
+						$this->checkModified();
+						$this->loadModuleLanguage();
+						
+						$this->setModuleProperty($requestType);
+						
+						$this->loadSettingFile();
+						
+						$this->method();
+					} 
+					else 
+					{
+						return $this->setError($this->lang['invalid']);
+					}
+				} 
+				else 
+				{
+					return $this->setError($this->lang['invalid']);
+				}
+				
+				$this->getPlugin('after','initializeModule',$this);
+			}
+		}
+		
+		//POST Request
+		function processPOST() 
+		{
+			$this->getPlugin('post','execute',$this);
+			
+			$this->requestModuleID = $this->base->post_params(__MODULEID);
+			
+			if (preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/",$this->requestModuleID) && is_string($this->requestModuleID)) 
+			{
+				if (isset($this->requestModuleID)) 
+				{
+					$this->module = $this->init->model->getModule($this->requestModuleID);
+					if ($this->module) 
+					{
+						$this->initializeModule('controller');
+					} 
+					else 
+					{
+						return $this->setError($this->lang['invalid']);
+					}
+				}
+				else 
+				{
+					return $this->setError($this->lang['invalid']);
+				}
+			}
+			
+			exit();
+		}
+		
+		//GET Request
+		function processGET() 
+		{
+			$this->getPlugin('get','execute',$this);
+			$this->requestModuleID = $this->base->get_params(__MODULEID, 'string');
+			
+			if (isset($this->requestModuleID)) 
+			{
+				if (preg_match("/^[A-Za-z0-9\_\-]{1,25}+$/",$this->requestModuleID) && is_string($this->requestModuleID)) 
+				{
+					
+					if ($this->base->isInstalled()) 
+					{
+						$this->moduleExists = $this->init->model->isModuleExits($this->requestModuleID);
+						
+						if (!$this->moduleExists) 
+						{
+							if (!isset($this->systemConfig->request_invalid_page)) 
+							{
+								$this->requestModuleID = $this->init->model->getDefaultModule();
+							} 
+							else 
+							{
+								return $this->setError($this->lang['modulenotexists']);
+							}
+						}
+						
+						$this->module = $this->init->model->getModule($this->requestModuleID);
+					} 
+					else 
+					{
+						$this->module = 'install';
+					}
+					
+					$srl = $this->base->get_params('srl', 'int');
+					
+					if (isset($this->module) && is_string($this->module)) 
+					{
+						$this->initializeModule('view');
+					} 
+					else 
+					{
+						$this->findModulebySrl();
+					}
+				}
+				else 
+				{
+					return $this->setError($this->lang['invalid']);
+				}
+			}
+			else 
+			{
+				$this->findModulebySrl();
+			}
+			
+			$this->initializeView();
+		}
+		
+		//모듈값이 없다면 SRL 값으로 모듈을 찾는다.
+		function findModulebySrl() 
+		{
+			$this->getSrl = (int)$this->base->get_params('srl', 'int');
+			
+			if (preg_match("/^[1-9][0-9]{1,25}$/",$this->getSrl) && isset($this->getSrl) && ctype_digit($this->getSrl)) 
+			{
+				$this->requestModuleID = $this->init->model->getModulebysrl($this->getSrl);
+				
+				if (preg_match("/^[0-9a-zA-Z\_\-]{1,25}$/",$this->requestModuleID) && isset($this->requestModuleID) && is_string($this->requestModuleID)) 
+				{
+					$this->moduleExists = $this->init->model->isModuleExits($this->requestModuleID);
+					
+					if (!$this->moduleExists) 
+					{
+						return $this->setError($this->lang['modulenotexists']);
+					}
+					
+					$this->module = $this->init->model->getModule($this->requestModuleID);
+					$this->base->set_params(__MODULEID, $this->requestModuleID);
+					
+					if ($this->module) 
+					{
+						return $this->initializeModule('view');
+					} 
+					else 
+					{
+						return $this->setError($this->lang['invalid']);
+					}
+				} 
+				else 
+				{
+					return $this->setError($this->lang['modulenotexists']);
+				}
+			} 
+			else 
+			{
+				$this->requestModuleID = $this->init->model->getDefaultModule();
+				
+				if (preg_match("/^[0-9a-zA-Z\_\-]{1,25}$/",$this->requestModuleID) && isset($this->requestModuleID) && is_string($this->requestModuleID)) 
+				{
+					$this->module = $this->init->model->getModule($this->requestModuleID);
+					$this->base->set_params(__MODULEID, $this->requestModuleID);
+					
+					if (isset($this->module) && !empty($this->module)) 
+					{
+						return $this->initializeModule('view');
+					} 
+					else 
+					{
+						return $this->setError($this->lang['invalid']);
+					}
+				} 
+				else 
+				{
+					return $this->setError($this->lang['invalid']);
+				}
+			}
+		}
+		
+		//화면을 초기화한다.
+		function initializeView() 
+		{
+			if (isset($this->requestModuleID) && is_string($this->requestModuleID) && preg_match("/^[a-zA-Z0-9\_\-]{1,25}+$/", $this->requestModuleID)) 
+			{
+				if ($this->base->isInstalled()) 
+				{
+					$this->base->set('module_title', $this->init->model->getModuleTitle($this->requestModuleID));
+					$this->skin = $this->isMobile ? $this->init->model->getMobileSkin($this->requestModuleID) : $this->init->model->getSkin($this->requestModuleID);
+				}
+				
+				if (empty($this->skin)) 
+				{
+					$this->layout = $this->isMobile ? $this->base->getLayoutList(true) : $this->base->getLayoutList();
+					
+					if (is_array($this->layout)) 
+					{
+						$this->skin = $this->layout[0];
+					} 
+					else 
+					{
+						return $this->setError($this->lang['layoutnotexists']);
+					}
+				}
+				
+				if (empty($this->base->get('layout'))) 
+				{
+					if ($this->base->isInstalled()) 
+					{
+						if ($this->isMobile) 
+						{
+							$this->base->set('layout', sprintf("%s/layout/m.tpl/%s/skin.php", __MOD, $this->skin));
+							$this->base->set('layout_setting', sprintf("%s/layout/m.tpl/%s/_setting.php", __MOD, $this->skin));
+						} 
+						else 
+						{
+							$this->base->set('layout', sprintf("%s/layout/tpl/%s/skin.php", __MOD, $this->skin));
+							$this->base->set('layout_setting', sprintf("%s/layout/tpl/%s/_setting.php", __MOD, $this->skin));
+						}
+					} 
+					else 
+					{
+						$this->base->set('layout', sprintf("%s/layout/tpl/install.php", __MOD, $this->skin));
+					}
+				}
+			}
+			
+			if ($this->base->get('skin') && !file_exists($this->base->get('skin'))) 
+			{
+				return $this->setError(sprintf($this->lang['target_cannotfoundskin'], $this->base->get('skin')));
+			}
+			
+			define('__EndTime__', request::getMicroTime());
+			define('__RequireTime__', defined('__EndTime__') - defined('__StartTime__'));
+			
+			$this->dispContentView();
+		}
+		
+		//제목을 지정한다.
+		function setTitle() 
+		{
+			$this->module_title = $this->base->get('module_title');
+			$this->document_title = $this->base->get('document_title');
+			
+			if (isset($this->document_title)) 
+			{
+				$this->base->set('title', $this->module_title." - ".$this->document_title);
+				$this->base->addMeta('title', $this->document_title);
+			} 
+			else 
+			{
+				$this->base->set('title', $this->module_title);
+			}
+			
+		}
+			
+		function getContentRetFile($skin, $ret, $required=true) 
+		{
+			if (isset($skin)) 
+			{
+				if (file_exists($skin)) 
+				{
+					$include = @file_get_contents($skin);
+				} 
+				else 
+				{
+					//stream_get_contents($skin);
+				}
+			}
+			
+			//$include = ob_get_clean();
+			if (empty($include)) 
+			{
+				$include = null;
+			}
+			
+			$this->base->set($ret, $include);
+		}
+		
+		/**
+		 * 내용 출력
+		 **/
+		function dispContent() 
+		{
+			if ($this->systemConfig->css_minify === 'Y') 
+			{
+				$this->cssMinify();
+			}
+			
+			if ($this->systemConfig->js_minify === 'Y') 
+			{
+				$this->jsMinify();
+			}
+			
+			if ($this->systemConfig->jsbody_minify === 'Y') 
+			{
+				$this->jsBodyMinify();
+			}
+			
+			$this->getContentRet($this->base->get('skin'), 'article', true);
+			$this->base->set('article', $this->article);
+			
+			$this->getContentRet($this->base->get('layout_setting'), 'layout_set', false);
+			$this->getContentRet($this->base->get('layout'), 'layout');
+			$this->getContentRet(sprintf("%s/layout/tpl/_def.php", __MOD), 'def_layout');
+			$this->getContentRet(sprintf("%s/layout/tpl/_def_bottom.php", __MOD), 'def_bottom_layout');
+			header::file_html();
+			
+			$content = "";
+			$content .= $this->def_layout;
+			$content .= $this->layout;
+			$content .= $this->def_bottom_layout;
+			
+			$this->base->set('content', $content);
+			$this->getPlugin('after', 'content', $this);
+			
+			echo $this->base->get('content');
+		}
+		
+		/**
+		 * 스킨 파일의 내용을 가져온다.
+		 *
+		 * @public String $skin
+		 * @public String $ret
+		 * @public Boolean $required
+		 **/
+		function getContentRet($skin, $ret, $required=true) 
+		{
+			ob_start();
+			
+			if (isset($skin)) 
+			{
+				if (file_exists($skin)) 
+				{
+					@include($skin);
+				}
+				else 
+				{
+					if ($required) die("invalid skin");
+				}
+			}
+			
+			$include = ob_get_contents();
+			
+			ob_end_clean();
+			
+			$this->$ret = $include;
+		}
+		
+		function dispContentView() 
+		{
+			if (isset($this->board)) 
+			{
+				if (isset($this->board->srl)) 
+				{
+					$oBoardModel = $this->base->getModel('music');
+					$this->board->document = $oBoardModel->getDocumentItems($this->board->srl);
+					$this->document_item = new board_item($this, $this->board->document);
+					$this->board->oDocument = $this->document_item;
+					$content = $this->board->oDocument->getContent();
+					$oEditorModel = $this->base->getModel('editor');
+					$this->board->oDocument->setContent($oEditorModel->generateHTML($content, $this));
+				}
+			}
+			
+			$oLayoutViewModule = $this->base->getModel('layout');
+			$this->menu = $oLayoutViewModule->getMenu();
+			
+			if ($this->base->isInstalled()) 
+			{
+				$this->isDefaultPage = $this->init->model->getDefaultModule() == $this->base->get_params(__MODULEID) ? TRUE : false;
+			}
+			
+			$this->setTitle();
+			$this->dispContent();
+		}
+		
+		/**
+		 * 기본 리소스 파일을 지정한다.
+		 **/
+		function setBaseResource() 
+		{
+			$this->base->addJS(
+				'head',
+				"/common/js/jquery-3.2.1.min.js",
+				"/common/js/jquery.migrate-1.2.1.js",
+				"/common/js/jquery-ui.min.js",
+				"/common/js/jquery-jtemplates.js",
+				"/common/js/swfobject.js",
+				
+				"/common/js/coreJS/dist/config.js",
+				"/common/js/coreJS/dist/variables.js",
+				"/common/js/coreJS/dist/coreJS.js",
+				"/common/js/coreJS/dist/extend.js"
+				
+				/*"/common/js/coreJS/Config.js",
+				"/common/js/coreJS/Required.js",
+				"/common/js/coreJS/Initialization.js",
+				"/common/js/coreJS/Variables.js",
+				"/common/js/coreJS/Prototype.js",
+				"/common/js/coreJS/Base64.js",
+				
+				"/common/js/coreJS/Function/Application.js",
+				"/common/js/coreJS/Function/Array.js",
+				"/common/js/coreJS/Function/Audio.js",
+				"/common/js/coreJS/Function/Base.js",
+				"/common/js/coreJS/Function/Battery.js",
+				"/common/js/coreJS/Function/Browser.js",
+				"/common/js/coreJS/Function/Cache.js",
+				"/common/js/coreJS/Function/Canvas.js",
+				"/common/js/coreJS/Function/ChromeExtend.js",
+				"/common/js/coreJS/Function/Clipboard.js",
+				"/common/js/coreJS/Function/Cookie.js",
+				"/common/js/coreJS/Function/detectAdblock.js",
+				"/common/js/coreJS/Function/dragDrop.js",
+				"/common/js/coreJS/Function/Effect.js",
+				"/common/js/coreJS/Function/Element.js",
+				"/common/js/coreJS/Function/Event.js",
+				"/common/js/coreJS/Function/File.js",
+				"/common/js/coreJS/Function/Flash.js",
+				"/common/js/coreJS/Function/Gamepad.js",
+				"/common/js/coreJS/Function/Generator.js",
+				"/common/js/coreJS/Function/Geo.js",
+				"/common/js/coreJS/Function/Google.js",
+				"/common/js/coreJS/Function/harmonicGenerator.js",
+				"/common/js/coreJS/Function/ID3.js",
+				"/common/js/coreJS/Function/Imoticon.js",
+				"/common/js/coreJS/Function/JSON.js",
+				"/common/js/coreJS/Function/List.js",
+				"/common/js/coreJS/Function/mediaSession.js",
+				"/common/js/coreJS/Function/MediaSource.js",
+				"/common/js/coreJS/Function/Midi.js",
+				"/common/js/coreJS/Function/Mobile.js",
+				"/common/js/coreJS/Function/Notify.js",
+				"/common/js/coreJS/Function/OptionList.js",
+				"/common/js/coreJS/Function/Popup.js",
+				"/common/js/coreJS/Function/Promise.js",
+				"/common/js/coreJS/Function/Radio.js",
+				"/common/js/coreJS/Function/Request.js",
+				"/common/js/coreJS/Function/Screen.js",
+				"/common/js/coreJS/Function/Scroll.js",
+				"/common/js/coreJS/Function/Selector.js",
+				"/common/js/coreJS/Function/SessionStorage.js",
+				"/common/js/coreJS/Function/SimpleCrypto.js",
+				"/common/js/coreJS/Function/SNS.js",
+				"/common/js/coreJS/Function/Speech.js",
+				"/common/js/coreJS/Function/Storage.js",
+				"/common/js/coreJS/Function/StreamObject.js",
+				"/common/js/coreJS/Function/String.js",
+				"/common/js/coreJS/Function/System.js",
+				"/common/js/coreJS/Function/Time.js",
+				"/common/js/coreJS/Function/Timer.js",
+				"/common/js/coreJS/Function/URL.js",
+				"/common/js/coreJS/Function/Validate.js",
+				"/common/js/coreJS/Function/WebDB.js",
+				"/common/js/coreJS/Function/WebSocket.js",
+				"/common/js/coreJS/Function/XML.js",
+				
+				"/common/js/coreJS/Extend.js",
+				"/common/js/coreJS/Global Event.js"*/
+			);
+			
+			$this->base->addCSS(
+				'head',
+				"/common/css/reset.css",
+				"/common/css/fontawesome.css",
+				"/common/css/messenger/messenger.css",
+				"/common/css/messenger/messenger-spinner.css",
+				"/common/css/messenger/messenger-theme-flat.css",
+				"/common/css/messenger/messenger-theme-future.css",
+				"/common/css/messenger/messenger-theme-ice.css",
+				"/common/css/messenger/messenger-theme-block.css",
+				"/common/css/messenger/messenger-theme-air.css"
+			);
+		
+			$this->base->addJS(
+				'head',
+				"/common/js/messenger/messenger.js",
+				"/common/js/messenger/messenger-theme-future.js",
+				"/common/js/messenger/messenger-theme-flat.js",
+				"/common/js/messenger/messenger.option.js"
+			);
+			
+			$this->base->addMeta("theme-color", "#1A70DC");
+			$this->base->addMeta("generator", "exuscms");
+			$this->base->addMeta("viewport", "width=device-width, initial-scale=1");
+			$this->base->addMeta("apple-mobile-web-app-title", "exuscms");
+		}
+		
+		/**
+		 * 토큰을 생성한다.
+		 **/
+		function generateToken() 
+		{
+			if (session::isExistToken() === false) 
+			{
+				$args = va::args();
+				$args->name = "token";
+				$args->val = session::getToken();
+				session::set($args);
+			}
+		}
+		
+		/**
+		 * 쿠키정보를 가져와서 언어를 설정한다.
+		 **/
+		function setLanguageByCookie() 
+		{
+			if (isset($this->lang_cookie)) 
+			{
+				if (preg_match("/^[a-z]{2}$/", $this->lang_cookie)) 
+				{
+					$this->langType = $this->lang_cookie;
+				}
+				else if ($this->isAcceptAttacker === false) 
+				{
+					header::_400();
+				}
+			}
+			else if (isset($this->requestMethod)) 
+			{
+				if (preg_match("/^[A-Za-z]{1,7}$/", $this->requestMethod)) 
+				{
+					$this->langType = $this->requestMethod;
+				}
+				else if ($this->isAcceptAttacker === false && $this->systemConfig->deny_forbid_access === 'Y') 
+				{
+					header::_400();
+				}
+			}
+		}
+		
+		/**
+		 * 언어파일을 불러온다.
+		 **/
+		function loadLanguage() 
+		{
+			$this->languageFile = sprintf("%s/init/lang/%s.php", __MOD, $this->langType);
+			
+			if (file_exists($this->languageFile) && is_readable($this->languageFile) && isset($this->langType)) 
+			{
+				include($this->languageFile);
+				if (is_array($lang)) 
+				{
+					$this->lang = $lang;
+				} 
+				else 
+				{
+					return $this->setError($this->lang['langisempty']);
+				}
+			}
+			else 
+			{
+				$this->languageFile = sprintf("%s/init/lang/%s.php", __MOD, $this->defaultLanguage);
+				
+				if (file_exists($this->languageFile) && is_readable($this->languageFile)) 
+				{
+					include($this->languageFile);
+					
+					if (is_array($lang)) 
+					{
+						$this->lang = $lang;
+					} 
+					else 
+					{
+						return $this->setError($this->lang['langisempty']);
+					}
+				} 
+				else 
+				{
+					return $this->setError($this->lang['langfileexists']);
+				}
+			}
+		}
+		
+		/**
+		 * HTTP 요청 (GET/POST)
+		 **/
+		function httpRequest() 
+		{
+			if (is_string($this->requestMethod) && !empty($this->requestMethod)) 
+			{
+				if ($this->requestMethod === "POST") 
+				{
+					$this->processPOST();
+				} 
+				else if ($this->requestMethod === "GET") 
+				{
+					$this->processGET();
+				} 
+				else 
+				{
+					header('HTTP/1.1 405 Method Not Allowed');
+					header('Content-Type: text/plain');
+					exit();
+				}
+			} 
+			else 
+			{
+				header('HTTP/1.1 405 Method Not Allowed');
+				header('Content-Type: text/plain');
+				exit();
+			}
+		}
+		
+		
+		/**
+		 * 초기화
+		 **/
+		function init() 
+		{
+			$this->getPlugin('before', 'init', $this);
+			
+			$this->isMobile = request::is_mobile();
+			$this->generateToken();
+			$this->setBaseResource();
+			$this->langType = NULL;
+			$this->defaultLanguage = "jp";
+			$this->accept_lang = request::get_lang();
+			$this->requestMethod = strtoupper($this->base->getReq());
+			
+			if ($this->base->isInstalled()) 
+			{
+				$this->systemConfig = json_decode($this->init->model->getModuleConfig('admin'));
+				
+				if ($this->systemConfig->system_lang) 
+				{
+					$this->defaultLanguage = $this->systemConfig->system_lang;
+				}
+				
+				if ($this->systemConfig->lock_site === 'Y' && ($this->base->get_params(__MODULEID, 'string') != 'admin') && ($this->base->get_params('act', 'string') != 'admin')) 
+				{
+					$this->setMaintenance($this->systemConfig->lock_content);
+				}
+			}
+			
+			if (isset($_COOKIE['langType'])) 
+			{
+				$this->lang_cookie = strtolower($_COOKIE['langType']);
+			}
+			
+			$this->setLanguageByCookie();
+			$this->loadLanguage();
+			$this->httpRequest();
+			
+			$this->getPlugin('after','init',$this);
+			define('__PHPTime__',request::getMicroTime() - __StartTime__);
+		}
+		
+		/**
+		 * 플러그인 프로퍼티 설정
+		 *
+		 * @public String $prop
+		 **/
+		function setPropertyPlugin($prop) 
+		{
+			if (isset($prop) && isset($prop->moduleHandler)) 
+			{
+				$this->moduleHandler = $prop->moduleHandler;
+				
+				if (isset($this->{$this->moduleID})) 
+				{
+					$this->{$this->moduleID} = $prop->{$this->moduleID};
+				}
+			}
+		}
+		
+		/**
+		 * 플러그인 실행
+		 *
+		 * @public String $status
+		 * @public String $position
+		 * @public String $args
+		 **/
+		function getPlugin($status, $position, $args) 
+		{
+			if ($this->base->isInstalled()) 
+			{
+				$oPluginController = $this->base->getController('plugin');
+				$prop = $oPluginController->runPlugin($status, $position, $args);
+				$this->setPropertyPlugin($prop);
+			}
+		}
+		
+		/**
+		 * 메소드 요청
+		 *
+		 * @public String $module
+		 * @public Method $oModule
+		 * @public String $default_action
+		 * @public String $private_action
+		 **/
+		function callMethod($module, $oModule, $default_action, $private_action) 
+		{
+			$this->getPlugin('before', 'method', $this);
+			
+			if (empty($_GET) && $this->requestMethod === "GET") 
+			{
+				if (isset($default_action) && method_exists($oModule, $default_action)) 
+				{
+					call_user_func(array($oModule, $default_action));
+				} 
+				else 
+				{
+					throw new Exception(sprintf($lang['nonexistentmodule'], $module));
+				}
+			} 
+			else if (empty($_POST) && $this->requestMethod === "POST") 
+			{
+				if (isset($default_action) && method_exists($oModule, $default_action)) 
+				{
+					call_user_func(array($oModule, $default_action));
+				} 
+				else 
+				{
+					throw new Exception(sprintf($lang['nonexistentmodule'], $module));
+				}
+			} 
+			else 
+			{
+				$this->action = ($this->requestMethod === "POST") ? (string)$this->base->post_params(__ACTION) : ($this->requestMethod === "GET" ? (string)$this->base->get_params(__ACTION, 'string') : null);
+				
+				if ($this->action === null) 
+				{
+					header('HTTP/1.1 405 Method Not Allowed');
+					header('Content-Type: text/plain');
+					exit();
+				}
+				
+				if (isset($this->action) && method_exists($oModule, $this->action) && !in_array($this->action, $private_action)) 
+				{
+					call_user_func(array($oModule, $this->action));
+				} 
+				else if (isset($default_action)) 
+				{
+					if (method_exists($oModule, $default_action) && !in_array($this->action, $private_action)) 
+					{
+						call_user_func(array($oModule, $default_action));
+					}
+				} 
+				else 
+				{
+					throw new Exception(sprintf($lang['nonexistentmodule'], $module));
+				}
+				
+			}
+			
+			$this->getPlugin('after','method',$this);
+		}
+		
+	}
+	
+?>

@@ -1,0 +1,39 @@
+<div id="playlist">
+	<div class="module"> 
+		<h3>Playlist</h3> 
+	</div> 
+  <div class="module" id="playlistContainer">
+    <ol class="items" data-bind="style:{bottom:showAd()?'150px':'0'}"> 
+      <!-- ko foreach:playlist -->
+			<li class="item" data-bind="
+			visible:isValid(),
+			click:$root.play,
+			css:{focus:on, even:$index()%2==1, odd:$index()%2==0}
+			">
+				<span class="title" data-bind="attr: { title: title}, text:title"></span>&nbsp;
+			</li> 
+      <!-- /ko -->
+		</ol> 
+    <div class="odd" data-bind="visible:showAd" 
+      style="z-index:167; position:absolute; height:150px; left:0; right:0; bottom:0; padding:0 10px;" >
+      <!-- BuySellAds Zone Code -->
+      <div id="bsap_1285022" class="bsarocks bsap_09cb595ac00d408b4665ea9a271bdd97"></div>
+      <!-- End BuySellAds Zone Code -->
+    </div>
+	</div>
+</div>
+HTTP/1.1 200 OK
+P3P: CP="ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC OTC"
+Expires: Mon, 26 Jul 1997 05:00:00 GMT
+Last-Modified: Sun, 22 Jan 2017 05:45:56 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Cache-Control: post-check=0, pre-check=0
+Pragma: no-cache
+Vary: Accept-Encoding
+Strict-Transport-Security: max-age=31536000; includeSubdomains;
+Content-Type: text/html; charset=UTF-8
+Date: Sun, 22 Jan 2017 05:45:56 GMT
+Connection: keep-alive
+Content-Length: 1241
+
+{"message_type":"","media":"Y","data":"<?xml version=\"1.0\"?>\n<MPD xmlns=\"urn:mpeg:dash:schema:mpd:2011\" minBufferTime=\"PT1.500000S\" type=\"static\" mediaPresentationDuration=\"PT0H4M49.72S\" profiles=\"urn:mpeg:dash:profile:full:2011\">\n <Period duration=\"PT0H4M49.72S\">\n  <AdaptationSet segmentAlignment=\"true\">\n   <Representation id=\"1\" mimeType=\"audio/mp4\" codecs=\"mp4a.40.2\" audioSamplingRate=\"44100\" startWithSAP=\"1\" bandwidth=\"129490\">\n    <AudioChannelConfiguration schemeIdUri=\"urn:mpeg:dash:23003:3:audio_channel_configuration:2011\" value=\"2\"/>\n    <BaseURL>./audioplayback?document_srl=907543&amp;file_srl=907544&amp;mime=audio%2Fmp4&amp;expdate=1485066356&amp;signature=6RmYlrGol6%2BL%2Fza1b8MLxg5opoDUDgrZazUIXmhKB9nndDe7Kvzj7LDfxo4Ceg7kbiShiNRFXhfDUeNUK7fTIXys1rvV2IBQj%2Fqa6nEkC0dBimTFwEhg84jTJJ%2BDhfnV6uT3IT7mJZdg2hjDbpOUncAcYRSJlNH8fom%2BmXTvZQAacp6dVchx%2BIMY1iGNl3oEHJs5W1ltMAxVzR%2BUJYeQMBlS66X%2F3SPHBR9NLRttBuc%2BlICAfstyn9ZhxhCuZzm4</BaseURL>\n    <SegmentBase indexRangeExact=\"true\" indexRange=\"786-1177\">\n      <Initialization range=\"0-785\"/>\n    </SegmentBase>\n   </Representation>\n  </AdaptationSet>\n </Period>\n</MPD>","stream_type":"dash","error":0,"message":"success"}

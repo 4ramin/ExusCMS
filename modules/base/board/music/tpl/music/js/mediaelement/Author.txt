@@ -1,0 +1,1 @@
+Hi, I'm John Dyer, a web developer in Texas. By day, I work for Dallas Theological Seminary creating online seminary software, and I do contract work for companies like Exxon, Crossway Books, Microsoft, Harley Davidson, and HP. I also like to donate a lot of code which sometimes finds its way into tools built by Apple, Dell, and Mozilla. In other words, I'm a lucky fellow.

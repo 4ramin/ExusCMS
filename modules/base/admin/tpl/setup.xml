@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<option>
+		<group>
+			<title>시스템 설정</title>
+			<description>기본적인 시스템을 설정합니다.</description>
+			<var name="deny_forbid_access" type="select">
+				<title>악성 요청 차단</title>
+				<description>악성 요청을 차단합니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="deny_forbid_accesslog" type="select">
+				<title>악성 요청 기록</title>
+				<description>악성 요청을 기록합니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="lock_site" type="select">
+				<title>사이트 잠금</title>
+				<description>사이트를 잠시 잠급니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="jsbody_minify" type="select">
+				<title>JS Body Minify</title>
+				<description>사이트를 잠시 잠급니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="js_minify" type="select">
+				<title>JS Minify</title>
+				<description>사이트를 잠시 잠급니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="css_minify" type="select">
+				<title>CSS Minify</title>
+				<description>사이트를 잠시 잠급니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="lock_content" type="textarea">
+				<title>사이트 잠금내용</title>
+				<description>사이트를 잠시 잠급니다.</description>
+			</var>
+			<var name="deny_notmodified" type="select">
+				<title>중복 요청 차단</title>
+				<description>사이트를 잠시 잠급니다.</description>
+				<options value="">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="system_lang" type="select">
+				<title>기본 시스템 언어</title>
+				<description>사이트를 잠시 잠급니다.</description>
+				<options value="en">
+					<title>English</title>
+				</options>
+				<options value="jp">
+					<title>Japanese 日本の言語</title>
+				</options>
+				<options value="ko">
+					<title>Korean 한국어</title>
+				</options>
+			</var>
+		</group>
+	</option>
+</skin>

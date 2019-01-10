@@ -1,0 +1,3 @@
+a{text-decoration:none;}
+.tags{display: block;width:195px;height: 150px;margin: 5px;float:left;background-color:#fff;padding: 2px;text-align: center;overflow:hidden;box-shadow: 1px 3px 3px #eaeaea;}
+.none{float: left;width: 200px;display: inline-block;border: 1px solid #EEE;height: 180px !important;background-image: url(module/board/music/thumb/none.jpg);}

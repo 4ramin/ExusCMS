@@ -1,0 +1,87 @@
+
+		private function ajaxCall()
+		{
+			if($this->board->is_ajax == TRUE)
+			{
+				if(!isset($this->board->srl))
+				{
+					foreach($this->board->query as $key=>$value)
+					{
+						$this_file = $this->board->model->getFileList($value['srl']);
+						foreach($this_file as $fkey=>$flst)
+						{
+							if(maya::execute('@\@+.+!jpg||png||gif||jpeg!', $flst['files'],'boolean')  && $this->board->config->image_ignore_overlab == "1")
+							{
+								$fout = $this->base->makeThumbnail($flst['files'],$value['srl'],$this->board->config->thumbnail_width, $this->board->config->thumbnail_height);
+								if(!isset($tmp_md5))
+								{
+									$tmp_md5 = null;
+								}
+								
+								if(!isset($i))
+								{
+									$i = 0;
+								}
+								
+								if($value['thumbmd5']!=$tmp_md5)
+								{
+									$i++;
+									$tmp_md5 = $value['thumbmd5'];
+								}
+								
+								if($value['thumbmd5']==NULL)
+								{
+									if(file_exists(__DIR.__THUMB__ATTACH.$value['srl'].'/'.$this->board->config->thumbnail_width.'x'.$this->board->config->thumbnail_height.'.jpg')){
+										$this->board->model->UpdateThumbMd5($value['srl'],$value['module'],md5(file_get_contents(__DIR.__THUMB__ATTACH.$value['srl'].'/'.$this->board->config->thumbnail_width.'x'.$this->board->config->thumbnail_height.'.jpg')));
+									}
+								}
+								else
+								{
+									$tmp_md5 = $value['thumbmd5'];
+								}
+							}
+							elseif(maya::execute('@\@+.+!mp3||wav!', $flst['files'],'boolean'))
+							{
+								$mp3_link = __SUB.__FILE__ATTACH.$value['srl'].'/'.$flst['files'];
+							}
+						}
+						
+						$this->board->query[$key]['artist_href'] = str::getUrl(__MODULEID,$_GET[__MODULEID],__ACTION,'search','type','artist','keyword',$value['artist'],'page',1);
+						$this->board->query[$key]['index_img'] = $i;
+						$this->board->query[$key]['img_url'] = $fout;
+						$this->board->query[$key]['mp3_url'] = $mp3_link;
+						$this->board->query[$key]['href'] = str::getUrl(__MODULEID,$this->base->get_params(__MODULEID),'page',$this->board->page,'srl', $this->board->query[$key]['srl'],'category',$_GET['category'],'tag',$_GET['tag'],'mode',$_GET['mode']);
+					}
+					
+					foreach($this->board->page_navigation as $key=>$val)
+					{
+						$this->board->pg[$key]['href'] = str::getUrl(__MODULEID,$_GET[__MODULEID],'page',$val,'srl','');
+						$this->board->pg[$key]['page'] = $val;
+						$this->board->pg[$key]['current_page'] = $this->board->page;
+					}
+					
+					$skin = $this->base->get('skin');
+					echo $this->getContentRet($skin, $this->board, 'board');
+					
+					/*echo json_encode(array(
+						'query'=>$this->board->query,
+						'pagenavigation'=>$this->board->pg
+					));*/
+					exit();
+				}
+				else
+				{
+					
+					$skin = $this->base->get('skin');
+					echo $this->getContentRet($skin, $this->board, 'board');
+					
+					/*echo json_encode(array(
+						'audio_url'=>$this->board->audio_url,
+						'image_url'=>$this->board->image_url,
+						'lyric'=>request::encodeBinaryNumberic($this->board->srl)
+					));*/
+					exit();
+				}
+			}
+		}
+		

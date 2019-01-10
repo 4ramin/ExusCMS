@@ -1,0 +1,123 @@
+body{
+	padding:0px;margin:0px;
+}
+.container{
+	
+}
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    border-spacing: 0;
+}
+body, input, textarea, select, button, table, code, pre {
+    font-family: '나눔고딕',nanumgothic,'돋움',Dotum,helvetica,sans-serif;
+    font-size: 12px;
+    line-height: 1.25em;
+}
+.tbl_board tr:first-child td {
+    border-top: 1px solid #bcbcbc;
+}.tbl_board td {
+    margin: 0 auto;
+    padding: 10px 0;
+    border-top: 1px dashed #bababa;
+    border-left: 1px dashed #bababa;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    word-break: break-all;
+    word-wrap: break-word;
+}.tc-panel .tbl_board tr:nth-child(even) {
+    background: #f9fafa;
+}.tbl_board td:first-child {
+    width: 22px;
+    text-align: center;
+    vertical-align: middle;
+}
+.tbl_board td {
+    margin: 0;
+    padding: 6px 0;
+    border-left: 0;
+    line-height: 18px;
+    text-align: left;
+    vertical-align: top;
+}.tbl_board {
+    width: 100%;
+    margin: 10px 0 40px;
+}
+.tbl_board {
+    margin: 0;
+    border-top: 2px solid #9a9a9a;
+}
+.tbl_board {
+    width: 100%;
+    border-top: 1px solid #1f2026;
+    border-bottom: 1px solid #bcbcbc;
+}caption {
+    display: none;
+}.tbl_board th {
+    border-top: 1px dashed #bababa;
+    border-left: 1px dashed #bababa;
+    background: #f3f3f3;
+    font-weight: normal;
+    line-height: 28px;
+}.tbl_board th {
+    border: 0;
+    background: #fff;
+    font-weight: normal;
+    text-align: left;
+}
+.sidemenu {
+    position: fixed;
+    top: 58px;
+    left: 0;
+    bottom: 28px;
+    z-index: 1000;
+    height: 100%;
+    background: #666;
+    z-index: 1;
+    width: 200px;
+}.main_fix {
+    position: relative;
+    margin: 57px 0 0 299px;
+}.sidemenu li {
+    float: none;
+    width: 100%;
+    border: 0;
+    background: none;
+}.sidemenu li a {
+    display: block;
+    overflow: hidden;
+    height: 23px;
+    padding-left: 10px;
+    border: 0;
+    line-height: 23px;
+    color: #fff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+h1{
+    font-size: 15px;
+    padding: 5px 7px 11px 14px;
+    text-decoration: dotted;
+    text-decoration-color: #1194ff;
+    text-decoration-line: underline;
+    text-decoration-style: double;
+}#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 57px;
+    border-bottom: 1px solid #080809;
+    background: #4a4a4a;
+}
+ul{
+    list-style-type: none;
+    padding: 0px;
+    margin: 9px 0px;
+}
+.logo{
+    padding: 13px;
+}

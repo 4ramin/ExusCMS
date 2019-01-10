@@ -1,0 +1,116 @@
+.list_area a,p{
+	font-size:11px;
+}
+.alert_area{
+    margin: 5px 15px 15px 15px;
+	border:1px solid #BBBBBB;
+	border-radius:0px;
+    font-size: 11px;
+    background-color: #f3f3f3;
+}
+.alert{
+	max-height: 120px;
+	overflow: auto;
+	margin:5px;
+}
+label{
+	font-size:11px;
+	float: left;
+	text-align: right;
+	width: 70px;
+	line-height: 2.1;
+}
+.ctr_area{
+	padding: 12px 0px 12px 0px;
+	border-bottom:1px solid #e5e5e5;
+}
+.controls{
+	padding-left:20px;
+}
+.controls input{
+	border-radius:0px;
+    padding: 7px 5px;
+    height: 32px;
+	width: 406px;
+}
+.alert_title{
+	padding: 15px 5px 0px 15px;
+    font-weight: bold;
+    color: #585858;
+}
+.pad_alert{
+	padding-top:10px;
+}
+.submit input{
+	width: 100%;
+	border: 1px solid #B8B8B8;
+	padding: 8px 9px;
+	border-radius: 3px;
+    box-shadow: none;
+}
+.submit{
+	padding: 20px;
+}
+.help_line{
+    font-size: 11px;
+    color: #2b86e6;
+}
+.signinform{
+    /*margin: 45px auto;
+    -webkit-box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.28);
+    -moz-box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.28);
+    box-shadow: 3px 3px 8px 0px rgba(50, 50, 50, 0.28);
+    border-radius: 2px;
+    border: 2px solid #d0d0d0;
+	background-color:#fff;
+	margin-top:10px;*/
+}
+.mInfoArea{
+	margin:20px 16px;
+    border-top: 2px solid #7d7d7d;
+    border-bottom: 1px solid #c7c7c7ee;
+}
+.signinform label[for="email"],.signinform label[for="user_id"],.signinform label[for="password"],.signinform label[for="user_id"],.signinform label[for="passwordchk"]{
+	font-size:12px;
+    margin-left: 8px;
+	text-align:left;
+    width: 100px !important;
+	float: left !important; 
+    margin-right: 20px;
+	font-weight: bold;
+}
+.signinform label[for="accept_agreement_1"],.signinform label[for="accept_agreement_2"]{
+    border-top: 1px solid #c5c5c5;
+    width: 100%;
+    display: block;
+    float: none !important;
+}
+.signin_title{
+	color: #393939;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #c1bdbd;
+    font-size: 19px;
+    font-weight: bold;
+    margin: 15px 15px 0px 15px;
+}
+.signinform input[type="text"],.signinform input[type="password"],.signinform input[for="password"],.signinform input[for="user_id"],.signinform input[for="passwordchk"] {
+    background-color: #fff;
+    border: 1px solid #bfbfbf;
+    border-right-color: #d9d9d9;
+    border-bottom-color: #d9d9d9;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border linear 0.2s,box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s,box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s,box-shadow linear 0.2s;
+    transition: border linear 0.2s,box-shadow linear 0.2s;
+    display: inline-block;
+    height: 21px !important;
+    padding: 4px 6px !important;
+    color: #555;
+    vertical-align: middle;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}

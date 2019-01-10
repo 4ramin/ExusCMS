@@ -1,0 +1,68 @@
+﻿/*! jQuery UI - v1.9.2 - 2013-08-04
+* http://jqueryui.com
+* Includes: jquery.ui.core.css, jquery.ui.slider.css
+* Copyright 2013 jQuery Foundation and other contributors Licensed MIT */
+
+.ui-helper-hidden{display:none}.ui-helper-hidden-accessible{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.ui-helper-reset{margin:0;padding:0;border:0;outline:0;line-height:1.3;text-decoration:none;font-size:100%;list-style:none}.ui-helper-clearfix:before,.ui-helper-clearfix:after{content:"";display:table}.ui-helper-clearfix:after{clear:both}.ui-helper-clearfix{zoom:1}.ui-helper-zfix{width:100%;height:100%;top:0;left:0;position:absolute;opacity:0;filter:Alpha(Opacity=0)}.ui-state-disabled{cursor:default!important}.ui-icon{display:block;text-indent:-99999px;overflow:hidden;background-repeat:no-repeat}.ui-widget-overlay{position:absolute;top:0;left:0;width:100%;height:100%}.ui-slider{position:relative;text-align:left}.ui-slider .ui-slider-handle{position:absolute;z-index:2;width:1.2em;height:1.2em;cursor:default}.ui-slider .ui-slider-range{position:absolute;z-index:1;font-size:.7em;display:block;border:0;background-position:0 0}.ui-slider-horizontal{height:.8em}.ui-slider-horizontal .ui-slider-handle{top:-.3em;margin-left:-.6em}.ui-slider-horizontal .ui-slider-range{top:0;height:100%}.ui-slider-horizontal .ui-slider-range-min{left:0}.ui-slider-horizontal .ui-slider-range-max{right:0}.ui-slider-vertical{width:.8em;height:100px}.ui-slider-vertical .ui-slider-handle{left:-.3em;margin-left:0;margin-bottom:-.6em}.ui-slider-vertical .ui-slider-range{left:0;width:100%}.ui-slider-vertical .ui-slider-range-min{bottom:0}.ui-slider-vertical .ui-slider-range-max{top:0}
+/* 
+ * ---------------------------------------- *
+ * Simple HTML5 Audio Player                *
+ * CSS                                      *
+ * v1.0.2                              *
+ * Matt O'Neill | www.matt-oneill.co.uk     *
+ * ---------------------------------------- *
+ */
+
+/* reset */
+.audio-player { text-shadow: none; font-family: 'Segoe UI'  }
+
+/* audio player
+   ---------------------------------- */
+.audio-player { background: url(src/audio-background.jpg); min-width: 250px; width: 100%; height: 50px; float: left; margin-bottom: 20px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; box-shadow: 0 2px 10px 0px #555; }
+
+/* loading */
+.audio-player .loading { color: #141414; font-size: 25px; font-weight: bold; text-align: center; padding: 5px 0; width: 100%; float: left; text-shadow: 0px 1px 1px #919191; }
+
+/* controls */
+.audio-player .controls { float: left; width: 100%; display: none; }
+.audio-player .controls .play, .audio-player .controls .stop, .audio-player .controls .audio-progress { cursor: pointer; }
+.audio-player .controls > span { width: 45px; height: 50px; display: block; float: left; background: url(src/controls.png); }
+.audio-player .controls .play:hover { background-position: 0 -50px; }
+.audio-player .controls .play.playing { background-position: -50px 0; }
+.audio-player .controls .play.playing:hover { background-position: -50px -50px; }
+.audio-player .controls .stop { background-position: -100px 0; }
+.audio-player .controls .stop:hover { background-position: -100px -50px; }
+
+/* general slider */
+.audio-player .controls div.ui-slider-handle { margin-left: -8px; float: left; width: 20px; height: 20px; background: url(src/handle.png); border: none; position: absolute; top: -4px; cursor: pointer; }
+.audio-player .controls div.ui-slider-handle:focus { outline: none; }
+.audio-player .controls div.ui-slider-handle > span.led { width: 20px; height: 20px; display: block; background: url(src/handle-led-off.png); }
+.audio-player .controls div.ui-slider-handle > span.led.on { opacity: 0; position: absolute; top: 0; left: 0; background: url(src/handle-led-on.png); }
+
+/* controls - progress slider */
+.audio-player .controls .audio-progress { float: left; width: 50%; margin: 19px 2%; height: 12px; border: none; border-bottom: 1px solid #666; background: #111111; background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzExMTExMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk5JSIgc3RvcC1jb2xvcj0iIzE2MTYxNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=); background: -moz-linear-gradient(top, #111111 0%, #161616 99%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#111111), color-stop(99%,#161616)); background: -webkit-linear-gradient(top, #111111 0%,#161616 99%); background: -o-linear-gradient(top, #111111 0%,#161616 99%); background: -ms-linear-gradient(top, #111111 0%,#161616 99%); background: linear-gradient(to bottom, #111111 0%,#161616 99%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111111', endColorstr='#161616',GradientType=0 );-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
+.audio-player .controls .audio-progress:hover .time-display { display: block; }
+.audio-player .controls .audio-progress .slider { width: 100%; float: left; }
+.audio-player .controls .audio-progress .ui-slider-range { background: #222; height: 10px; display: block; position: absolute; left: 0; top: 1px; }
+
+/* controls - time display */
+.audio-player .controls .time-display { display: none; z-index: 3; position: absolute; top: -38px; left: 0; margin-left: -30px; width: 73px; height: 18px; padding: 5px; background: #222; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; box-shadow: 0 2px 10px 0px #111; }
+.audio-player .controls .time-display > span { float: left; text-align: center; display: block; font-size: 13px; color: #ccc; margin-left: 5px; }
+.audio-player .controls .time-display > span:first-child { margin-left: 0px; }
+.audio-player .controls .time-display > span.elapsed { border-right: 2px groove #888; padding-right: 5px; }
+.audio-player .controls .time-display > span.arrow { position: absolute; width: 10px; height: 10px; left: 40px; margin-left: -5px; bottom: -10px; background: url(src/general.png);}
+
+/* controls - volume slider */
+.audio-player .controls .volume-controls { height: 50px; margin: 0 10px; width: 160px; float: left; position: relative; }
+.audio-player .controls .volume-controls .audio-vol { margin: 19px 10px; float: right; width: 90px; height: 12px; border: none; border-bottom: 1px solid #666; background: #111111; background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzExMTExMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk5JSIgc3RvcC1jb2xvcj0iIzE2MTYxNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=); background: -moz-linear-gradient(top, #111111 0%, #161616 99%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#111111), color-stop(99%,#161616)); background: -webkit-linear-gradient(top, #111111 0%,#161616 99%); background: -o-linear-gradient(top, #111111 0%,#161616 99%); background: -ms-linear-gradient(top, #111111 0%,#161616 99%); background: linear-gradient(to bottom, #111111 0%,#161616 99%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111111', endColorstr='#161616',GradientType=0 ); -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+.audio-player .controls .volume-controls .audio-mute { cursor: pointer; width: 45px; height: 50px; display: block; float: left; background: url(src/controls.png); background-position: -150px 0px; }
+.audio-player .controls .volume-controls .audio-mute { background-position: auto -50px; }
+.audio-player .controls .volume-controls .audio-mute.muted { background-position: -200px 0px; }
+.audio-player .controls .volume-controls .ui-slider-range { background: #222; height: 10px; display: block; position: absolute; left: 0; top: 1px; }
+
+/* controls info */
+.audio-player .controls .info { float: left; width: 10px; height: 50px; position:relative }
+.audio-player .controls .info .track { position: absolute; top: 16px; right: 3px; white-space:nowrap }
+.audio-player .controls .info .track > span { background: url(src/info.png); width: 16px; height: 16px; display: block; }
+.audio-player .controls .info .track:hover > div { display: block; }
+.audio-player .controls .info .track > div {font-size: 13px; color: #ccc; display: none; padding: 5px; position: absolute; top: -32px; right: 0;  background: #222; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; box-shadow: 0 2px 10px 0px #111; }

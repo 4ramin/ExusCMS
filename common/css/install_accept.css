@@ -1,0 +1,86 @@
+
+Body{
+	Background-color:#EEE;
+	margin:0;
+	padding:0;
+}
+
+.message{
+	text-align:center;
+	background-color:#ded;
+	padding:5px;
+	font-size:11px;
+}
+
+.box_top{
+	font-size:11px;
+	text-align:center;
+	background-color:#EEE;
+	padding:6px;
+}
+
+.Body_install{
+	background-Color:#F7F7F7;
+	border:1px solid #DEDEDE;
+	
+	width:824px;
+	margin:35px auto;
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.04), 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.input_area{
+	margin: 9px;
+}
+
+.input_area label{
+	width:10%;
+	float:left;
+	font-size:11px;
+	line-height:2.4;
+}
+
+.input_area input{
+	width:51%;
+	margin-left:5%;
+	border:1px solid #AAA;
+	font-size:12px;
+	padding:3px;
+}
+
+.Readme{
+	background-color:#FFF;
+	border:1px solid #BEBEBE;
+	
+	margin:3px;
+	padding:15px;
+	
+	height:330px;
+	overflow:auto;
+}
+
+.btn_area{
+	margin:3px 5px;
+	text-align:right;
+}
+
+.btn_install{
+	border:1px solid #BEBEBE;
+	margin:10px;
+}
+
+.btn_accept{
+	border:1px solid #BEBEBE;
+}
+
+p{
+	font-size:11px;
+	margin: 0px 0px 5px;
+}
+
+h1{
+	font-size:13px;
+}
+
+b{
+	font-weight:bold;
+}

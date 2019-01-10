@@ -1,0 +1,65 @@
+<?php if(!defined("__FLOWER__")) exit(); ?>
+<?php include('_header.php'); ?>
+
+<div class="admin_content list_content content newclearfix">
+<?php include('gnb.php'); ?>
+	<div class="bd_setup">
+		<form action="" method="post" id="form">
+			<input name="<?php echo __MODULEID; ?>" type="hidden" value="<?php echo $_GET[__MODULEID]; ?>"></input>
+			<input name="act" type="hidden" value="procAdminSetup"></input>
+				<h1 class="title_setup">시스템 설정</h1>
+				<div class="subtitle_setup">전반적인 시스템을 설정합니다</div>
+				<section>
+					<div id="set_layout" class="section_value">
+						<div class="label_setup">
+							<label class="label_view">기본 레이아웃</label>
+						</div>
+						<div id="opt_layout" style="margin-left:250px">
+							<acronym title="기본 레이아웃">
+								<select name="module_post[layout]">
+									<?php foreach($this->base->getLayoutList() as $key=>$val):?>
+										<option <?php echo $this->board->skin==$val ? 'selected="selected"' : ''; ?> value="<?php echo $val; ?>">
+											<?php echo $val; ?>
+										</option>
+									<?php endforeach; ?>
+								</select>
+							</acronym>
+						</div>
+						
+					</div>
+					
+					<div id="set_layout" class="section_value">
+						<div class="label_setup">
+							<label class="label_view">캐시</label>
+						</div>
+						<div id="opt_layout" style="margin-left:250px">
+							<acronym title="캐시">
+								<select name="post_area[cache_type]">
+									<option data-image="" value="" selected="selected">사용하지 않음</option>
+									<option data-image="" value="file">File</option>
+									<option data-image="" value="apc">Apc</option>
+									<option data-image="" value="memcache">Memcache</option>
+									<option data-image="" value="redis">Redis</option>
+								</select>
+							</acronym>
+						</div>
+					</div>
+					
+					<div id="set_layout" class="section_value">
+						<div class="label_setup">
+							<label class="label_view">사이트 잠금</label>
+						</div>
+						<div id="opt_layout" style="margin-left:250px">
+							<acronym title="캐시">
+								<select name="post_area[lock_site]">
+									<option data-image="" value="" selected="selected">사용하지 않음</option>
+									<option data-image="" value="Y">사용</option>
+								</select>
+							</acronym>
+						</div>
+					</div>
+				</section>
+			<input value="확인" type="submit">
+		</form>
+	</div>
+</div>

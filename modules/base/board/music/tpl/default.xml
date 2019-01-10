@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<option>
+		<group>
+			<title>검색 설정</title>
+			<description>검색에 관한 기능을 설정합니다.</description>
+			<var name="search_engine" type="select">
+				<title>검색 방법</title>
+				<description>* 인덱서 작업예약 실행 필요($engine$.sh)</description>
+				<options value="N">
+					<title>기본적인 쿼리를 사용합니다.</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title>기본 설정</title>
+			<description>게시판의 기본적인 기능들을 수정합니다.</description>
+			<var name="bd_query" type="select">
+				<title>쿼리 설정</title>
+				<description>기본 쿼리방식을 설정합니다.</description>
+				<options value="N">
+					<title>문서의 SRL을 기준으로 문서를 가져옵니다.</title>
+				</options>
+				<options value="LIMIT">
+					<title>LIMIT을 기준으로 문서를 가져옵니다.</title>
+				</options>
+				<options value="JOIN">
+					<title>JOIN을 기준으로 문서를 가져옵니다.</title>
+				</options>
+				<options value="JOIN2">
+					<title>JOIN을 기준으로 문서를 가져옵니다.</title>
+				</options>
+			</var>
+			<var name="popular_count" type="text">
+				<title>인기 다운로드 기준</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="list_count" type="text">
+				<title>목록 개수</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="star_max" type="text">
+				<title>별점 추천수</title>
+				<description>최대로 매길 수 있는 별점수를 지정합니다.</description>
+			</var>
+		</group>
+		
+		<group>
+			<title>권한 설정</title>
+			<description>기본적인 권한을 설정합니다.</description>
+			<var name="anony_write" type="select">
+				<title>비회원 글쓰기 허용</title>
+				<description>비회원의 글쓰기를 허용합니다</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="anony_comment" type="select">
+				<title>비회원 댓글 허용</title>
+				<description>비회원의 글쓰기를 허용합니다</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="anony_vote" type="select">
+				<title>비회원 추천 허용</title>
+				<description>비회원의 추천을 허용합니다</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="anony_blamed" type="select">
+				<title>비회원 비추천 허용</title>
+				<description>비회원의 비추천을 허용합니다</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="anony_star" type="select">
+				<title>비회원 별점 허용</title>
+				<description>비회원의 별점평가를 허용합니다</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+		</group>
+		
+		<group>
+			<title>워터마크 설정</title>
+			<description>이미지를 특정크기로 설정하거나 이미지에 특정한 효과를 줍니다.</description>
+			<var name="use_image_watermark" type="select">
+				<title>이미지 워터마크 사용</title>
+				<description>이미지 워터마크를 사용합니다</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="watermark_xy_type" type="select">
+				<title>워터마크 위치</title>
+				<toggle value="user_custom" target="#set_x_watermark,#set_y_watermark"></toggle>
+				<description>읽기 화면에서 보여줄 파일목록을 선택합니다.</description>
+				<options value="user_custom">
+					<title>사용자 지정 위치</title>
+				</options>
+				<options value="bottom">
+					<title>중앙</title>
+				</options>
+			</var>
+			<var name="convert_watermark" type="select">
+				<title>워터마크 글씨 색상 반전</title>
+				<description>이미지의 특정픽셀에서 반전된 색을 글씨색상으로 지정합니다.</description>
+				<options value="N">
+					<title>아니오</title>
+				</options>
+				<options value="Y">
+					<title>예</title>
+				</options>
+			</var>
+			<var name="image_watermark" type="textarea">
+				<title>이미지 워터마크</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="x_watermark" type="textarea">
+				<title>이미지 워터마크 X값</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="y_watermark" type="textarea">
+				<title>이미지 워터마크 Y값</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="r_watermark" type="textarea">
+				<title>이미지 워터마크 R 색상값</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="g_watermark" type="textarea">
+				<title>이미지 워터마크 G 색상값</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+			<var name="b_watermark" type="textarea">
+				<title>이미지 워터마크 B 색상값</title>
+				<description>이미지에 워터마크 텍스트를 입력합니다.</description>
+			</var>
+		</group>
+		
+		<group>
+			<title>섬네일 설정</title>
+			<description>이미지를 특정크기로 설정하거나 이미지에 특정한 효과를 줍니다.</description>
+			<var name="thumbnail_width" type="text">
+				<title>이미지 가로길이</title>
+				<description>이미지 리사이징시 설정될 가로길이를 입력합니다.</description>
+			</var>
+			<var name="thumbnail_height" type="text">
+				<title>이미지 세로길이</title>
+				<description>이미지 리사이징시 설정될 세로길이를 입력합니다.</description>
+			</var>
+		</group>
+		
+		<group>
+			<title>목록 설정</title>
+			<description>게시글의 목록을 설정합니다.</description>
+			<var name="title_length" type="text">
+				<title>제목길이</title>
+				<description>최대 제목길이.</description>
+			</var>
+			<var name="list_view_on" type="select">
+				<title>글을 읽을때 목록을 숨기기</title>
+				<description>게시글을 읽을때 목록을 보여주지 않습니다.</description>
+				<options value="1">
+					<title>사용</title>
+				</options>
+				<options value="">
+					<title>사용안함</title>
+				</options>
+			</var>
+			<var name="image_ignore_overlab" type="select">
+				<title>중복된 이미지 요청하지 않기</title>
+				<description>이미지 해시값을 생성하여 이미지 요청수를 줄입니다.</description>
+				<options value="1">
+					<title>사용</title>
+				</options>
+				<options value="">
+					<title>사용안함</title>
+				</options>
+			</var>
+		</group>
+		
+		<group>
+			<title>게시글 설정</title>
+			<description>특정 게시글을 조회할시 보여줄 화면을 설정합니다.</description>
+			<var name="none_id3" type="select">
+				<title>ID3 태그 분석하지 않기</title>
+				<description>ID3 태그를 분석하지 않습니다.</description>
+				<options value="1">
+					<title>분석하지 않음</title>
+				</options>
+				<options value="">
+					<title>사용안함</title>
+				</options>
+			</var>
+		</group>
+		
+		<group>
+			<title>댓글 설정</title>
+			<description>댓글 조회시 보여줄 화면을 설정합니다.</description>
+			<var name="comment_count" type="text">
+				<title>댓글 개수</title>
+				<description>페이지 당 최대 댓글 개수를 지정합니다.</description>
+			</var>
+			<var name="comment_depth" type="text">
+				<title>댓글 최대 Depth</title>
+				<description>댓글의 최대 Depth를 설정합니다.</description>
+			</var>
+			<var name="best_comment" type="select">
+				<title>베스트 댓글을 보여주기</title>
+				<description>베스트 댓글 목록을 보여줍니다.</description>
+				<options value="1">
+					<title>사용</title>
+				</options>
+				<options value="">
+					<title>사용안함</title>
+				</options>
+			</var>
+			<var name="worst_comment" type="select">
+				<title>워스트 댓글을 보여주기</title>
+				<description>워스트 댓글 목록을 보여줍니다.</description>
+				<options value="1">
+					<title>사용</title>
+				</options>
+				<options value="">
+					<title>사용안함</title>
+				</options>
+			</var>
+		</group>
+	</option>
+</skin>

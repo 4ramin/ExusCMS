@@ -1,0 +1,25 @@
+.item-section li {margin: 0px 0px 30px}
+.box_content {line-height: 1.3em;position: relative;}
+li {list-style: none;}
+.title_sub {line-height: 1.3;}
+.title_sub p {font-family: 'Apple SD Gothic Neo',arial,sans-serif;margin:0;line-height:1.3}
+.title_sub p a {color:#a5a5a5;font-size: 12px;font-weight: 400;}
+.thumb {position: relative;}
+.box_content{clear: left;}
+.box_content .title_area {overflow: hidden;position: relative}
+.item-section .clearfix:after {content: '.';display: block;height: 0;visibility: hidden;clear: both;}
+.item-section .title a {color: #040404;font-size: 18px;font-weight: 400;line-height: 1.5;}
+ol {padding: 24px 0;}
+.linkable{color:#006621;font-size:14px;font-family: 'Apple SD Gothic Neo',arial,sans-serif;}
+.tmb_img{image-rendering: -webkit-optimize-contrast;float: left;margin-right: 10px;object-fit: fill;background-color: black;}
+.search_info{color: #808080;font-size: 14px;}
+.search_list span, .search_list div{line-height: 1;margin: 0px;}
+p,a{font-family: 'Apple SD Gothic Neo',arial,sans-serif;}
+.playtime{position: absolute;bottom: 7px;right: 8px;color: #fff;border-radius:1px;background-color: rgba(0,0,0,.7);padding: 1px 3px;font-weight: bold;font-size: 11px;font-family: 'Apple SD Gothic Neo',arial,sans-serif;line-height: 18px !important;}
+.result{font-size: 13px;color: #808080;}
+.pg_area a{color: #4373e4;font-size: 14px;margin: 5px;}
+.bd_pg{text-align:center}
+.frst_last{color: #4a4a4a;font-size: 14px;}
+.current_page{color: #e2932d !important;font-weight: bold;}
+.search_list .item{position:relative;float: left;margin-right: 10px;}
+.tmb_img ,.search_list .item{width: 245px;height: 125px;}
