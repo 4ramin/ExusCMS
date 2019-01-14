@@ -417,8 +417,6 @@
 					unset($_SESSION['target_srl']);
 				}
 				
-				$this->clearCache();
-				
 				// Redirect to document
 				$args = va::args();
 				$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->post_data->srl);
@@ -444,7 +442,7 @@
 					$this->post_data->memberSrl
 				);
 				
-				$get_lastid = $this->pdo->lastInsertId('srl');
+				$this->board->lastID = $this->pdo->lastInsertId('srl');
 
 				// Insert Extravars to doucment
 				foreach ($this->board->extra_var as $key=>$val) 
@@ -456,14 +454,28 @@
 						$this->board->model->insertExtraVar($lastId, $extra_vars_key, $extra_vars_val);
 					}
 				}
-				
-				$this->clearCache();
-				
-				// Redirect to document
-				$args = va::args();
-				$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $get_lastid);
-				header::move($args);
 			}
+			
+			if (isset($this->post_data->mid)) 
+			{
+				$this->board->document_count = $this->board->model->getDocumentCountbyBoard($this->board->module_id);
+				$GLOBALS['DOCUMENT_COUNT_ALL'][$this->post_data->mid] = (int)$this->board->document_count;
+			}
+			
+			$this->board->redirectSrl = 0;
+			if (isset($this->board->lastID)) 
+			{
+				$this->board->redirectSrl = $this->board->lastID;
+			}
+			else
+			{
+				$this->board->redirectSrl = $this->post_data->srl;
+			}
+			
+			// Redirect to document
+			$args = va::args();
+			$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->board->redirectSrl);
+			header::move($args);
 		}
 		
 		function procBoardBlame() 
@@ -478,7 +490,14 @@
 			
 			// Get blamed count
 			$blamed_count = $this->board->model->getBlamedCount($this->post_data->srl);
-			$blamed_count = $blamed_count['blamed'] + 1;
+			if (isset($blamed_count['blamed']))
+			{
+				$blamed_count = $blamed_count['blamed'] + 1;
+			}
+			else
+			{
+				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+			}
 			
 			// Update blamed count
 			if ($this->board->model->UpdateBlamedCount($blamed_count, $this->post_data->srl)) 
@@ -505,12 +524,13 @@
 			$this->post_data->star = $this->board->model->getDocumentStarCount($this->post_data->srl);
 			$this->post_data->star_cnt = $this->board->model->getDocumentStarVotedCount($this->post_data->srl) + 1;
 			
-			$star_count = ($this->post_data->star + $this->post_data->point);
+			$current_star_count = ($this->post_data->star + $this->post_data->point);
 			
 			// Update doucment star count
 			if ($this->board->model->UpdateDocumentStarCount($star_count, $this->post_data->srl)) 
 			{
-				$this->base->response("type", "sucess", "html", round($star_count / $this->post_data->star_cnt));
+				$starCount = round($current_star_count / $this->post_data->star_cnt);
+				$this->base->response("type", "sucess", "html", $starCount);
 				$this->board->model->UpdateDocumentStarVotedCount($this->post_data->star_cnt, $this->post_data->srl);
 			}
 			else 
@@ -531,7 +551,14 @@
 			
 			// Get voted count
 			$voted_count = $this->board->model->getVotedCount($this->post_data->srl);
-			$voted_count = $voted_count['voted'] + 1;
+			if (isset($voted_count['voted']))
+			{
+				$voted_count = $voted_count['voted'] + 1;
+			}
+			else
+			{
+				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+			}
 			
 			// Update voted count
 			if ($this->board->model->UpdateVotedCount($voted_count, $this->post_data->srl)) 
@@ -570,130 +597,92 @@
 				$this->page_navigation = $this->board->model->getPageArray($this->page_count,  $this->page);
 				
 				$oTagDocument = $this->board->model->getDocumentlistTagRelated($this->post_data->module_id, $this->post_data->pos, $this->list_count, $this->post_data->tag);
-				
-				if ($type=='html') 
+			
+				$json = array();
+				if ($this->post_data->target=='Related') 
 				{
-					echo '<div class="rel_title">연관글('.$this->board_count.')';
-					echo '</div>';
+					$json['navigator'] = array();
+					$json['item_count'] = $this->board_count;
+					$json['prev_navi'] = array(
+						'item_pos' => request::encodeBinaryNumberic($this->post_data->pos - 5),
+						'item_tag' => $this->post_data->tag,
+						'item_module_id' => $this->post_data->module_id,
+						'item_srl' => $this->post_data->srl,
+						'item_text' => '◀'
+					);
 					
-					foreach ($oTagDocument as $key=>$tdoc) 
+					$json['next_navi'] = array(
+						'item_pos' => request::encodeBinaryNumberic($this->post_data->pos + 5),
+						'item_tag' => $this->post_data->tag,
+						'item_module_id' => $this->post_data->module_id,
+						'item_srl' => $this->post_data->srl,
+						'item_text' => '▶'
+					);
+					
+					foreach ($this->page_navigation as $key=>$value_lst) 
 					{
-						$append_type = $post_arr['srl']==$tdoc['srl'] ? 'style="color:#306ABB;font-weight:bold;border:1px solid #CBDAEE;border-radius:3px;padding: 4px;background-color: #E5ECF5;"':'';
-						echo '<li class="related_doc"><a class="view_bd" '.$append_type.' href="'.str::getUrl(__MODULEID,$this->post_data->module_id,'srl',$tdoc['srl'],__ACTION,'view').'">'.$tdoc['title'].'</a>';
-						echo '<div class="fr wrapper">';
-						
+						array_push($json['navigator'], array(
+							'page' =>  request::encodeBinaryNumberic(($value_lst-1)*5),
+							'cur_page' =>  $value_lst,
+							'page_count' =>  $this->page,
+							'item_tag' => $this->post_data->tag,
+							'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),
+							'item_module_id' => $this->post_data->module_id,
+							'item_srl' => $this->post_data->srl
+						));
+					}
+				}
+				
+				$json['tag_list'] = array();
+				
+				foreach ($oTagDocument as $key=>$tdoc) 
+				{
+					if ($this->post_data->target=='Related') 
+					{
 						$this_file = $this->getFileList($tdoc['srl']);
 						foreach ($this_file as $key=>$flst) 
 						{
-						   // if (preg_match('/\.(mp3|wav)(?:[\?\#].*)?$/i', $flst['files'], $matches))
-							if (maya::execute('@\||/@!mp3||wav!', $flst['files'],'boolean'))
+							if (maya::execute('@\||/@!mp3||wav!', $flst['files'],'boolean')) 
 							{
-								echo '<a href="/attach/file/'.$tdoc['srl'].'/'.$flst['files'].'" class="sm2_button" ></a><div class="tooltip">재생</div>';
+								$file_link = sprintf("%s%s%d/%s", __SUB, __FILE__ATTACH, $tdoc['srl'], $flst['files']);
 								break;
 							}
 						}
-						echo '</div>';
-						echo '</li>';
-					}
-					$prefix = "\",\"";
-					$buffer[] = '<div class="related_nav">';
-					$buffer[] = "<a onclick=\"proc.lst_related(\"".($this->post_data->pos-5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id.$prefix.$this->post_data->srl."\")>◀</a>";
-					foreach ($this->page_navigation as $key=>$value_lst) 
-					{
-						$cur_attr_related = $this->page_count == $value_lst ? 'style="color:red"':'';
-						$buffer[] = '<a onclick="proc.lst_related('."'".(($value_lst-1)*5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id."','".$this->post_data->srl."'".')" '.$cur_attr_related.'>'.$value_lst.'</a> <span class="bar">|</span> ';
 					}
 					
-					$buffer[] =  '<a onclick="proc.lst_related('."'".($this->post_data->pos+5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id."','".$this->post_data->srl."'".')">▶</a>';
-					$buffer[] =  '</div>';
-					echo join('', $buffer);
-				} else {
-					$json = array();
 					if ($this->post_data->target=='Related') 
 					{
-						$json['navigator'] = array();
-						$json['item_count'] = $this->board_count;
-						$json['prev_navi'] = array(
-							'item_pos' => request::encodeBinaryNumberic($this->post_data->pos - 5),
+						array_push($json['tag_list'], array(
+							'item_srl' =>  $tdoc['srl'],
+							'item_link' => str::getUrl(__MODULEID, $this->post_data->module_id, 'srl', $tdoc['srl'], __ACTION, 'view'),
+							'file_link' => $file_link,
+							'title' => $tdoc['title'],
 							'item_tag' => $this->post_data->tag,
+							'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),
 							'item_module_id' => $this->post_data->module_id,
-							'item_srl' => $this->post_data->srl,
-							'item_text' => '◀'
-						);
-						
-						$json['next_navi'] = array(
-							'item_pos' => request::encodeBinaryNumberic($this->post_data->pos + 5),
+							'current_srl' => $this->post_data->srl
+						));
+					} else {
+						array_push($json['tag_list'], array(
+							'item_srl' =>  $tdoc['srl'],
+							'item_link' => str::getUrl(__MODULEID,$this->post_data->module_id, 'srl', $tdoc['srl'], __ACTION, 'view'),
+							'title' => $tdoc['title'],
 							'item_tag' => $this->post_data->tag,
-							'item_module_id' => $this->post_data->module_id,
-							'item_srl' => $this->post_data->srl,
-							'item_text' => '▶'
-						);
-						
-						foreach ($this->page_navigation as $key=>$value_lst) 
-						{
-							array_push($json['navigator'], array(
-								'page' =>  request::encodeBinaryNumberic(($value_lst-1)*5),
-								'cur_page' =>  $value_lst,
-								'page_count' =>  $this->page,
-								'item_tag' => $this->post_data->tag,
-								'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),
-								'item_module_id' => $this->post_data->module_id,
-								'item_srl' => $this->post_data->srl
-							));
-						}
+							'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),
+							'item_module_id' => $this->post_data->module_id
+						));
 					}
 					
-					$json['tag_list'] = array();
-					
-					foreach ($oTagDocument as $key=>$tdoc) 
-					{
-						if ($this->post_data->target=='Related') 
-						{
-							$this_file = $this->getFileList($tdoc['srl']);
-							foreach ($this_file as $key=>$flst) 
-							{
-								if (maya::execute('@\||/@!mp3||wav!', $flst['files'],'boolean')) 
-								{
-									$file_link = sprintf("%s%s%d/%s", __SUB, __FILE__ATTACH, $tdoc['srl'], $flst['files']);
-									break;
-								}
-							}
-						}
-						
-						if ($this->post_data->target=='Related') 
-						{
-							array_push($json['tag_list'], array(
-								'item_srl' =>  $tdoc['srl'],
-								'item_link' => str::getUrl(__MODULEID, $this->post_data->module_id, 'srl', $tdoc['srl'], __ACTION, 'view'),
-								'file_link' => $file_link,
-								'title' => $tdoc['title'],
-								'item_tag' => $this->post_data->tag,
-								'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),
-								'item_module_id' => $this->post_data->module_id,
-								'current_srl' => $this->post_data->srl
-							));
-						} else {
-							array_push($json['tag_list'], array(
-								'item_srl' =>  $tdoc['srl'],
-								'item_link' => str::getUrl(__MODULEID,$this->post_data->module_id, 'srl', $tdoc['srl'], __ACTION, 'view'),
-								'title' => $tdoc['title'],
-								'item_tag' => $this->post_data->tag,
-								'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),
-								'item_module_id' => $this->post_data->module_id
-							));
-						}
-						
-					}
-					
-					echo json_encode($json);
 				}
+				
+				echo json_encode($json);
 			}
 		}
 		
 		function procRandomDocument() 
 		{
 			$lastId = $this->board->model->getBoardSequence('index');
-			$srl = mt_rand(1,$lastId);
+			$srl = mt_rand(1, $lastId);
 			
 			$files = $this->getFileList($srl);
 			foreach ($files as $key => $val) 
@@ -709,7 +698,7 @@
 		function procRandomMusic() 
 		{
 			$lastId = $this->board->model->getBoardSequence('index');
-			$srl = mt_rand(1,$lastId);
+			$srl = mt_rand(1, $lastId);
 			
 			$files = $this->getFileList($srl);
 			foreach ($files as $key => $val) 
@@ -768,20 +757,6 @@
 			{
 				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
 			}
-		}
-		
-		function clearCache()
-		{
-			if (isset($this->post_data->mid)) 
-			{
-				unset($GLOBALS['DOCUMENT_COUNT_ALL'][$this->post_data->mid]);
-				unset($GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->post_data->mid]);
-				unset($GLOBALS['DOCUMENT_COUNT_LIST'][$this->post_data->mid]);
-				unset($GLOBALS['DOCUMENT_COUNT_SORT'][$this->post_data->mid]);
-				unset($GLOBALS['DOCUMENT_COUNT_GENRE'][$this->post_data->mid]);
-			}
-			
-			unset($_SESSION['target_srl']);
 		}
 		
 		function procBoardSetup() 
@@ -845,8 +820,6 @@
 					$this->updateModuleTitle($module_setup, $this->board->module_post['browser_title']);
 				}
 			}
-			
-			$this->clearCache();
 			
 			// Redirect to setup page
 			$args = va::args();
