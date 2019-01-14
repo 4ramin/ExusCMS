@@ -48,6 +48,7 @@
 			if (isset($this->board->srl)) 
 			{
 				$this->board->document = $this->board->model->getDocumentItems($this->board->srl);
+				
 				// Document not found
 				if (!$this->board->document) 
 				{
@@ -213,7 +214,9 @@
 			
 			foreach ($subCategoryArr as $val) 
 			{
-				if (!is_array($val)) continue;
+				if (!is_array($val)) {
+					continue;
+				}
 				
 				array_push($retArr, 
 					array(
@@ -672,29 +675,6 @@
 			$this->board->module_id = $this->getParam(__MODULEID);
 			$this->board->keyword = $this->getParam('keyword');
 			$this->board->type = $this->getParam('type');
-			
-			/*while(true)
-			{
-			
-				
-				// Get Board Sequence
-				$lastId = $this->board->model->getBoardSequence($this->board->module_id);
-				
-				// Insert Document
-				$this->board->model->insertDocument
-				(
-					"test",
-					"test",
-					date("Ymdhis"),
-					"test",
-					$this->board->module_id,
-					1,
-					$lastId,
-					null,
-					null,
-					1
-				);
-			}*/
 			
 			//스킨 설정
 			$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));

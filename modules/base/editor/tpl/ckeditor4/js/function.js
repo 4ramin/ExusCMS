@@ -23,7 +23,7 @@ function setEditorConfig() {
 			{name:'others', groups: ['others']},
 			{name:'about', groups: ['about']}
 		];
-		config.removeButtons ='About,EasyImageUpload,EasyImage';
+		config.removeButtons ='About,EasyImageUpload';
 	};
 }
 

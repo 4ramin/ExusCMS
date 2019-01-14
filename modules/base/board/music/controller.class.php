@@ -457,11 +457,6 @@
 					}
 				}
 				
-				if (isset($_SESSION['target_srl']))
-				{
-					unset($_SESSION['target_srl']);
-				}
-				
 				$this->clearCache();
 				
 				// Redirect to document
@@ -612,16 +607,6 @@
 					$buffer[] =  '<a onclick="proc.lst_related('."'".($this->post_data->pos+5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id."','".$this->post_data->srl."'".')">▶</a>';
 					$buffer[] =  '</div>';
 					echo join('', $buffer);
-					
-					/*echo '<div class="related_nav">';
-					echo '<a onclick="proc.lst_related('."'".($this->post_data->pos-5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id.$prefix.$this->post_data->srl."'".')">◀</a>';
-					foreach ($this->page_navigation as $key=>$value_lst) 
-					{
-						$cur_attr_related = $this->page_count == $value_lst ? 'style="color:red"':'';
-						echo '<a onclick="proc.lst_related('."'".(($value_lst-1)*5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id."','".$this->post_data->srl."'".')" '.$cur_attr_related.'>'.$value_lst.'</a> <span class="bar">|</span> ';
-					}
-					echo '<a onclick="proc.lst_related('."'".($this->post_data->pos+5).$prefix.$this->post_data->tag.$prefix.$this->post_data->module_id."','".$this->post_data->srl."'".')">▶</a>';
-					echo '</div>';*/
 				} else {
 					$json = array();
 					if ($this->post_data->target=='Related') 
@@ -787,30 +772,16 @@
 		
 		function clearCache()
 		{
-			if (isset($GLOBALS['DOCUMENT_COUNT_ALL']))
+			if (isset($this->post_data->mid)) 
 			{
-				unset($GLOBALS['DOCUMENT_COUNT_ALL']);
+				unset($GLOBALS['DOCUMENT_COUNT_ALL'][$this->post_data->mid]);
+				unset($GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->post_data->mid]);
+				unset($GLOBALS['DOCUMENT_COUNT_LIST'][$this->post_data->mid]);
+				unset($GLOBALS['DOCUMENT_COUNT_SORT'][$this->post_data->mid]);
+				unset($GLOBALS['DOCUMENT_COUNT_GENRE'][$this->post_data->mid]);
 			}
 			
-			if (isset($GLOBALS['DOCUMENT_COUNT_KEYWORD']))
-			{
-				unset($GLOBALS['DOCUMENT_COUNT_KEYWORD']);
-			}
-			
-			if (isset($GLOBALS['DOCUMENT_COUNT_LIST']))
-			{
-				unset($GLOBALS['DOCUMENT_COUNT_LIST']);
-			}
-			
-			if (isset($GLOBALS['DOCUMENT_COUNT_SORT']))
-			{
-				unset($GLOBALS['DOCUMENT_COUNT_SORT']);
-			}
-			
-			if (isset($GLOBALS['DOCUMENT_COUNT_GENRE']))
-			{
-				unset($GLOBALS['DOCUMENT_COUNT_GENRE']);
-			}
+			unset($_SESSION['target_srl']);
 		}
 		
 		function procBoardSetup() 

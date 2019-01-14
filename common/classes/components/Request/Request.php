@@ -612,18 +612,30 @@
 		 * get referer
 		 */
 		public static function get_ref() {
-			return $_SERVER['HTTP_REFERER'];
+			if (isset($_SERVER['HTTP_REFERER'])) {
+				return $_SERVER['HTTP_REFERER'];
+			}
+			
+			return null;
 		}
 		
 		public static function get_lang() {
-			return $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+			if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+				return $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+			}
+			
+			return null;
 		}
 		
 		/**
 		 * get remote ip address
 		 */
 		public static function get_ip() {
-			return $_SERVER['REMOTE_ADDR'];
+			if (isset($_SERVER['REMOTE_ADDR'])) {
+				return $_SERVER['REMOTE_ADDR'];
+			}
+			
+			return null;
 		}
 		
 		function get_uri() {
