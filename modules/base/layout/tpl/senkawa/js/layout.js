@@ -1,5 +1,4 @@
 $.core.Evt.addListener(window, 'load', function () {
-	console.log('test');
 	$.core.Element.setMenuToggleClass('.dropdown', 'open');
 });
 
