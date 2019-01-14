@@ -1,6 +1,6 @@
 <?php
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addJS("/module/base/board/music/tpl/setup.js", 'body');
+	$this->base->addJS("/modules/base/board/music/tpl/setup.js", 'body');
 	$column = $this->base->get('column');
 	$column_index = $this->base->get('column_index');
 ?>

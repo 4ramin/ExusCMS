@@ -27,11 +27,27 @@
 				_dom.setAttribute("id", id);
 			}
 		},
+		getElementOffsetLeft: function (element) {
+			var element =  document.querySelector(element);
+			var bodyRect = document.body.getBoundingClientRect();
+			var elemRect = element.getBoundingClientRect();
+			var offset   = elemRect.left - bodyRect.left;
+			
+			return offset;
+		},
 		getElementOffsetTop: function (element) {
 			var element =  document.querySelector(element);
 			var bodyRect = document.body.getBoundingClientRect();
 			var elemRect = element.getBoundingClientRect();
 			var offset   = elemRect.top - bodyRect.top;
+			
+			return offset;
+		},
+		getElementOffsetBottom: function (element) {
+			var element =  document.querySelector(element);
+			var bodyRect = document.body.getBoundingClientRect();
+			var elemRect = element.getBoundingClientRect();
+			var offset   = elemRect.bottom - bodyRect.bottom;
 			
 			return offset;
 		},

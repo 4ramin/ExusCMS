@@ -54,13 +54,13 @@
 							'alt' => 'No Image'
 						]));?>
 				<?php else:?>
-					<?php echo html::element('img', ($document->isThumbnailExists()) ? '' : 'No Thumb',
+					<?php echo html::element('img', ($document->isThumbnailExists()) ? '' : '',
 						($document->isThumbnailExists() ? [
 							'class' => 'view_bd tmb',
 							'src' => $document->getThumbnail(),
 							'alt' => 'image'
 						]:[
-							'src' => './library/img/blank_thumbnail.jpg',
+							'src' => './common/img/blank_thumbnail.jpg',
 							'class' => 'view_bd tmb no_img',
 							'alt' => 'No Image'
 						])

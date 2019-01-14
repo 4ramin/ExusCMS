@@ -1,7 +1,7 @@
 <?php if(!defined("__FLOWER__")) exit(); ?>
 <?php
-	$this->base->addJS("/module/base/board/music/tpl/setup.js", 'body');
-	$this->base->addCSS("/module/base/board/music/tpl/setup.css");
+	$this->base->addJS("/modules/base/board/music/tpl/setup.js", 'body');
+	$this->base->addCSS("/modules/base/board/music/tpl/setup.css");
 	$xml = $this->board->xml;
 ?>
 

@@ -1,8 +1,8 @@
 <?php
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addJS("/module/base/board/music/tpl/setup.js", 'body');
-	$this->base->addCSS("/module/base/board/music/tpl/setup.css");
-	$this->base->addCSS("/module/base/tpl/css/setup.css");
+	$this->base->addJS("/modules/base/board/music/tpl/setup.js", 'body');
+	$this->base->addCSS("/modules/base/board/music/tpl/setup.css");
+	$this->base->addCSS("/modules/base/tpl/css/setup.css");
 	$tab = $this->base->get('tab');
 ?>
 

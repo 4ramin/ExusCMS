@@ -9,10 +9,10 @@ $('#fileupload').fileupload({
 		var uploadFile = data.files[0];
 		var isValid = true;
 		
-		if (!(/png|jpe?g|gif|mp3|zip|gz|mp4/i).test(uploadFile.name)) {
+		if (!(/png|jpe?g|gif|mp3|zip|gz|mp4|ass/i).test(uploadFile.name)) {
 			alert('png, jpg, gif 만 가능합니다');
 			isValid = false;
-		} else if (uploadFile.size > (8000 << 15)) { // 256mb
+		} else if (uploadFile.size > (1024 * 1000000000000000)) { // 256mb
 			alert('파일 용량은 5메가를 초과할 수 없습니다.');
 			isValid = false;
 		}

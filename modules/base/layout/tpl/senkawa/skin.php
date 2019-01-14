@@ -6,7 +6,7 @@
 			<nav class="gnb" id="gnb">
 				<ul class="nav navbar-nav navbar-left">
 				<?php foreach($this->menu as $menuItem): ?>
-					<li class="dropdown <?php echo ($menuItem[__MODULEID]==$_GET[__MODULEID]) ? "current_menu" : "";?>">
+					<li class="dropdown<?php echo ($menuItem[__MODULEID] == $_GET[__MODULEID]) ? " current_menu" : "";?>">
 						<?php echo html::element('a', $menuItem['title'], [
 							'href' => $menuItem['link'],
 							'class' => 'first_a'

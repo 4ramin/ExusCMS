@@ -10,22 +10,90 @@
 				
 				if (eventWhich != 'left') return;
 				
+				/*****************
+				 * Get X Position*
+				 *****************/
+					 
+				// Get audio container height
+				var width = $('#video_container').height();
+				
+				// Get audio container top in window object
+				var offset = $.core.Element.getElementOffsetLeft('#video_container');
+				
+				// Set mouseX position in audio context
+				var mousePosition = (parseInt($('.lyrics_display > div:visible').first().css('left'))) - (-(offset - e.pageX));
+				A.config.dump.mousePositionY = mousePosition;
+				
+				/*****************
+				 * Get Y Position*
+				 *****************/
+					 
+				// Get audio container height
+				var height = $('#video_container').height();
+				
+				// Get audio container top in window object
+				var offset = $.core.Element.getElementOffsetTop('#video_container');
+				
+				// Get css bottom attibute in first lyrics element
+				var firstItemBottom = parseInt($('.lyrics_display > div:visible').first().css('bottom'));
+				
+				// Get css last attibute in first lyrics element
+				var lastItemBottom = parseInt($('.lyrics_display > div:visible').last().css('bottom'));
+				
+				// Get inner box size of lyrics container
+				var lyricsInnerBoxSize = firstItemBottom - lastItemBottom;
+				
+				// Set mouseY position in audio context
+				var mousePosition = (parseInt($('.lyrics_display > div:visible').first().css('bottom'))) - (height - (-(offset - e.pageY)));
+				A.config.dump.mousePositionX = mousePosition - lyricsInnerBoxSize;
+				
+				// set grabbing cursor
 				document.body.style.cursor = "grabbing";
+				
 				e.preventDefault();
 				
 				$(document).mousemove(function(e) {
-					var height = $('#video_container').height();
-					var offset = $.core.Element.getElementOffsetTop('#video_container');
-					var diffOffset = -((height - (-(offset - e.pageY))) - (A.config.settings.lyrics_top_position * 2) - 15);
 					
-					// Not arrow resize to less container size
+					/*****************
+					 * Get X Position*
+					 *****************/
+					 
+					// Get audio container width
+					var width = $('#video_container').width();
+					
+					// Get audio container left in window object
+					var offset = $.core.Element.getElementOffsetLeft('#video_container');
+					
+					var diffOffset = ((width - (-(offset - e.pageX))));
+					
+					var marginY = ((width >> 1) > diffOffset) ? (width >> 1) - diffOffset : -(diffOffset - (width >> 1));
+					
+					// Arrange primary lyrics X position
+					A.config.settings.lyrics_Xmargin = marginY;
+					
+					/*****************
+					 * Get Y Position*
+					 *****************/
+					 
+					// Get audio container height
+					var height = $('#video_container').height();
+					
+					// Get audio container top in window object
+					var offset = $.core.Element.getElementOffsetTop('#video_container');
+					
+					// Get pageY position of audio container
+					var diffOffset = -((height - (-(offset - e.pageY))) - (A.config.settings.lyrics_top_position * 2) - 19);
+					
+					// Not allow  resize to less than container size
 					if (-(diffOffset - 100) > height) return;
 					
-					// Not arrow resize to less bottom
+					// Not allow  resize to less than container bottom
 					if (diffOffset > 50) return;
 					
+					// Arrange primary lyrics Y position
 					A.config.settings.lyrics_margin = diffOffset;
-					$.core.Lyrics.arrangeLyrics();
+					
+					$.core.Lyrics.arrangeLyrics('user');
 				});
 				
 				$(document).mouseup(function(e) {
@@ -36,7 +104,7 @@
 		},
 		setResizable: function () {
 			$.core.Evt.setResizeHorizontalEvent(70, '.lyrics_display_expand', '#resizable');
-			$.core.Evt.setLyricsMoveEvent();
+			$.core.Lyrics.setLyricsMoveEvent();
 		},
 		isValidLyricsData: function (lyrics) {
 			if (lyrics == null) return;
@@ -92,18 +160,23 @@
 			}
 		},
 		setEventListener: function () {
-			// Event when click the expended lyrics container
+			// Start event when click the extended lyrics container
 			$('.lyrics_display_expand').click(function(e) {
+				
 				// Hide primary lyrics
 				$(".lyrics_display > div").css("display", "none");
+				
 				// If Item node is div
 				if ($(e.target).is('div')) {
 					// Remove focus lyrics in extended lyrics container
 					$.core.Lyrics.removeFocusReadedLyrics();
+					
 					// Get a timestamp
 					var timestamp = $(e.target).attr(A.config.settings.timestamp);
+					
 					// Audio Seek to timestamp
 					A.config.dump.audioElement.currentTime = timestamp;
+					
 					// Add Focus Class to Clicked Item
 					$('.lyrics_display_expand [' + A.config.settings.timestamp + '="' + timestamp + '"]').addClass('focus_lyrics');
 					A.config.dump.lyrics_temp_time = timestamp;
@@ -120,36 +193,49 @@
 				A.config.dump.bool_change = true, A.Display.dispLyrics()
 			});
 		},
-		arrangeLyrics: function () {
+		arrangeLyrics: function (type) {
 			var $i = 0;
+			var $z = 0;
+			var isFirst = true;
 	
 			// Arrange lyrics css position
 			$(".lyrics_display > div").each(function(i, item) {
-				if ($(item).css('display')=='block') {
-					$i = $i + $(item).height() - A.config.settings.lyrics_margin + A.config.settings.lyrics_top_position;
+				if ($(item).css('display') == 'block') {
+					if (isFirst) {
+						$i = (($i + ($(item).height() + (A.config.settings.lyrics_top_position)) - A.config.settings.lyrics_margin) + A.config.dump.mousePositionX);
+						isFirst = false;
+					} else {
+						$i = $i + $(item).height() + 30;
+					}
+					
+					var width = ($('#video_container').width() >> 1) + A.config.settings.lyrics_Xmargin + A.config.dump.mousePositionY;
+					
+					// Arrange lyrics left
+					if (type == 'user') {
+						$(item).css('left', width);
+					} else {
+						$(item).animate({left: width}, 10, "easeOutBounce");
+					}
 				}
 			});
 			
 			$(".lyrics_display > div").each(function(i, item) {
-				if ($(item).css('display')=='block') {
-					$(item).css('bottom', $i);
-					$i = $i - $(item).height() + ((A.config.settings.lyrics_margin * 2) + A.config.settings.lyrics_top_position);
+				if ($(item).css('display') == 'block') {
+					
+					// Arrange lyrics bottom
+					if (type == 'user') {
+						$(item).css('bottom', $i);
+					} else {
+						$(item).animate({bottom: $i}, 100, "easeOutBounce");
+					}
+					
+					$i = $i - ($(item).height() + 30);
 				}
 			});
 		}
 	};
 	
 	A.Eqaulizer = core.Lyrics.Equalizer = {
-		setPanner: function () {
-			var oscillator = $.core.Audio.createOscillator(A.config.components.context);
-			var panner = $.core.Audio.createStereoPanner(A.config.components.context);
-			A.config.components.pannode = panner;
-			//oscillator.type = 'square';
-			//oscillator.frequency.value = frequency;
-			oscillator.connect(panner);
-			panner.connect(A.config.components.context.destination);
-			oscillator.start();
-		},
 		setPanValue: function (location) {
 			switch(location) {
 				case "left":
@@ -166,13 +252,13 @@
 		setEqualizerAttribute: function (range, type, value) {
 			switch (type) {
 				case "gain":
-					A.config.vr_eq.section[range]['gain'].gain = value;
+					A.config.vr_eq.section[range]['gain'].gain.value = value;
 					break;
 				case "detune":
-					A.config.vr_eq.section[range]['band'].detune = value;
+					A.config.vr_eq.section[range]['band'].detune.value = value;
 					break;
 				case "frequency":
-					A.config.vr_eq.section[range]['band'].frequency = value;
+					A.config.vr_eq.section[range]['band'].frequency.value = value;
 					break;
 			}
 		},
@@ -238,11 +324,11 @@
 					}
 				}
 				
-				context.shadowBlur = 20;
-				context.shadowColor = "black";
+				//context.shadowBlur = 20;
+				//context.shadowColor = "black";
 				context.globalAlpha = 0.9;
-				context.fillStyle = '#16247f';
-				context.fillRect(i, (1 + min) * amp, 1, Math.max(1, (max - min) * amp));
+				context.fillStyle = '#ffffff';
+				context.fillRect(i * 2, (1 + min) * amp, 1, Math.max(1, (max - min) * amp));
 			}
 		},
 		getAudioBuffer: function () {
@@ -255,7 +341,7 @@
 				audioContext.decodeAudioData(audioRequest.response, 
 					function(buffer) {
 						var canvas = document.getElementById("waveform");
-						$.core.Lyrics.Equalizer.drawBuffer( canvas.width, canvas.height, canvas.getContext('2d'), buffer ); 
+						$.core.Lyrics.Equalizer.drawBuffer(canvas.width, canvas.height, canvas.getContext('2d'), buffer); 
 					}
 				);
 			}
@@ -303,19 +389,19 @@
 				var low_gain = $.core.Storage.getItem('low_gain');
 				if (low_gain) {
 					this.setEqualizerAttribute('low', 'gain', low_gain);
-					$('.eq_p1').val(low_gain*100);
+					$('.eq_p1').val(low_gain * 100);
 				}
 				
 				var mid_gain = $.core.Storage.getItem('mid_gain');
 				if (low_gain) {
 					this.setEqualizerAttribute('mid', 'gain', mid_gain);
-					$('.eq_p2').val(mid_gain*100);
+					$('.eq_p2').val(mid_gain * 100);
 				}
 				
 				var high_gain = $.core.Storage.getItem('high_gain');
 				if (low_gain) {
 					this.setEqualizerAttribute('high', 'gain', high_gain);
-					$('.eq_p3').val(high_gain*100);
+					$('.eq_p3').val(high_gain * 100);
 				}
 			}
 		},
@@ -334,12 +420,12 @@
 					A.config.components.audionode.connect(analyser);
 					analyser.connect(A.config.components.context.destination);
 					
-					this.analyseEqualizer(analyser);
+					//this.analyseEqualizer(analyser);
 					
-					this.getAudioBuffer();
-					this.setPanner();
+					//this.getAudioBuffer();
 					this.applyFilter("high", A.config.effect.processor, "lowshelf", 360, -40.0, -1.0);
 					this.applyFilter("low", A.config.effect.processor, "highshelf", 3600, -40.0, -1.0);
+					
 					A.config.vr_eq.section['mid'] = {};
 					A.config.band.mid = A.config.components.context.createGain();
 					A.config.gain.mid = this.gain(A.config.band.mid);
@@ -363,7 +449,6 @@
 			A.config.vr_eq.section[_name]['invert'].connect(A.config.components.context.createGain());
 			A.config.vr_eq.section[_name]['gain'].connect(processor);
 		},
-		//lowshelf, highshelf
 		createFilter: function (type, freq, gain) {
 			A.config.vr_eq.temp = $.core.Audio.setBiquadFilter(A.config.components.context, type, freq, gain);
 			return A.config.vr_eq.temp;
@@ -380,14 +465,14 @@
 	};
 	
 	A.Seek = {
-		// Find second attribute in lyrics by close
+		// Find adjacent seconds attribute in lyrics
 		_s: function (e) {
 			var t = null;
 			return $.each(A.config.dump.unique_s, function () {
 				(null === t || Math.abs(this - e) < Math.abs(t - e)) && (t = this)
 			}), t.valueOf();
 		},
-		// Find milliseconds attribute in lyrics by close
+		// Find adjacent milliseconds attribute in lyrics
 		_ms: function (ms, timestamp) {
 			var s = null;
 			return $.each($.map($(".lyrics_display > div[" + timestamp + '="' + A.config.dump._near + '"]'), function (ms) {
@@ -416,6 +501,7 @@
 				A.config.dump.processlyrics = $("." + A.config.settings.lyrics_box + " [" + A.config.settings.timestamp + '="' + time + '"]');
 				
 			A.config.dump.processlyrics.css("display", "block");
+			
 			var elements_lyrics_box = $('.lyrics_display_expand [' + A.config.settings.timestamp + '="' + A.config.dump._near +'"][ms="' + A.config.dump._near_ms + '"]');
 			elements_lyrics_box.addClass('focus_lyrics');
 			if (elements_lyrics_box.length > 0) {
@@ -489,6 +575,7 @@
 			if ($(".lyrics_display [" + A.config.settings.timestamp + '="' + parseInt(A.config.playmeta.time) + '"]').length > 0 || A.config.dump.bool_change === true) {
 				// Set Lyrics
 				this.setLyrics(A.config.playmeta.time);
+				
 				// Arrange lyrics css position
 				$.core.Lyrics.arrangeLyrics();
 			}
@@ -505,7 +592,9 @@
 		_b_lyric: false,
 		audioElement: null,
 		_near: null,
-		_near_ms: null
+		_near_ms: null,
+		mousePositionX: null,
+		mousePositionY: null
 	},
 	A.config.settings = {
 		lyrics_box: 'lyrics_display',
@@ -513,7 +602,8 @@
 		get_ms: true,
 		delay: 0,
 		lyrics_margin : -20,
-		lyrics_top_position : 20
+		lyrics_Xmargin : -20,
+		lyrics_top_position : 20 /* Don't fix */
 	},
 	A.config.playmeta = {
 		time: null,

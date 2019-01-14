@@ -10,6 +10,8 @@
 		window.isEQOpen = false,
 		window.isExtendLyrics = false,
 		window.isLyricsShow = false,
+		window.isMouseMoved = false,
+		window.mouseCapture,
 		
 		window.videocontainer = document.getElementById("video_container"),
 		window.lyrics = document.getElementById("lyrics"),
@@ -61,7 +63,7 @@
 			
 			window.fullScreenToggleButton.addEventListener("click", function(){
 				isVideoFullScreen ? that.fullScreenOff() : that.fullScreenOn();
-				setTimeout(function(){ rearrangeLyricsPosition();}, 500);
+				setTimeout(function(){ $.core.Lyrics.arrangeLyrics();}, 500);
 			}, true);
 			
 			this.videoScrubbing();
@@ -69,72 +71,83 @@
 		initializeControls : function() {
 			videoPlayer.showHideControls();
 		},
+		hideControls: function () {
+			window.videoControls.style.opacity = 0;
+			window.canvas.style.opacity = 0;
+			window.title.style.opacity = 0;
+			window.audioicon.style.opacity = 0;
+			window.waveform.style.opacity = 0;
+		},
+		showControls: function () {
+			window.videoControls.style.opacity = 1;
+			window.canvas.style.opacity = 1;
+			window.title.style.opacity = 1;
+			window.audioicon.style.opacity = 1;
+			window.waveform.style.opacity = 1;
+			window.isMouseMoved = false;
+			videoPlayer.autoHideControls();
+		},
+		autoHideControls: function () {
+			mouseCapture = function() {
+				window.isMouseMoved = true;
+			};
+			
+			var x = window;
+			if (x.addEventListener) {
+				x.addEventListener("mousemove", mouseCapture);
+			} else if (x.attachEvent) {
+				x.attachEvent("onmousemove", mouseCapture);
+			}
+			
+			setTimeout(function() {
+				if (window.isMouseMoved == false) {
+					videoPlayer.hideControls();
+				}
+				
+				if (x.removeEventListener) {
+				  x.removeEventListener("mousemove", mouseCapture);
+				} else if (x.detachEvent) {
+				  x.detachEvent("onmousemove", mouseCapture);
+				}
+				
+				window.isMouseMoved = false;
+			}, 3000);
+		},
 		showHideControls : function() {
 			window.audioicon.addEventListener('mouseover', function() {
-				window.videoControls.style.opacity = 1;
-				window.canvas.style.opacity = 1;
-				window.title.style.opacity = 1;
-				window.audioicon.style.opacity = 1;
-				window.waveform.style.opacity = 1;
+				videoPlayer.showControls();
 			}, false);
 			
 			window.audioicon.addEventListener('mouseout', function() {
-				window.videoControls.style.opacity = 0;
-				window.canvas.style.opacity = 0;
-				window.title.style.opacity = 0;
-				window.audioicon.style.opacity = 0;
-				window.waveform.style.opacity = 0;
+				videoPlayer.hideControls();
 			}, false);
 			
 			window.canvas.addEventListener('mouseover', function() {
-				window.videoControls.style.opacity = 1;
-				window.canvas.style.opacity = 1;
-				window.title.style.opacity = 1;
-				window.audioicon.style.opacity = 1;
-				window.waveform.style.opacity = 1;
+				videoPlayer.showControls();
 			}, false);
 			
 			window.canvas.addEventListener('mouseout', function() {
-				window.videoControls.style.opacity = 0;
-				window.canvas.style.opacity = 0;
-				window.title.style.opacity = 0;
-				window.audioicon.style.opacity = 0;
-				window.waveform.style.opacity = 0;
+				videoPlayer.hideControls();
 			}, false);
 			
 			window.video.addEventListener('mouseover', function() {
-				window.videoControls.style.opacity = 1;
-				window.canvas.style.opacity = 1;
-				window.title.style.opacity = 1;
-				window.audioicon.style.opacity = 1;
-				window.waveform.style.opacity = 1;
+				videoPlayer.showControls();
 			}, false);
 			
 			window.video.addEventListener('mouseout', function(e) {
-				window.videoControls.style.opacity = 0;
-				window.canvas.style.opacity = 0;
-				window.title.style.opacity = 0;
-				window.audioicon.style.opacity = 0;
-				window.waveform.style.opacity = 0;
+				videoPlayer.hideControls();
 			}, false);
 			
 			window.videoControls.addEventListener('mouseover', function() {
-				window.videoControls.style.opacity = 1;
-				window.canvas.style.opacity = 1;
-				window.title.style.opacity = 1;
-				window.audioicon.style.opacity = 1;
-				window.waveform.style.opacity = 1;
+				videoPlayer.showControls();
 			}, false);
 			
 			window.videoControls.addEventListener('mouseout', function() {
-				window.videoControls.style.opacity = 0;
-				window.canvas.style.opacity = 0;
-				window.title.style.opacity = 0;
-				window.audioicon.style.opacity = 0;
-				window.waveform.style.opacity = 0;
+				videoPlayer.hideControls();
 			}, false);
 		},
 		fullScreenOn : function() {
+			$.core.Screen.requestFullScreen($('.lyrics_display'));
 			isVideoFullScreen = true;
 			$('.lyrics_display').addClass('lyrics_focus');
 			window.video.style.cssText = 'object-fit: contain;z-index:-1;max-height: 100%;image-rendering: -webkit-optimize-contrast;position: fixed; width:' + window.innerWidth + 'px; height: ' + window.innerHeight + 'px;';
@@ -143,6 +156,9 @@
 			window.videoControls.className = 'fs-control';
 			window.fullScreenToggleButton.className = "fs-active control";
 			document.addEventListener('keydown', this.checkKeyCode, false);
+			
+			console.log('test');
+			
 		},
 		fullScreenOff : function() {
 			$('.lyrics_display').removeClass('lyrics_focus');
@@ -217,8 +233,8 @@
 			return minutes + ":" + seconds;
 		},
 		playPause: function() {
-			if ( window.video.paused || window.video.ended ) {				
-				if ( window.video.ended ) { 
+			if (window.video.paused || window.video.ended) {				
+				if (window.video.ended) { 
 					window.video.currentTime = 0; 
 				}
 				
@@ -244,7 +260,7 @@
 
 			var start = r.start(0);
 			var end = r.end(0);
-			window.loadedBar.style.width = (end/total)*100 + "%";
+			window.loadedBar.style.width = (end / total) * 100 + "%";
 		},
 		stopTrackingPlayProgress : function(){
 			clearTimeout(window.progressInterval);
@@ -255,7 +271,7 @@
 				videoPlayer.playPause();
 			
 				document.onmousemove = function(e) {
-					videoPlayer.setPlayProgress( e.pageX );
+					videoPlayer.setPlayProgress(e.pageX);
 				}
 				
 				window.progressHolder.onmouseup = function(e) {
@@ -263,23 +279,26 @@
 					document.onmousemove = null;
 										
 					window.video.play();
-					videoPlayer.setPlayProgress( e.pageX );
+					videoPlayer.setPlayProgress(e.pageX);
 					videoPlayer.trackPlayProgress();
 				}
 			}, true);
-		},setPlayProgress : function( clickX ) {
+		},
+		setPlayProgress : function( clickX ) {
 			var newPercent = Math.max(0, Math.min(1, (clickX - this.findPosX(window.progressHolder)) / window.progressHolder.offsetWidth) );
 			window.video.currentTime = newPercent * window.video.duration;
 			window.progressBar.style.width = newPercent * (window.progressHolder.offsetWidth)  + "px";
-		},findPosX : function(progressHolder) {
+		},
+		findPosX : function(progressHolder) {
 			var curleft = progressHolder.offsetLeft;
-			while(progressHolder = progressHolder.offsetParent ) {
+			while(progressHolder = progressHolder.offsetParent) {
 				curleft += progressHolder.offsetLeft;
 			}
 			return curleft;
-		},checkKeyCode : function(e) {
+		},
+		checkKeyCode : function(e) {
 			e = e || window.event;
-			if ( (e.keyCode || e.which) === 27 ) videoPlayer.fullScreenOff();
+			if ((e.keyCode || e.which) === 27) videoPlayer.fullScreenOff();
 		}
 	};
 	

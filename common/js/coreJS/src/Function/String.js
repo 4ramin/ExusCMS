@@ -4,6 +4,22 @@
 (function ($, core) {
 
 	var A = core.Str = {
+		a2hex: function (str) {
+			var arr = [];
+			for (var i = 0, l = str.length; i < l; i ++) {
+				var hex = Number(str.charCodeAt(i)).toString(16);
+				arr.push(hex);
+			}
+			return arr.join('');
+		},
+		hex2a: function (hexx) {
+			var hex = hexx.toString();
+			var str = '';
+			for (var i = 0; i < hex.length; i += 2) {
+				str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+			}
+			return str;
+		},
 		toArr: function (str) {
 			var strlength = str.length;
 			var arr = new Uint8Array(strlength);

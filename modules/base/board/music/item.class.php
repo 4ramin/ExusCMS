@@ -489,7 +489,7 @@
 			{
 				foreach ($type as $extraImage) 
 				{
-					$buff[] = sprintf('<img src="%s%s.gif" style="margin-right:2px;" />', 'module/base/board/music/img/', $extraImage);
+					$buff[] = sprintf('<img src="%s%s.gif" style="margin-right:2px;" />', 'modules/base/board/music/img/', $extraImage);
 				}
 			}
 			

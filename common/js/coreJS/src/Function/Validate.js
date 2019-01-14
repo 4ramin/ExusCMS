@@ -132,7 +132,7 @@
 			return typeof value === 'boolean';
 		},
 		isArray: function (value) {
-			return typeof value === 'array' && value.constructor === Array && toString.call(value) === '[object Array]';;
+			return typeof value === 'array' && value.constructor === Array && toString.call(value) === '[object Array]';
 		},
 		isNull: function (value) {
 			return typeof value === 'null' || value == undefined || value == null || value == 'null' || value.toString().replace(/ /g,"") == "";
@@ -143,17 +143,29 @@
 		isRegex: function (value) {
 			return typeof value === 'regexp' && toString.call(value) === '[object RegExp]';
 		},
-		isStr: function (value) {
-			return typeof value === 'string' && String(value) === value;
+		isStr: function (value, mode) {
+			if (mode == 'object') {
+				return this.isStr(value) || "[object String]" === Object.prototype.toString.call(value);
+			} else {
+				return typeof value === 'string' && String(value) === value;
+			}
 		},
 		isFunc: function (value) {
 			return typeof value === 'function' && {}.toString.call(value) === '[object Function]';
 		},
-		isObject: function (value) {
-			return typeof value === 'object';
+		isObject: function (value, mode) {
+			if (mode == 'object') {
+				return this.isObject(value) && "[object Object]" === Object.prototype.toString.call(value);
+			} else {
+				return typeof value === 'object';
+			}
 		},
-		isNum: function (value) {
-			return typeof value === 'number' && isFinite(value);
+		isNum: function (value, mode) {
+			if (mode == 'object') {
+				return this.isNum(value) || "[object Number]" === Object.prototype.toString.call(value);
+			} else {
+				return typeof value === 'number' && isFinite(value);
+			}
 		},
 		isTime: function (str) {
 			if (str == null || str == "") {

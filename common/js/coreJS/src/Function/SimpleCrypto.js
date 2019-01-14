@@ -7,6 +7,36 @@
 		baseConvert: function (number, frombase, tobase) {
 			return parseInt(number + '', frombase | 0).toString(tobase | 0);
 		},
+		getSecureLink: function (text, milliseconds) {
+			var timestamp = this.getTimeStamp(milliseconds);
+			var md5String = md5(text);
+			var md5ByteArray = $.core.Str.hex2a(md5String);
+			var base64String = btoa(md5ByteArray);
+			
+			return "?s=" + base64String + "&t=" + timestamp;
+		},
+		AESCBCDecrypt: function (iv, key, plainText) {
+			var plaintextArray = CryptoJS.AES.decrypt(
+				{ciphertext: CryptoJS.enc.Base64.parse(plainText)}, 
+				CryptoJS.enc.Hex.parse(key),
+				{iv: CryptoJS.enc.Hex.parse(iv)}
+			);
+			
+			return plaintextArray;
+		},
+		AESDecrypt: function (key, plainText) {
+			plainText = plainText.replace(/\r?\n/g, "");
+			var decrypt = CryptoJS.AES.decrypt(plainText, key).toString(CryptoJS.enc.Utf8);
+			
+			return decrypt;
+		},
+		getTimeStamp: function (milliseconds) {
+			var date = $.core.Time.getTime() + milliseconds;
+			date = $.core.Time.getDateObject(time * 1000);
+			var timestamp = parseInt($.core.Time.setMinutes(date, 0, 0, 0));
+			
+			return parseInt((timestamp / 1000) / 1000);
+		},
 		numToHex: function (i) {
 			 //integer => -2147483648 / 2147483647
 			if (2147483648 > i) {

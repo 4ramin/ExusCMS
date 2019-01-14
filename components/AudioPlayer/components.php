@@ -41,7 +41,7 @@ class AudioPlayer
 		
 		if(!isset($image_url))
 		{
-			$image_url = 'library/img/ext/audio.png';
+			$image_url = 'common/img/ext/audio.png';
 		}
 		
 		$this->base->addJS("/components/Audioplayer/tpl/js/exusplayer.js","body");

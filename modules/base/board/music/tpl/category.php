@@ -1,10 +1,10 @@
 <?php
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addJS("/module/base/board/music/tpl/function.js", 'body');
-	$this->base->addJS("/module/base/board/music/tpl/event.js", 'body');
-	$this->base->addJS("/library/js/jstree.js", 'head');
-	$this->base->addCSS("/library/css/jquery.simple.tree.css");
-	$this->base->addCSS("/library/js/themes/default/style.css");
+	$this->base->addJS("/modules/base/board/music/tpl/function.js", 'body');
+	$this->base->addJS("/modules/base/board/music/tpl/event.js", 'body');
+	$this->base->addJS("/common/js/jstree.js", 'head');
+	$this->base->addCSS("/common/css/jquery.simple.tree.css");
+	$this->base->addCSS("/common/js/themes/default/style.css");
 	
 	$tab = $this->base->get('tab');
 ?>

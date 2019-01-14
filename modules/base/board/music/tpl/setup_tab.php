@@ -1,7 +1,7 @@
 <?php
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addCSS("/module/base/board/music/tpl/setup.css");
-	$this->base->addCSS("/module/base/tpl/css/setup.css");
+	$this->base->addCSS("/modules/base/board/music/tpl/setup.css");
+	$this->base->addCSS("/modules/base/tpl/css/setup.css");
 ?>
 <div id="tabHolder">
 	<ul class="setup_tabs">

@@ -166,7 +166,7 @@ a[href^="javascript:"]:after, a[href^="#"]:after {
     clear: both;
 }
 .content_pad, .gnb_area, .logo_box, .menu_cont, .foofer_cont ,.footer-content {
-    width: 1320px
+    width: 1570px;/*1320px*/
 }
 .ellipsis {
     overflow: hidden;
