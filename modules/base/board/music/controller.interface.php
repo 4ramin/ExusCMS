@@ -9,17 +9,17 @@
 		public function procBoardCategoryFolderOut();
 		public function procBoardCategoryMove();
 		public function getAudiolyrics();
-		public function pushPlaylist();
+		public function procAddPlaylist();
 		public function insertDocument();
 		public function procBoardBlame();
 		public function procBoardStar();
 		public function procBoardVote();
-		public function dispBoardRelatedList();
 		public function procRandomDocument();
 		public function procRandomMusic();
 		public function procBoardUpdateSinger();
 		public function procBoardUpdateGenre();
 		public function procBoardSetup();
+		public function procBoardRelatedList();
 		
 	}
 

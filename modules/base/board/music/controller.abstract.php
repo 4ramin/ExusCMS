@@ -11,7 +11,7 @@
 		
 		abstract function getAudiolyrics();
 		
-		abstract function pushPlaylist();
+		abstract function procAddPlaylist();
 		
 		abstract function insertDocument();
 		

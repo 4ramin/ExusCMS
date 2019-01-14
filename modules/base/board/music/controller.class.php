@@ -15,6 +15,7 @@
 			$this->board = new stdClass;
 			$this->board->module = $args->module;
 			$this->board->model = new Board_Model($this);
+			
 			return $this->board;
 		}
 
@@ -30,7 +31,7 @@
 			$parent_srl = $this->base->post_params('parent_srl');
 			
 			// Update parent_srl of category to root_srl
-			//$this->board->model->updateCategoryParentSrl($category_srl, $parent_srl);
+			$this->board->model->updateCategoryParentSrl($category_srl, $parent_srl);
 		}
 		
 		function procBoardCategoryFolderOut() 
@@ -207,7 +208,7 @@
 			// If has lyric
 			if ($lyrics) 
 			{
-				// Check xml (strLyric) Attributes
+				// Check XML (strLyric) Attributes
 				preg_match_all(
 					'|(?:<strLyric>)([[\/]?[\d]{2}:[\d]{2}.[\d]{2}\].*)(?:<br>)(?:</strLyric>)|U', 
 					$lyrics, 
@@ -283,43 +284,6 @@
 					
 					return $this->base->response("type", "error", "html", $this->board->lang['notfoundlyrics']);
 				}
-			}
-		}
-		
-		function pushPlaylist() 
-		{
-			if ($this->isLogged() !== true) 
-			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notlogged']);
-			}
-			
-			$target_srl = $this->base->post_params('target');
-			
-			// Get extravars in member
-			$mExvar = unserialize($this->board->model->getMemberExvar($_SESSION['logged_info']['user_id']));
-			if (!$mExvar || !is_array($mExvar['playlist'])) 
-			{
-				// Set extra info to empty array if not found extravars in member
-				$mExvar = $mExvar['playlist'] = Array();
-			} 
-			else 
-			{
-				// If found playlist target in extravars in member
-				if (is_array($mExvar['playlist']) && in_array($target_srl, $mExvar['playlist'])) 
-				{
-					return $this->base->response("type", "error", "html", $this->board->lang['alreadyinsertedmusic']);
-				}
-				
-				array_push($mExvar['playlist'],$target_srl);
-			}
-			
-			if ($this->board->model->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 
-			{
-				return $this->base->response("type", "success", "html", "등록이 완료되었습니다.");
-			} 
-			else 
-			{
-				return $this->base->response("type", "error", "html", "등록을 실패하였습니다.");
 			}
 		}
 		
@@ -513,6 +477,43 @@
 			}
 		}
 		
+		function procAddPlaylist() 
+		{
+			if ($this->isLogged() !== true) 
+			{
+				return $this->base->response("type", "error", "html", $this->board->lang['notlogged']);
+			}
+			
+			$target_srl = $this->base->post_params('target');
+			
+			// Get extravars in member
+			$mExvar = unserialize($this->board->model->getMemberExvar($_SESSION['logged_info']['user_id']));
+			if (!$mExvar || !is_array($mExvar['playlist'])) 
+			{
+				// Set extra info to empty array if not found extravars in member
+				$mExvar = $mExvar['playlist'] = Array();
+			} 
+			else 
+			{
+				// If found playlist target in extravars in member
+				if (is_array($mExvar['playlist']) && in_array($target_srl, $mExvar['playlist'])) 
+				{
+					return $this->base->response("type", "error", "html", $this->board->lang['alreadyinsertedmusic']);
+				}
+				
+				array_push($mExvar['playlist'],$target_srl);
+			}
+			
+			if ($this->board->model->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 
+			{
+				return $this->base->response("type", "success", "html", "등록이 완료되었습니다.");
+			} 
+			else 
+			{
+				return $this->base->response("type", "error", "html", "등록을 실패하였습니다.");
+			}
+		}
+		
 		function procBoardStar() 
 		{
 			if (!$this->isLogged()) 
@@ -575,7 +576,7 @@
 			}
 		}
 		
-		function dispBoardRelatedList() 
+		function procBoardRelatedList() 
 		{
 			if ($this->board->config->related_view=="1") 
 			{
@@ -592,16 +593,16 @@
 		
 			if (isset($this->post_data->pos) && isset($this->post_data->tag)) 
 			{
-				if ($this->post_data->pos < 0) $this->post_data->pos = 0;
+				if($this->post_data->pos < 0) $this->post_data->pos = 0;
 				
-				$oTagi = $this->post_data->pos + 3;
+				$oTagi = $this->post_data->pos+3;
 				$this->board_count = $this->board->model->getDocumentlistTagRelatedSrlCount($this->post_data->module_id,$this->post_data->tag);
 				$this->page = (int)ceil($oTagi/$this->list_count);
 				$this->page_count = (int)ceil($this->board_count/$this->list_count);
 				$this->page_navigation = $this->board->model->getPageArray($this->page_count,  $this->page);
 				
-				$oTagDocument = $this->board->model->getDocumentlistTagRelated($this->post_data->module_id, $this->post_data->pos, $this->list_count, $this->post_data->tag);
-			
+				$oTagDocument = $this->board->model->getDocumentlistTagRelated($this->post_data->module_id,$this->post_data->pos,$this->list_count,$this->post_data->tag);
+				
 				$json = array();
 				if ($this->post_data->target=='Related') 
 				{
@@ -643,13 +644,19 @@
 				{
 					if ($this->post_data->target=='Related') 
 					{
-						$this_file = $this->getFileList($tdoc['srl']);
-						foreach ($this_file as $key=>$flst) 
+						$oFilesModel = $this->base->getModel('files');
+						$fileSequence = $oFilesModel->getDocumentFileSequence($tdoc['srl']);
+						$this_file = $this->getFileList($fileSequence);
+						
+						if (isset($this_file) && is_array($this_file))
 						{
-							if (maya::execute('@\||/@!mp3||wav!', $flst['files'],'boolean')) 
+							foreach ($this_file as $key=>$flst) 
 							{
-								$file_link = sprintf("%s%s%d/%s", __SUB, __FILE__ATTACH, $tdoc['srl'], $flst['files']);
-								break;
+								if (maya::execute('@\||/@!mp3||wav!', $flst['files'],'boolean')) 
+								{
+									$file_link = sprintf("%s%s%d/%s", __SUB, __FILE__ATTACH, $tdoc['srl'], $flst['files']);
+									break;
+								}
 							}
 						}
 					}
@@ -659,7 +666,7 @@
 						array_push($json['tag_list'], array(
 							'item_srl' =>  $tdoc['srl'],
 							'item_link' => str::getUrl(__MODULEID, $this->post_data->module_id, 'srl', $tdoc['srl'], __ACTION, 'view'),
-							'file_link' => $file_link,
+							'file_link' => isset($file_link) ? $file_link : "",
 							'title' => $tdoc['title'],
 							'item_tag' => $this->post_data->tag,
 							'item_pos' => request::encodeBinaryNumberic($this->post_data->pos),

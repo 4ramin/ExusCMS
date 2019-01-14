@@ -1,0 +1,295 @@
+[14-Jan-2019 13:28:37 Asia/Seoul] PHP Notice:  Undefined offset: -1 in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 89
+[14-Jan-2019 13:28:37 Asia/Seoul] PHP Notice:  Undefined offset: 1 in D:\server\www\hikaru_test\Exus\common\classes\components\Database\Db.php on line 302
+[14-Jan-2019 13:28:37 Asia/Seoul] PHP Notice:  Undefined offset: 2 in D:\server\www\hikaru_test\Exus\common\classes\components\Database\Db.php on line 303
+[14-Jan-2019 13:28:39 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:28:49 Asia/Seoul] PHP Notice:  Undefined offset: -1 in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 89
+[14-Jan-2019 13:28:49 Asia/Seoul] PHP Notice:  Undefined offset: 1 in D:\server\www\hikaru_test\Exus\common\classes\components\Database\Db.php on line 302
+[14-Jan-2019 13:28:49 Asia/Seoul] PHP Notice:  Undefined offset: 2 in D:\server\www\hikaru_test\Exus\common\classes\components\Database\Db.php on line 303
+[14-Jan-2019 13:28:51 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:28:52 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:28:54 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:28:56 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:28:57 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:28:58 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method board_model::getCategoryUniqueReverse() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php:125
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1232): board_controller->procBoardCategoryMove()
+#1 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(534): init_view->callMethod('music', Object(board_controller), Array, Array)
+#2 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(583): init_view->method()
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(613): init_view->initializeModule('controller')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1085): init_view->processPOST()
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(1144): init_view->httpRequest()
+#6 D:\server\www\hikaru_test\Exus\common\classes\base\base.php(1686): init_view->init()
+#7 D:\server\www\hikaru_test\Exus\common\classes\load.components.php(73): base->call()
+#8 D: in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 125
+[14-Jan-2019 13:29:02 Asia/Seoul] PHP Notice:  Undefined offset: -1 in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 89
+[14-Jan-2019 13:29:02 Asia/Seoul] PHP Notice:  Undefined offset: 1 in D:\server\www\hikaru_test\Exus\common\classes\components\Database\Db.php on line 302
+[14-Jan-2019 13:29:02 Asia/Seoul] PHP Notice:  Undefined offset: 2 in D:\server\www\hikaru_test\Exus\common\classes\components\Database\Db.php on line 303
+[14-Jan-2019 13:39:18 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 13:39:18 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 388
+[14-Jan-2019 13:39:18 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 412
+[14-Jan-2019 13:39:27 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 13:39:27 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 388
+[14-Jan-2019 13:39:27 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 412
+[14-Jan-2019 13:39:33 Asia/Seoul] PHP Warning:  method_exists() expects parameter 2 to be string, array given in D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php on line 1236
+[14-Jan-2019 13:39:51 Asia/Seoul] PHP Fatal error:  Class board_controller contains 2 abstract methods and must therefore be declared abstract or implement the remaining methods (controller_abstract::pushPlaylist, controllerInterface::dispBoardRelatedList) in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 5
+[14-Jan-2019 13:40:57 Asia/Seoul] PHP Fatal error:  Class board_controller contains 2 abstract methods and must therefore be declared abstract or implement the remaining methods (controller_abstract::pushPlaylist, controllerInterface::procAddAudiolyrics) in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 5
+[14-Jan-2019 13:41:24 Asia/Seoul] PHP Fatal error:  Class board_controller contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (controller_abstract::pushPlaylist) in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 5
+[14-Jan-2019 13:41:36 Asia/Seoul] PHP Fatal error:  Class board_controller contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (controller_abstract::pushPlaylist) in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 5
+[14-Jan-2019 13:47:54 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 13:47:54 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 351
+[14-Jan-2019 13:47:54 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 375
+[14-Jan-2019 13:50:06 Asia/Seoul] PHP Notice:  Undefined variable: type in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 606
+[14-Jan-2019 13:51:09 Asia/Seoul] PHP Notice:  Undefined variable: type in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 606
+[14-Jan-2019 13:54:05 Asia/Seoul] PHP Notice:  Undefined property: board_controller::$board_count in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 600
+[14-Jan-2019 13:54:05 Asia/Seoul] PHP Notice:  Undefined property: board_controller::$page_navigation in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 617
+[14-Jan-2019 13:54:05 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 617
+[14-Jan-2019 13:54:05 Asia/Seoul] PHP Notice:  Undefined variable: oTagDocument in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 633
+[14-Jan-2019 13:54:05 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 633
+[14-Jan-2019 13:54:12 Asia/Seoul] PHP Notice:  Undefined property: board_controller::$board_count in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 600
+[14-Jan-2019 13:54:12 Asia/Seoul] PHP Notice:  Undefined property: board_controller::$page_navigation in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 617
+[14-Jan-2019 13:54:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 617
+[14-Jan-2019 13:54:12 Asia/Seoul] PHP Notice:  Undefined variable: oTagDocument in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 633
+[14-Jan-2019 13:54:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 633
+[14-Jan-2019 13:54:42 Asia/Seoul] PHP Notice:  Undefined property: board_controller::$board_count in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 600
+[14-Jan-2019 13:54:42 Asia/Seoul] PHP Notice:  Undefined property: board_controller::$page_navigation in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 617
+[14-Jan-2019 13:54:42 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 617
+[14-Jan-2019 13:54:42 Asia/Seoul] PHP Notice:  Undefined variable: oTagDocument in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 633
+[14-Jan-2019 13:54:42 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 633
+[14-Jan-2019 13:55:40 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 13:55:40 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 351
+[14-Jan-2019 13:55:40 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 375
+[14-Jan-2019 13:55:50 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 13:55:50 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 375
+[14-Jan-2019 13:55:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:55:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:55:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:55:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:55:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:55:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:55:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:55:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:57:18 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 13:57:18 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 351
+[14-Jan-2019 13:57:18 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 375
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:53 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:55 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:58:56 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 13:59:03 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:12 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:15 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 648
+[14-Jan-2019 14:00:17 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 663
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:30 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 650
+[14-Jan-2019 14:00:31 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 665
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 653
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 653
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 653
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 653
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Warning:  Invalid argument supplied for foreach() in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 653
+[14-Jan-2019 14:00:58 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:16 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:44 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:44 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:44 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:44 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:44 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:46 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:46 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:46 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:46 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:46 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:01:54 Asia/Seoul] PHP Notice:  Undefined variable: file_link in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 669
+[14-Jan-2019 14:03:20 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 14:03:20 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 351
+[14-Jan-2019 14:03:20 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 375
+[14-Jan-2019 14:03:26 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114
+[14-Jan-2019 14:03:26 Asia/Seoul] PHP Notice:  Undefined index: target_srl in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 351
+[14-Jan-2019 14:03:26 Asia/Seoul] PHP Notice:  Undefined property: stdClass::$nickname in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 375

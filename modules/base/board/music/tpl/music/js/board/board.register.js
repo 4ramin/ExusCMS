@@ -91,7 +91,7 @@ $.core.Request.addAjaxCallback('autocomplete', function (args) {
 		var next_navi = args.next_navi;
 		var tag = args.tag_list;
 		var navi = args.navigator;
-		$('#autoload_related_list').setTemplateURL("module/base/board/music/tpl/music/template/related_tag_autocomplete.tpl").processTemplate(tag);
+		$('#autoload_related_list').setTemplateURL("modules/base/board/music/tpl/music/template/related_tag_autocomplete.tpl").processTemplate(tag);
 	} else {
 		$('#autoload_related_area').html(args).show(700);
 	}
@@ -104,10 +104,10 @@ $.core.Request.addAjaxCallback('complteLoadReleatedList', function (args) {
 		var next_navi = args.next_navi;
 		var tag = args.tag_list;
 		var navi = args.navigator;
-		$('#prev_nav').setTemplateURL("module/base/board/music/tpl/music/template/related_btn.tpl").processTemplate(prev_navi);
-		$('#next_nav').setTemplateURL("module/base/board/music/tpl/music/template/related_btn.tpl").processTemplate(next_navi);
-		$('#related_list').setTemplateURL("module/base/board/music/tpl/music/template/related_tag.tpl").processTemplate(tag);
-		$('#related_nav_page').setTemplateURL("module/base/board/music/tpl/music/template/related_navi.tpl").processTemplate(navi);
+		$('#prev_nav').setTemplateURL("modules/base/board/music/tpl/music/template/related_btn.tpl").processTemplate(prev_navi);
+		$('#next_nav').setTemplateURL("modules/base/board/music/tpl/music/template/related_btn.tpl").processTemplate(next_navi);
+		$('#related_list').setTemplateURL("modules/base/board/music/tpl/music/template/related_tag.tpl").processTemplate(tag);
+		$('#related_nav_page').setTemplateURL("modules/base/board/music/tpl/music/template/related_navi.tpl").processTemplate(navi);
 	} else {
 		$('#related_area').html(args).show(700);
 	}

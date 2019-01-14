@@ -199,6 +199,8 @@
 		}
 		
 		static function decodeBinaryNumberic($value, $use_hex = false) {
+			if ($value == 0) return 0;
+			
 			if (!$value) return NULL;
 			
 			$value = request::str_baseconvert($value, 36, 10);
@@ -315,6 +317,8 @@
 		}
 		
 		static function encodeBinaryNumberic($value, $use_hex = false) {
+			if ($value == 0) return 0;
+			
 			if ($use_hex) {
 				$value = bin2hex($value);
 				$value = request::str_baseconvert($value, 16, 2);

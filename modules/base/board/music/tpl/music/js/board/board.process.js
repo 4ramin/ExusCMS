@@ -30,6 +30,14 @@ var proc = (function () {
 			};
 			$.core.Request.ajax("POST", requestBackendFile, params, 'completeUpdateStarCount', "json");
 		},
+		playlist: function (target) {
+			var params = {
+				srl: $(target).attr('target_srl'),
+				act: 'procAddPlaylist',
+				[core_flower.def_mid]: core_flower.mid
+			};
+			$.core.Request.ajax("POST", requestBackendFile, params, 'completeUpdateStarCount', "json");
+		},
 		star: function (star) {
 			if (core_flower.isLogged === false) {
 				alert(CANNOT_STAR);
@@ -85,7 +93,7 @@ var proc = (function () {
 				pos: pos,
 				tag: tag,
 				srl: srl,
-				act: 'dispBoardRelatedList',
+				act: 'procBoardRelatedList',
 				target: 'Related'
 			};
 			$.core.Request.ajax("POST", requestBackendFile, params, 'complteLoadReleatedList');
@@ -96,7 +104,7 @@ var proc = (function () {
 				pos: 0,
 				tag: $(self).val(),
 				srl: 0,
-				act: 'dispBoardRelatedList',
+				act: 'procBoardRelatedList',
 				target: 'Autocomplete'
 			};
 			$.core.Request.ajax("POST", requestBackendFile, params, 'autocomplete');

@@ -200,7 +200,7 @@
 			}
 		}
 		
-		function getChildCategory($subSrl, $toChildren = false) 
+		protected function getChildCategory($subSrl, $toChildren = false) 
 		{
 			if (!$subSrl) return array();
 		
@@ -298,6 +298,10 @@
 			if (file_exists($this->board->xml_path)) 
 			{
 				$xmlContent = simplexml_load_string(file_get_contents($this->board->xml_path));
+			}
+			
+			if (isset($xmlContent)) 
+			{
 				$this->base->set('act', 'procBoardSetup');
 				$this->base->set('config', $this->board->config);
 				$this->base->set('xml', $xmlContent);
@@ -313,7 +317,7 @@
 			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
 			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
 			
-			if ($this->isLogged()) 
+			if ($this->isLogged())
 			{
 				$MemberExtraVar = $this->board->model->getMemberExvar($this->getUserId());
 				$mExvar = unserialize($MemberExtraVar);
