@@ -3,7 +3,7 @@
 	<div class="header_logo">
 		<a class="header_top">
 			<span class="image_logo">
-				<img src="library/img/logo.png">
+				<img src="common/img/logo.png">
 			</span>
 		</a>
 	</div>

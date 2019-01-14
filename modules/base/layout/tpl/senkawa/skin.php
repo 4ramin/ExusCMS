@@ -91,7 +91,7 @@
 				<?php else:?>
 					<div class="login_info">
 					<a href="<?php echo str::getUrl(__MODULEID, 'member', 'act', 'dispMemberInfo');?>">
-						<img class="user_ico" src="library\img\user.png"/>
+						<img class="user_ico" src="common\img\user.png"/>
 					</a>
 					<span class="welcome"><?php echo $this->base->getNickName(); ?>님 환영합니다.</span>
 					<?php if($this->base->isAdmin()):?>
