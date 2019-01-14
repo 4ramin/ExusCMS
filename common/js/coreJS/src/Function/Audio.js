@@ -190,6 +190,7 @@
 				var AudioContext = _cWin.AudioContext || _cWin.webkitAudioContext || _cWin.mozAudioContext || _cWin.msAudioContext;;
 				return new(AudioContext)();
 			} catch (e) {}
+			
 			return AudioContext;
 		},
 		/**
@@ -362,6 +363,7 @@
 				} 
 				input = null;
 			}
+			
 			if (!$.core.Validate.isFunc(output)) {
 				if (output instanceof AudioNode) {
 					output.disconnect();
