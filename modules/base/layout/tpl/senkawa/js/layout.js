@@ -1,5 +1,7 @@
 $.core.Evt.addListener(window, 'load', function () {
 	$.core.Element.setMenuToggleClass('.dropdown', 'open');
+	var audioContext = $.core.Audio.getContextObject();
+	console.log(audioContext);
 });
 
 $.core.Request.addAjaxCallback('completeLogout', function(args) {

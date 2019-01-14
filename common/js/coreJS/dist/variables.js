@@ -145,6 +145,8 @@ const html5Elements = ['source', 'track', 'audio', 'video'],
 		} // Bb7
 	}
 	
+	getFlashLink = "http://get.adobe.com/flashplayer/",
+	
 	//XHLHTTP
 	listXMLHTTP = ['Microsoft.XMLHTTP'],
 	

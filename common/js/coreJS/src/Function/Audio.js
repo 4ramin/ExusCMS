@@ -1,4 +1,5 @@
 //Audio-related functions
+import AudioContextObject from './CLass/AudioContextObject.js'
 'use strict';
 
 (function ($, core) {
@@ -193,6 +194,12 @@
 			
 			return AudioContext;
 		},
+		getContextObject: function () {
+			var audioContext = this.getContext();
+			var contextObject = new AudioContextObject(audioContext);
+			
+			return contextObject;
+		},
 		/**
 		 * Get Audio Context
 		 *
@@ -263,8 +270,15 @@
 		contextSamplesToSeconds: function (audioContext, value) {
 			return audioContext.sampleRate / value;
 		},
+		//value : samples
+		contextGetSamplesRate: function (audioContext) {
+			return audioContext.sampleRate;
+		},
 		getContextCurrentTime: function (audioContext) {
 			return audioContext.currentTime;
+		},
+		getContextListener: function (audioContext) {
+			return audioContext.listener;
 		},
 		setGain: function (context, element) {
 			var variable = context.createGain();
