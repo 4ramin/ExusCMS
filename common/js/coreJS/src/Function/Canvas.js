@@ -1,4 +1,5 @@
 //Canvas-related functions
+import OpenGLObject from './CLass/OpenGLObject.js'
 'use strict';
 
 (function ($, core) {
