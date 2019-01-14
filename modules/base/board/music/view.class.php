@@ -550,7 +550,7 @@
 			}
 		}
 		
-		protected function getRealCurrentPage():int
+		protected function getCurrentPage():int
 		{
 			if ($this->board->config->bd_query !== "LIMIT") 
 			{
@@ -580,7 +580,7 @@
 			
 			if ($called_position == 'normal' && $hasDocumentSrl) 
 			{
-				$paging_diff = $this->getRealCurrentPage();
+				$paging_diff = $this->getCurrentPage();
 				$this->board->page = $paging_diff > 1 ? $paging_diff : 1;
 				$_GET['page'] = $this->board->page;
 			}
@@ -859,7 +859,6 @@
 					}
 					
 					$this->CheckPage('normal');
-						
 						
 					if ($this->board->config->bd_query=="LIMIT") 
 					{

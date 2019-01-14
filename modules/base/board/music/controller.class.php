@@ -351,23 +351,22 @@
 				return $this->base->response("type", "error", "html", $this->board->lang['invalidtoken']);
 			}
 			
-			$this->board->extra_var = $this->board->model->getExtraVar($this->base->post_params(__MODULEID));
-			
 			$this->post_data = new stdClass();
 			$this->post_data->mid = $this->base->post_params(__MODULEID);
 			$this->post_data->srl = $this->base->post_params('srl');
-			$this->post_data->procFileSequence = $this->base->post_params('file_sequence');
-			$this->post_data->postCategory = $this->base->post_params('category');
-			$this->post_data->postTitle = $this->base->post_params('title');
-			$this->post_data->postTitle = strip_tags($this->post_data->postTitle);
-			$this->post_data->postTag = $this->base->post_params('tag');
-			$this->post_data->postTag = strip_tags($this->post_data->postTag);
-			$this->post_data->postContent = ($this->base->post_params('content'));
-			$this->post_data->postContent = $this->base->cleanPurifier($this->post_data->postContent);
-			$this->post_data->postNickname = "익명";// $_SESSION['logged_info']['nickname'];
+			$this->post_data->fileSequence = $this->base->post_params('file_sequence');
+			$this->post_data->category_srl = $this->base->post_params('category');
+			$this->post_data->title = $this->base->post_params('title');
+			$this->post_data->title = strip_tags($this->post_data->title);
+			$this->post_data->tag_list = $this->base->post_params('tag');
+			$this->post_data->tag_list = strip_tags($this->post_data->tag_list);
+			$this->post_data->content = ($this->base->post_params('content'));
+			$this->post_data->content = $this->base->cleanPurifier($this->post_data->content);
 			$this->post_data->ExtraVars = array();
-			$this->post_data->postTitle = urldecode($this->base->post_params('title'));
+			$this->post_data->title = urldecode($this->base->post_params('title'));
 			$this->post_data->memberSrl = $this->base->getMemberSrl();
+			
+			$this->board->extra_var = $this->board->model->getExtraVar($this->base->post_params(__MODULEID));
 			
 			if (is_int($this->post_data->srl)) 
 			{
@@ -380,19 +379,24 @@
 				}
 			}
 			
-			if ($_SESSION['target_srl'] != $this->post_data->procFileSequence) 
+			if (isset($memberSrl))
 			{
-				$this->post_data->procFileSequence = null;
+				$this->post_data->nickname = "익명";
 			}
 			
-			if (!isset($this->post_data->postCategory)) $this->post_data->postCategory = 0;
+			if ($_SESSION['target_srl'] != $this->post_data->fileSequence) 
+			{
+				$this->post_data->fileSequence = null;
+			}
 			
-			if (!isset($this->post_data->postTitle)) 
+			if (!isset($this->post_data->category_srl)) $this->post_data->category_srl = 0;
+			
+			if (!isset($this->post_data->title)) 
 			{
 				return $this->base->response("type", "error", "html", $this->board->lang['inserttitle']);
 			}
 			
-			if (!isset($this->post_data->postContent)) 
+			if (!isset($this->post_data->content)) 
 			{
 				return $this->base->response("type", "error", "html", $this->board->lang['insertcontent']);
 			}
@@ -401,15 +405,15 @@
 			{
 				// Update document
 				$this->board->model->updateDocument(
-					$this->post_data->postTitle,
-					$this->post_data->postContent,
+					$this->post_data->title,
+					$this->post_data->content,
 					date("Ymdhis"),
-					$this->post_data->postNickname,
+					$this->post_data->nickname,
 					$this->post_data->mid,
-					$this->post_data->postCategory,
+					$this->post_data->category_srl,
 					$this->post_data->srl,
-					$this->post_data->procFileSequence,
-					$this->post_data->postTag
+					$this->post_data->fileSequence,
+					$this->post_data->tag_list
 				);
 				
 				if (isset($_SESSION['target_srl']))
@@ -430,15 +434,15 @@
 				// Insert Document
 				$this->board->model->insertDocument
 				(
-					$this->post_data->postTitle,
-					$this->post_data->postContent,
+					$this->post_data->title,
+					$this->post_data->content,
 					date("Ymdhis"),
-					$this->post_data->postNickname,
+					$this->post_data->nickname,
 					$this->post_data->mid,
-					$this->post_data->postCategory,
+					$this->post_data->category_srl,
 					$lastId,
-					$this->post_data->procFileSequence,
-					$this->post_data->postTag,
+					$this->post_data->fileSequence,
+					$this->post_data->tag_list,
 					$this->post_data->memberSrl
 				);
 				
@@ -458,8 +462,7 @@
 			
 			if (isset($this->post_data->mid)) 
 			{
-				$this->board->document_count = $this->board->model->getDocumentCountbyBoard($this->board->module_id);
-				$GLOBALS['DOCUMENT_COUNT_ALL'][$this->post_data->mid] = (int)$this->board->document_count;
+				unset($GLOBALS['__DOCUMENT__COUNT__QUERY__'.$this->post_data->mid]);
 			}
 			
 			$this->board->redirectSrl = 0;
@@ -551,9 +554,10 @@
 			
 			// Get voted count
 			$voted_count = $this->board->model->getVotedCount($this->post_data->srl);
-			if (isset($voted_count['voted']))
+			
+			if (isset($voted_count->result))
 			{
-				$voted_count = $voted_count['voted'] + 1;
+				$voted_count = $voted_count->result + 1;
 			}
 			else
 			{

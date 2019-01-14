@@ -928,16 +928,16 @@
 	
 		function getCategoryListAndCount($module) 
 		{
-			if (!isset($_SESSION['__BOARD__CATEGORY__'.$module])) 
+			if (!isset($_GLOBALS['__BOARD__CATEGORY__'.$module])) 
 			{
 				$sql = "SELECT DISTINCT a.name as 'name', a.category_srl as 'category_srl', (SELECT count(c.category_srl) FROM def_document_music c WHERE a.category_srl = c.category_srl) as 'count' FROM def_category a LEFT outer join def_document_music b on b.category_srl = a.category_srl WHERE a.module = :args1";
 				$sth = db::Compile($sql);
 				db::BindParams($sth, ["args1"=>$module], "");
 				$output = db::getOutput($sth, 'all', "object");
-				$_SESSION['__BOARD__CATEGORY__'.$module] = $output->data();
+				$_GLOBALS['__BOARD__CATEGORY__'.$module] = $output->data();
 			}
 			
-			return $_SESSION['__BOARD__CATEGORY__'.$module];
+			return $_GLOBALS['__BOARD__CATEGORY__'.$module];
 		}
 	
 	
@@ -1285,13 +1285,13 @@
 		/**
 		 * 추천 값을 가져온다.
 		 *
-		 * @param int $get_serial
+		 * @param int $srl
 		 */
-		function getVotedCount($get_serial) 
+		function getVotedCount($srl) 
 		{
 			return db::Query('SELECT','def_document_music',[
-				['', 'srl', '=', ':srl', $get_serial]
-			],'voted', 'one');
+				['', 'srl', '=', ':srl', $srl]
+			],'voted', 'one', '', 'object');
 		}
 	
 		/**
@@ -1446,14 +1446,14 @@
 		 */
 		function getDocumentCountbyBoard($module) 
 		{
-			if (!isset($_SESSION['__DOCUMENT__COUNT__QUERY__'.$module])) 
+			if (!isset($_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module])) 
 			{
-				$_SESSION['__DOCUMENT__COUNT__QUERY__'.$module] = db::Query('SELECT','def_document_music',[
+				$_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module] = db::Query('SELECT','def_document_music',[
 					['', 'module', '=', ':args1', $module]
 				],'count(*)', 'one');
 			}
 			
-			return $_SESSION['__DOCUMENT__COUNT__QUERY__'.$module];
+			return $_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module];
 		}
 		
 	/* Document List */
