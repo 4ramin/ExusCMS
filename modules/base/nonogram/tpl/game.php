@@ -1,6 +1,6 @@
 <?php if(!defined("__FLOWER__")) exit();?>
 <?php
-	$this->base->addJS("/module/base/nonogram/tpl/js/nonogram.js");
+	$this->base->addJS("/modules/base/nonogram/tpl/js/nonogram.js");
 ?>
 <style>
 .content a{

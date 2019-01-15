@@ -25,7 +25,7 @@
 		
 		function dispBitcoinContent()
 		{
-			$this->base->set('skin', sprintf("%s/bitcoin.php", $this->nonogram->tpl_path));
+			$this->base->set('skin', sprintf("%s/game.php", $this->nonogram->tpl_path));
 		}
 		
 	}
