@@ -1,22 +1,22 @@
 <?php if(!defined("__FLOWER__")) exit(); ?>
 
-<!--related tag-->
-<?php
-	$oFilesModel = $this->base->getModel('files');
-?>
-
-
 <div style="<?php echo $this->board->config->tmp_hide_related==1 ? 'display:none':''?>" id="rel_ar">
 	<div id="relatedDocumentList">
-		<div class="title">
-			<?php echo $this->board->lang['related_doc']; ?>(<?php echo $this->board->relatedTagList->page_count; ?>)
-		</div>
+		<?php echo html::element('div', $this->board->lang['related_doc']."(".$this->board->relatedTagList->page_count.")", [
+			'class' => 'title'
+		]);?>
 		<div id="related_list">
 			<?php foreach($this->board->relatedTagList->related_tag_list as $tags): ?>
 				<li class="relatedDocumentItem">
-					<a class="view_bd" <?php echo $tags->isCurrentItem() ? 'style="color:red"':''?> href="<?php echo $tags->getTagLink() ?>">
-						<?php echo $tags->getTitle()?>
-					</a>
+					<?php echo html::element('a', $tags->getTitle(), 
+					$tags->isCurrentItem() ? [
+						'class' => 'view_bd',
+						'style' => 'color:red',
+						'href' => $tags->getTagLink()
+					]:[
+						'class' => 'view_bd',
+						'href' => $tags->getTagLink()
+					]);?>
 					
 					 <div class="fr wrapper">	
 						<a href="<?php echo $tags->getAudioLink();?>" class="sm2_button" ></a><div class="tooltip">재생</div>
@@ -26,17 +26,38 @@
 		</div>
 		<div class="relatedNavigation">
 			<span id="prev_nav">
-				<a onclick="proc.lst_related('<?php echo request::encodeBinaryNumberic($oTagi-5); ?>','<?php echo $this->board->document['tag'] ?>','<?php echo $_GET[__MODULEID]?>','<?php echo $_GET['srl']?>')">◀</a>
+				<?php echo html::element('a', "◀", [
+					'onclick' => 'proc.lst_related('.html::generateParameter([
+						request::encodeBinaryNumberic($this->board->relatedTagList->currentTagIndex - 5), $this->board->document['tag'], $_GET[__MODULEID], $_GET['srl']
+					]).")"
+				]);?>
 			</span>
 			
 			<span id="related_nav_page">
 				<?php foreach($this->board->relatedTagList->pagenation as $key=>$pageNum): ?>
-					<a onclick="proc.lst_related('<?php echo request::encodeBinaryNumberic(($pageNum-1)*5); ?>','<?php echo $this->board->document['tag'] ?>','<?php echo $_GET[__MODULEID]?>','<?php echo request::encodeBinaryNumberic($_GET['srl']); ?>')" <?php echo ($this->board->relatedTagList->current_page==$pageNum) ? 'style="color:red"':'' ?>><?php echo $pageNum?></a> <span class="bar">|</span> 
+					<?php echo html::element('a', $pageNum, $this->board->relatedTagList->current_page == $pageNum ?
+					[
+						'onclick' => 'proc.lst_related('.html::generateParameter([
+							request::encodeBinaryNumberic(($pageNum - 1) * 5), $this->board->document['tag'], $_GET[__MODULEID], request::encodeBinaryNumberic($_GET['srl'])
+						]).")",
+						'style' => 'color:red'
+					]:
+					[
+						'onclick' => 'proc.lst_related('.html::generateParameter([
+							request::encodeBinaryNumberic(($pageNum - 1) * 5), $this->board->document['tag'], $_GET[__MODULEID], request::encodeBinaryNumberic($_GET['srl'])
+						]) .")"
+					]);?>
+					
+					<span class="bar">|</span> 
 				<?php endforeach; ?>
 			</span>
 			
 			<span id="next_nav">
-				<a onclick="proc.lst_related('<?php echo request::encodeBinaryNumberic($oTagi+5); ?>','<?php echo $this->board->document['tag'] ?>','<?php echo $_GET[__MODULEID]?>','<?php echo $_GET['srl']?>')">▶</a>
+				<?php echo html::element('a', "▶", [
+					'onclick' => 'proc.lst_related('.html::generateParameter([
+						request::encodeBinaryNumberic($this->board->relatedTagList->currentTagIndex + 5), $this->board->document['tag'], $_GET[__MODULEID], $_GET['srl']
+					]) .")"
+				]);?>
 			</span>
 		</div>
 	</div>

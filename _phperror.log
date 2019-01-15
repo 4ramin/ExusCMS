@@ -1,0 +1,26 @@
+[15-Jan-2019 14:26:39 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method base::getParams() in D:\server\www\hikaru_test\Exus\modules\base\board\music\tag.item.class.php:16
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php(18): tag_item->isCurrentItem()
+#1 D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\view.php(89): include('D:\\server\\www\\h...')
+#2 D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\board.php(12): include('D:\\server\\www\\h...')
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(901): include('D:\\server\\www\\h...')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(866): init_view->getContentRet('D:\\server\\www\\h...', 'article', true)
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(941): init_view->dispContent()
+#6 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(802): init_view->dispContentView()
+#7 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(684): in D:\server\www\hikaru_test\Exus\modules\base\board\music\tag.item.class.php on line 16
+[15-Jan-2019 14:26:46 Asia/Seoul] PHP Fatal error:  Uncaught Error: Call to undefined method base::getParam() in D:\server\www\hikaru_test\Exus\modules\base\board\music\tag.item.class.php:16
+Stack trace:
+#0 D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php(18): tag_item->isCurrentItem()
+#1 D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\view.php(89): include('D:\\server\\www\\h...')
+#2 D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\board.php(12): include('D:\\server\\www\\h...')
+#3 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(901): include('D:\\server\\www\\h...')
+#4 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(866): init_view->getContentRet('D:\\server\\www\\h...', 'article', true)
+#5 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(941): init_view->dispContent()
+#6 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(802): init_view->dispContentView()
+#7 D:\server\www\hikaru_test\Exus\modules\base\init\view.class.php(684):  in D:\server\www\hikaru_test\Exus\modules\base\board\music\tag.item.class.php on line 16
+[15-Jan-2019 14:32:13 Asia/Seoul] PHP Parse error:  syntax error, unexpected '.' in D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php on line 38
+[15-Jan-2019 14:32:38 Asia/Seoul] PHP Parse error:  syntax error, unexpected '.' in D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php on line 42
+[15-Jan-2019 14:32:48 Asia/Seoul] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php on line 43
+[15-Jan-2019 14:32:49 Asia/Seoul] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php on line 43
+[15-Jan-2019 14:33:20 Asia/Seoul] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php on line 42
+[15-Jan-2019 14:34:16 Asia/Seoul] PHP Parse error:  syntax error, unexpected ']', expecting ',' or ')' in D:\server\www\hikaru_test\Exus\modules\base\board\music\tpl\music\ext\related_doc.php on line 43

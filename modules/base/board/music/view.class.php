@@ -519,7 +519,8 @@
 				
 				if($this->board->document['tag'])
 				{
-					$list_count = 5;
+					include_once(__MOD."/board/music/tag.item.class.php");
+					
 					$relatedTagList = array();
 					$tagList = $this->board->model->getDocumentlistTagRelatedSrl($this->board->module_id, $this->board->document['tag']);
 					foreach($tagList as $tags)
@@ -527,19 +528,18 @@
 						array_push($relatedTagList, $tags['srl']);
 					}
 					
-					$currentTagIndex = array_search($this->board->document['srl'], $relatedTagList)-2;
-					if($currentTagIndex<0)
+					$this->board->relatedTagList = new stdClass();
+					$this->board->relatedTagList->list_count = 5;
+					$this->board->relatedTagList->currentTagIndex = array_search($this->board->document['srl'], $relatedTagList)-2;
+					if($this->board->relatedTagList->currentTagIndex<0)
 					{
-						$currentTagIndex = 0;
+						$this->board->relatedTagList->currentTagIndex = 0;
 					}
 					
-					include_once(__MOD."/board/music/tag.item.class.php");
-					
-					$this->board->relatedTagList = new stdClass();
-					$this->board->relatedTagList->tag_list = $this->board->model->getDocumentlistTagRelated($this->board->module_id, $currentTagIndex, 5, $this->board->document['tag']);
+					$this->board->relatedTagList->tag_list = $this->board->model->getDocumentlistTagRelated($this->board->module_id, $this->board->relatedTagList->currentTagIndex, 5, $this->board->document['tag']);
 					$this->board->relatedTagList->page_count = count($tagList);
-					$this->board->relatedTagList->current_page = (int)ceil(($currentTagIndex + 5) / $list_count);
-					$this->board->relatedTagList->page_count = (int)ceil($this->board->relatedTagList->page_count / $list_count);
+					$this->board->relatedTagList->current_page = (int)ceil(($this->board->relatedTagList->currentTagIndex + 5) / $this->board->relatedTagList->list_count);
+					$this->board->relatedTagList->page_count = (int)ceil($this->board->relatedTagList->page_count / $this->board->relatedTagList->list_count);
 					$this->board->relatedTagList->pagenation = $this->board->model->getPageArray($this->board->relatedTagList->page_count, $this->board->relatedTagList->current_page);
 					
 					//쿼리가 존재하지 않는다면 빈 쿼리를 반환

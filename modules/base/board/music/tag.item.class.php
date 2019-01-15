@@ -13,7 +13,8 @@
 		
 		function isCurrentItem() 
 		{
-			if ($this->board->document['srl'] == $this->query['srl'])
+			$doucmentSrl = $this->base->get_params('srl');
+			if ($doucmentSrl == $this->query['srl'])
 			{
 				return true;
 			}
