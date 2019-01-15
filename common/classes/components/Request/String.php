@@ -3,19 +3,23 @@
 	if (!defined("__FLOWER__")) exit();
 
 	/*get_object_vars/is_object/multipart/form-data/method_exists*/
-	class str {
+	class str 
+	{
 			 //gmp_init('4211010100100010007011490', 10); // 10진수 값 
 			//$num62 = gmp_strval
-		public static function lower($args) {
+		public static function lower($args) 
+		{
 			$value = $args->from;
 			return strtolower($value);
 		}
 		
-		public static function is_json($string) {
+		public static function is_json($string) 
+		{
 			return is_string($string) && is_array(json_decode($string, true)) && (json_last_error() == JSON_ERROR_NONE) ? true : false;
 		}
 		
-		public static function remove_null_byte($input) {
+		public static function remove_null_byte($input) 
+		{
 			$clean = str_replace("\x00", '', $input); 
 			$clean = str_replace("\0", '', $input); 
 			$clean = str_replace(chr(0), '', $input);
@@ -23,53 +27,64 @@
 			return $clean;
 		}
 		
-		public static function upper($args) {
+		public static function upper($args) 
+		{
 			$value = $args->from;
 			return strtoupper($value);
 		}
 		
-		public static function word_explode($word) {
+		public static function word_explode($word) 
+		{
 			preg_match_all('/./u', $word, $matches);
 			return $matches[0];
 		}
 		
-		public static function remove_dot($basename) {
+		public static function remove_dot($basename) 
+		{
 			return preg_replace("#(.*)-(.*)-(.*).(\d)-(.*)#", "$1-$2-$3$4-$5", $basename);
 		}
 		
-		public function int_to_bytes($args) {
+		public function int_to_bytes($args) 
+		{
 			$length = $args->length;
 			$int = $args->int;
-			for($i=$length-1; $i>=0; $i--) {
-				$result .= chr(floor($int/pow(256,$i)));
+			for($i=$length-1; $i>=0; $i--) 
+			{
+				$result .= chr(floor($int / pow(256, $i)));
 			}
 			
 			return $result;
 		}
 
-		public function hex_to_bin($args) {
+		public function hex_to_bin($args) 
+		{
 			$source = $args->source;
-			for($i=0; $i<strlen($source); $i+=2) {
-				$result .= chr(hexdec(substr($source,$i,2)));
+			for($i=0; $i<strlen($source); $i += 2) 
+			{
+				$result .= chr(hexdec(substr($source, $i, 2)));
 			}
 			return $result;
 		}
 		
-		public function ntrim($input) {
+		public function ntrim($input) 
+		{
 			return str_replace("\x00", '', $input);
 		}
 		
-		public function trim($input, $chars = '\s　') {
+		public function trim($input, $chars = '\s　') 
+		{
 			return mb_ereg_replace("^[$chars]+|[$chars]+$", '', $input);
 		}
 		
-		public function nltrim($input) {
+		public function nltrim($input) 
+		{
 			$input = preg_replace('/[\r\n]/', '', $input);
 			$input = preg_replace('/\t+/', ' ', $input);
 			return $input;
 		}
 		
-		public function nlslim($input, $max = 2) {
+		public function nlslim($input, $max = 2) 
+		{
 			$input = mb_ereg_replace('[\t 　]+(?=[\r\n])', '', $input);
 			$replace = str_repeat('$1', $max);
 			++$max;
@@ -79,45 +94,55 @@
 			return $input;
 		}
 		
-		public function nlToBr($string) {
+		public function nlToBr($string) 
+		{
 			return preg_replace('/\r\n?|\n/', '<br />', $string);
 		}
 		
-		public function brToNl($string) {
+		public function brToNl($string) 
+		{
 			return str_replace('<br />', "\r\n", $string);
 		}
 		
-		public function unhtmlSpecialChars($string) {
+		public function unhtmlSpecialChars($string) 
+		{
 			$entity = array('&quot;', '&#039;', '&#39;', '&lt;', '&gt;', '&amp;');
 			$symbol = array('"', "'", "'", '<', '>', '&');
 			return str_replace($entity, $symbol, $string);
 		}
 		
-		public function entityToTag($string, $names) {
+		public function entityToTag($string, $names) 
+		{
 			$attr = ' ([a-z]+)=&quot;([\w!#$%()*+,\-.\/:;=?@~\[\] ]|&amp|&#039|&#39)+&quot;';
 			$name_list = explode(',', $names);
-			foreach ($name_list as $name) {
+			foreach ($name_list as $name) 
+			{
 				$string = preg_replace_callback("{&lt;($name)(($attr)*)&gt;(.*?)&lt;/$name&gt;}is", array('Utility', 'replace'), $string);
 			}
 			
 			return $string;
 		}
 		
-		public function replace($match) {
+		public function replace($match) 
+		{
 			list($target, $name, $attr) = $match;
 			$name = strToLower($name);
 			$value = end($match);
 
-			if (strpos($value, '<') !== false) {
+			if (strpos($value, '<') !== false) 
+			{
 				return $target;
 			}
 			
-			if (preg_match('/script|style|link|html|body|frame/', $name)) {
+			if (preg_match('/script|style|link|html|body|frame/', $name)) 
+			{
 				return $target;
 			}
 			
-			if ($attr !== '') {
-				if (preg_match('/ on|about:|script:|@import|behaviou?r|binding|boundary|cookie|eval|expression|include-source|xmlhttp/i', $attr)) {
+			if ($attr !== '') 
+			{
+				if (preg_match('/ on|about:|script:|@import|behaviou?r|binding|boundary|cookie|eval|expression|include-source|xmlhttp/i', $attr)) 
+				{
 					return $target;
 				}
 				
@@ -132,8 +157,10 @@
 			return "<$name$attr>$value</$name>";
 		}
 		
-		public function stripTags($string, $tags='') {
-			if ($tags === '') {
+		public function stripTags($string, $tags='') 
+		{
+			if ($tags === '') 
+			{
 				return strip_tags($string);
 			}
 			
@@ -142,22 +169,27 @@
 			return strip_tags($string, $tags);
 		}
 		
-		public function uniqid($length = 20) {
+		public function uniqid($length = 20) 
+		{
 			$id = md5(uniqid(mt_rand(), true));
 			$id = substr($id, -$length);
 			return $id;
 		}
 		
-		public function encrypt($string, $length = 32) {
+		public function encrypt($string, $length = 32) 
+		{
 			return $string == '' ? '' : substr(md5($string), -$length);
 		}
 		
-		public function cmpcrypt($raw, $pwd) {
+		public function cmpcrypt($raw, $pwd) 
+		{
 			return $raw != '' && md5($raw) === $pwd;
 		}
 		
-		public function entrip($name, $length = 10) {
-			if (preg_match('/^(.+?)#(.+)$/', $name, $match)) {
+		public function entrip($name, $length = 10) 
+		{
+			if (preg_match('/^(.+?)#(.+)$/', $name, $match)) 
+			{
 				list(, $name, $pass) = $match;
 				$salt = substr($pass . 'H.', 1, 2);
 				$salt = preg_replace('/[^\.-z]/', '.', $salt);
@@ -165,13 +197,16 @@
 				$trip = crypt($pass, $salt);
 				$trip = substr($trip, -$length);
 				$name = $name . '◆' . $trip;
-			} else {
+			} 
+			else 
+			{
 				$name = str_replace('◆', '◇', $name);
 			}
 			return $name;
 		}
 		
-		public function autolink($string, $file = '') {
+		public function autolink($string, $file = '') 
+		{
 			$regexp = array(
 				'/[a-z\d\-_.+]+@([a-z\d\-]+\.)+[a-z]{2,7}/i',
 				'/(?<!")(https?|ftp):\/\/([a-z\d\-]+\.)+[a-z]{2,7}([\w!#$%()*+,\-.\/:;=?@~\[\]]|&amp|&#039|&#39)*/'
@@ -185,31 +220,37 @@
 			return preg_replace($regexp, $anchor, $string);
 		}
 	
-		public static function remove_utf8_bom($args) {
+		public static function remove_utf8_bom($args) 
+		{
 			$source = $args->source;
 			$source = preg_replace('/^\xEF\xBB\xBF/', '', $source);
 			return $source;
 		}
 		
-		public static function is_num($args) {
+		public static function is_num($args) 
+		{
 			$str = $args->content;
 			return is_numeric($str);
 		}
 		
-		public static function slash_escape($args) {
+		public static function slash_escape($args) 
+		{
 			$str = $args->content;
 			return stripslashes($str);
 		}
 		
-		public static function get_magic_quotes() {
+		public static function get_magic_quotes() 
+		{
 			return get_magic_quotes_gpc();
 		}
 		
-		public static function is_match_strnum($args) {
+		public static function is_match_strnum($args) 
+		{
 			return preg_match('#^[A-Za-z0-9_-]+$#', $args->source);
 		}
 		
-		public static function round_up($args) {
+		public static function round_up($args) 
+		{
 			$value  = $args->value;
 			$places = $args->places;
 			
@@ -219,19 +260,22 @@
 			ceil($value * $mult) / $mult;
 		}
 		
-		public static function getRandomString($length) {
+		public static function getRandomString($length) 
+		{
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 			$charactersLength = strlen($characters);
 			$randomString = NULL;
 			
-			for ($i = 0; $i < $length; $i++) {
+			for ($i = 0; $i < $length; $i++) 
+			{
 				$randomString .= $characters[rand(0, $charactersLength - 1)];
 			}
 			
 			return $randomString;
 		}
 		
-		public static function getUrl($args) {
+		public static function getUrl($args) 
+		{
 			
 			$useRewrite = FALSE;
 			$return_url = NULL;
@@ -313,38 +357,54 @@
 				return "/".$rewriteUrl;
 			}*/
 			
-			if ($func_get[0]==NULL) {
+			if ($func_get[0]==NULL) 
+			{
 				$i=1;
-				while ($i<$func_num) {
-					if ($return_url) {
-						if (isset($func_get[$i+1])) {
+				while ($i<$func_num) 
+				{
+					if ($return_url) 
+					{
+						if (isset($func_get[$i+1])) 
+						{
 							$return_url .= '&'.$func_get[$i].'='.$func_get[$i+1];
 						}
-					} else {
+					} 
+					else 
+					{
 						$return_url .= '?';
 						$return_url .= $func_get[$i].'='.$func_get[$i+1];
 					}
 					
 					$i = $i+2;
 				}
-			} else {
+			} 
+			else 
+			{
 				$i=0;
 				$get_tmp = $_GET;
 				
-				while ($i<$func_num) {
-					if ($func_get[$i+1]=='') {
+				while ($i<$func_num) 
+				{
+					if ($func_get[$i+1]=='') 
+					{
 						unset($get_tmp[$func_get[$i]]);
-					} else if (isset($func_get[$i+1])) {
+					} 
+					else if (isset($func_get[$i+1])) 
+					{
 						$get_tmp[$func_get[$i]] = $func_get[$i+1];
 					}
 					
 					$i = $i+2;
 				}
 				
-				foreach ($get_tmp as $key=>$val) {
-					if ($return_url) {
+				foreach ($get_tmp as $key=>$val) 
+				{
+					if ($return_url) 
+					{
 						$return_url .= '&'.$key.'='.$val;
-					} else {
+					} 
+					else 
+					{
 						$return_url .= '?';
 						$return_url .= $key.'='.$val;
 					}
@@ -356,7 +416,8 @@
 			return $return_url;
 		}
 		
-		public static function safe_string($data,$encoding='UTF-8') {
+		public static function safe_string($data,$encoding='UTF-8') 
+		{
 			return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
 		}
 		

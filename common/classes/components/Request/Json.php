@@ -10,7 +10,8 @@ class json
 	 *
 	 * @return string
 	 */
-	public static function encode($args){
+	public static function encode($args)
+	{
 		$json = $args->source;
 		return json_encode($json, JSON_PRETTY_PRINT);
 	}
@@ -22,7 +23,8 @@ class json
 	 *
 	 * @return string
 	 */
-	public static function decode($args){
+	public static function decode($args)
+	{
 		$json = $args->source;
 		return json_decode($json);
 	}
@@ -34,14 +36,18 @@ class json
 	 *
 	 * @return string
 	 */
-	public static function get($args){
+	public static function get($args)
+	{
 		
 		$json = file::get($args);
 		
-		if($json){
+		if($json)
+		{
 			$json = json_decode($json);
 			return $json;
-		}else{
+		}
+		else
+		{
 			return false;
 		}
 	}
