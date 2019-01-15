@@ -495,7 +495,7 @@
 			
 			// Get extravars in member
 			$mExvar = unserialize($this->board->model->getMemberExvar($_SESSION['logged_info']['user_id']));
-			if (!$mExvar || !is_array($mExvar['playlist'])) 
+			if (!isset($mExvar))
 			{
 				// Set extra info to empty array if not found extravars in member
 				$mExvar = $mExvar['playlist'] = Array();
@@ -508,7 +508,7 @@
 					return $this->base->response("type", "error", "html", $this->board->lang['alreadyinsertedmusic']);
 				}
 				
-				array_push($mExvar['playlist'],$target_srl);
+				array_push($mExvar['playlist'], $target_srl);
 			}
 			
 			if ($this->board->model->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 

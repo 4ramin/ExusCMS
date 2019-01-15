@@ -32,7 +32,7 @@ var proc = (function () {
 		},
 		playlist: function (target) {
 			var params = {
-				srl: $(target).attr('target_srl'),
+				target: $(target).attr('target_srl'),
 				act: 'procAddPlaylist',
 				[core_flower.def_mid]: core_flower.mid
 			};

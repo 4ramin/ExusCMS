@@ -76,11 +76,20 @@
 			if ($type==NULL) {
 				if ($column[3]=='[]') {
 					$i = 0;
+					$in_query = "";
 					foreach($column[4] as $key=>$value) {
 						$i++;
 						$in_query = $in_query . ':' .$i . ', ';
 					}
-					$in_query = substr($in_query, 0, -2);
+					if (isset($in_query))
+					{
+						$in_query = substr($in_query, 0, -2);
+					}
+					else
+					{
+						$in_query = "";
+					}
+					
 					$column[3] = $in_query;
 					$query .= "$column[1] $column[2] ($column[3]) ";
 				} else {

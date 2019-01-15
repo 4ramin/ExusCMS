@@ -321,7 +321,15 @@
 			{
 				$MemberExtraVar = $this->board->model->getMemberExvar($this->getUserId());
 				$mExvar = unserialize($MemberExtraVar);
-				$pListArr = $mExvar['playlist'];
+				if (array_key_exists("playlist", $mExvar)) 
+				{
+					$pListArr = $mExvar['playlist'];
+				}
+				else
+				{
+					$pListArr = array();
+				}
+				
 				$this->board->document_count = count($pListArr);
 				$this->board->query = $this->board->model->getRandomDocumentListbySrl(
 					array_slice($pListArr, $this->board->page_start, $this->board->config->list_count), $this->board->module_id, $this->board->page_start
