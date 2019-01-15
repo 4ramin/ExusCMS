@@ -2,7 +2,8 @@
 
 	if (!defined("__FLOWER__")) exit();
 	
-	class db {
+	class db 
+	{
 
 		private static $link = NULL;
 		private static $query = NULL;
@@ -22,7 +23,8 @@
 		 *
 		 * @return pdo
 		 */
-		public static function run(\stdClass $args) {
+		public static function run(\stdClass $args) 
+		{
 			
 			//args init
 			$localhost = $args->localhost;
@@ -31,19 +33,25 @@
 			$password = $args->password;
 			$catch_err = $args->catch_err;
 			
-			if (isset($args->setting)) {
+			if (isset($args->setting)) 
+			{
 				$set = isset($args->localhost) ? $args->setting : array();
-			} else {
+			} 
+			else 
+			{
 				$set = array();
 			}
 			
-			if (!isset($set)) {
+			if (!isset($set)) 
+			{
 				$set = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'", PDO::ATTR_ERRMODE=> PDO::ERRMODE_EXCEPTION);
 			}
 			
 			//connect
-			if ($catch_err == true) {
-				try {
+			if ($catch_err == true) 
+			{
+				try 
+				{
 					$dns = ('mysql:' . implode(';', isset($db) ? [
 						'dbname=' . $db,
 						'host=' . $localhost
@@ -60,27 +68,36 @@
 					
 					self::$link = $pdo;
 					return $pdo;
-				} catch (Exception $e) {
+				} 
+				catch (Exception $e) 
+				{
 					throw new Exception($e->getMessage().', 에러메시지 : '.self::getCodeMsg($e));
 				}
-			} else {
+			} 
+			else 
+			{
 				$pdo = new PDO("mysql:host=$localhost;dbname=$db",$user,$pass,$set);
 				$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 				return $pdo;
 			}
 		}
 		
-		public static function Column_Export(array $column, $type) {
+		public static function Column_Export(array $column, $type) 
+		{
 			$query = NULL;
 			
-			if ($type==NULL) {
-				if ($column[3]=='[]') {
+			if ($type==NULL) 
+			{
+				if ($column[3]=='[]') 
+				{
 					$i = 0;
 					$in_query = "";
-					foreach($column[4] as $key=>$value) {
+					foreach($column[4] as $key=>$value) 
+					{
 						$i++;
 						$in_query = $in_query . ':' .$i . ', ';
 					}
+					
 					if (isset($in_query))
 					{
 						$in_query = substr($in_query, 0, -2);
@@ -92,25 +109,42 @@
 					
 					$column[3] = $in_query;
 					$query .= "$column[1] $column[2] ($column[3]) ";
-				} else {
+				} 
+				else 
+				{
 					$query .= "$column[1] $column[2] $column[3] ";
 				}
-			} else {
-				if ($type=='ORDER') {
-					if (isset($column[3])) {
+			} 
+			else 
+			{
+				if ($type=='ORDER') 
+				{
+					if (isset($column[3])) 
+					{
 						$query .= "$column[3] ORDER BY $column[1] $column[2]";
-					} else {
+					} 
+					else 
+					{
 						$query .= "ORDER BY $column[1] $column[2]";
 					}
-				} else if ($type=='LIMIT') {
-					if (!isset($column[1])) {
+				} 
+				else if ($type=='LIMIT') 
+				{
+					if (!isset($column[1])) 
+					{
 						$query .= "LIMIT $column[1]";
-					} else if (isset($column[4])) {
+					} 
+					else if (isset($column[4])) 
+					{
 						$query .= "LIMIT $column[1], $column[3]";
-					} else if (isset($column[2])) {
+					} 
+					else if (isset($column[2])) 
+					{
 						$query .= "LIMIT $column[1], $column[2]";
 					}
-				} else {
+				} 
+				else 
+				{
 					$query .= "$column[1] $column[2] $column[3] $column[0] ";
 				}
 			}
@@ -118,7 +152,8 @@
 			return $query;
 		}
 		
-		public static function getCreateQuery($table, array $column, $primaryKey = null, $uniqueKey = array(), array $key = array()) {
+		public static function getCreateQuery($table, array $column, $primaryKey = null, $uniqueKey = array(), array $key = array()) 
+		{
 			$query = "CREATE TABLE `$table` ";
 			/*
 			
@@ -128,57 +163,70 @@
 
 			*/
 			$in_query = "";
-			foreach($column as $columnData) {
+			foreach($column as $columnData) 
+			{
 				if ($in_query) $in_query .= ", ";
 				
-				if (is_array($columnData)) {
+				if (is_array($columnData)) 
+				{
 					$vcolumn = $columnData['column'];
 					$in_query .= "`$vcolumn` ";
 					
 					$type = $columnData['type'];
 					$size = $columnData['size'];
-					if($type == 'text' || $type == 'date' || $type == 'longtext') {
+					if ($type == 'text' || $type == 'date' || $type == 'longtext') 
+					{
 						$in_query .= "$type";
-					} else {
+					} 
+					else 
+					{
 						$in_query .= "$type ($size) ";
 					}
 					
 					$notnull = $columnData['notnull'];
-					if ($notnull) {
+					if ($notnull) 
+					{
 						$in_query .= "$notnull ";
 					}
 					
 					$autoincrement = $columnData['autoincrement'];
-					if ($autoincrement == true) {
+					if ($autoincrement == true) 
+					{
 						$in_query .= "AUTO_INCREMENT ";
 					}
 					
 					$charset = $columnData['charset'];
-					if ($charset) {
+					if ($charset) 
+					{
 						$in_query .= "CHARACTER SET $charset ";
 					}
 					
 					$collate = $columnData['collate'];
-					if ($collate) {
+					if ($collate) 
+					{
 						$in_query .= "COLLATE $collate ";
 					}
 					
 					$default = $columnData['default'];
-					if ($default) {
+					if ($default) 
+					{
 						$in_query .= "DEFAULT $default ";
 					}
 				}
 			}
 			
-			if ($primaryKey) {
+			if ($primaryKey) 
+			{
 				$in_query .= ", PRIMARY KEY (`$primaryKey`)";
 			}
 			
-			if (is_array($uniqueKey)) {
+			if (is_array($uniqueKey)) 
+			{
 				$uniqueKeyKey = $uniqueKey['key'];
 				$uniqueKeyName = $uniqueKey['name'];
 				$in_query .= ", UNIQUE KEY `$uniqueKeyKey` (`$uniqueKeyName`)";
 			}
+			
 			return "$query($in_query)";
 		}
 		
@@ -223,7 +271,7 @@
 					}
 				}
 			} 
-			else if($mode=="SELECT EXISTS") 
+			else if ($mode=="SELECT EXISTS") 
 			{
 				if ($alias) 
 				{
@@ -310,12 +358,14 @@
 		{
 			$errCode = $e->errorInfo[1];
 			$errCodeParams = preg_match_all("|(?:\')(.*)(?:\')|U", $e->errorInfo[2], $matches);
-			if (isset($matches)) {
+			if (isset($matches)) 
+			{
 				$errCodeParams = $matches[1];
 			}
 			
 			$msg = "";
-			switch($errCode) {
+			switch($errCode) 
+			{
 				case "1004":
 					$msg = sprintf("%s 파일을 정상적으로 생성할 수 없습니다.", $errCodeParams[0]);
 					break;
@@ -558,53 +608,81 @@
 			$base = new base();
 			$base->setSlowQuery(self::$query, $execution_time, $caller);
 			
-			if ($retType === 'object') {
+			if ($retType === 'object') 
+			{
 				$dbItem = new dbItem($ret, $sth);
 				return $dbItem;
-			} else {
+			} 
+			else 
+			{
 				return $ret;
 			}
 		}
 		
-		public static function Query($mode, $table, array $column, $type, $select, $alias = null, $retType = null) {
+		public static function Query($mode, $table, array $column, $type, $select, $alias = null, $retType = null) 
+		{
 			$Query = self::getQuery($mode, $table, $column, $type, $alias);
 			$sth = self::Compile($Query);
 			self::BindParams($sth, self::$params, $column);
 			return self::getOutput($sth, $select, $retType);
 		}
 		
-		public static function Fetch($stm, $type) {
-			try {
-				if ($stm->execute()) {
-					if ($type === 'boolean') {
+		public static function Fetch($stm, $type) 
+		{
+			try 
+			{
+				if ($stm->execute()) 
+				{
+					if ($type === 'boolean') 
+					{
 						return true;
 					}
 					
-					if ($type === 'all') {
+					if ($type === 'all') 
+					{
 						$res = $stm->fetchAll(PDO::FETCH_ASSOC);
-					} else if ($type === 'one') {
+					} 
+					else if ($type === 'one') 
+					{
 						$res = $stm->fetch()[0];
-					} else if ($type === 'self') {
+					} 
+					else if ($type === 'self') 
+					{
 						$res = $stm->fetch(PDO::FETCH_ASSOC);
-					} else if ($type === 'column') {
+					} 
+					else if ($type === 'column') 
+					{
 						$res = $stm->fetchColumn(PDO::FETCH_ASSOC);
-					} else if ($type === 'alias') {
+					} 
+					else if ($type === 'alias') 
+					{
 						$res = $stm->fetch(PDO::FETCH_NAMED);
-					} else if ($type === 'number') {
+					} 
+					else if ($type === 'number') 
+					{
 						$res = $stm->fetch(PDO::FETCH_NUM);
-					} else if ($type === 'both') {
+					} 
+					else if ($type === 'both') 
+					{
 						$res = $stm->fetch(PDO::FETCH_BOTH);
-					} else if ($type === 'object') {
+					} 
+					else if ($type === 'object') 
+					{
 						$res = $stm->fetch(PDO::FETCH_OBJ);
 					}
 					
 					$stm->closeCursor();
 					return $res;
-				} else {
+				} 
+				else 
+				{
 					return false;
 				}
-			} catch(\PDOException $e) {
-				if (empty(self::$params)) {
+			} 
+			catch(\PDOException $e) 
+			{
+				if (empty(self::$params)) 
+				{
 					die(
 						json_encode(
 							array(
@@ -619,7 +697,9 @@
 							)
 						)
 					);
-				} else {
+				} 
+				else 
+				{
 					die(
 						json_encode(
 							array(
@@ -638,37 +718,57 @@
 			}
 		}
 
-		public static function BindParams($stm, array $ary, $column) {
-			try {
+		public static function BindParams($stm, array $ary, $column) 
+		{
+			try 
+			{
 				$BindRowNum = 0;
-				if (isset($column[0][3]) && $column[0][3]=='[]') {
-					foreach ($column[0][4] as $key=>$value) {
-						if (is_array($value)) {
+				if (isset($column[0][3]) && $column[0][3]=='[]') 
+				{
+					foreach ($column[0][4] as $key=>$value) 
+					{
+						if (is_array($value)) 
+						{
 							$value = array_values($value)[0];
 						}
 						
 						$stm->bindValue(":" . ++$BindRowNum, $value);
 					}
-				} else {
-					foreach($ary as $key => $val) {
-						if (is_numeric($val)) {
+				} 
+				else 
+				{
+					foreach($ary as $key => $val) 
+					{
+						if (is_numeric($val)) 
+						{
 							$type = \PDO::PARAM_INT;
-						} else if (is_bool($val)) {
+						} 
+						else if (is_bool($val)) 
+						{
 							$type = \PDO::PARAM_BOOL;
-						} else if (is_null($val)) {
+						} 
+						else if (is_null($val)) 
+						{
 							$type = \PDO::PARAM_NULL;
-						} else if (is_string($val)) {
+						} 
+						else if (is_string($val)) 
+						{
 							$type = \PDO::PARAM_STR;
-						} else {
+						} 
+						else 
+						{
 							$type = false;
 						}
 						
-						if ($type !== false) {
+						if ($type !== false) 
+						{
 							$stm->bindValue("$key", $val, $type);
 						}
 					}
 				}
-			} catch(\PDOException $e) {
+			} 
+			catch(\PDOException $e) 
+			{
 				die(
 					json_encode(
 						array(
@@ -686,21 +786,24 @@
 		/**
 		 * pdo transaction
 		 */
-		public static function ready() {
+		public static function ready() 
+		{
 			self::$link->beginTransaction();
 		}
 		
 		/**
 		 * pdo commit
 		 */
-		public static function submit() {
+		public static function submit() 
+		{
 			self::$link->commit();
 		}
 		
 		/**
 		 * pdo rollBack
 		 */
-		public static function undo() {
+		public static function undo() 
+		{
 			self::$link->rollBack();
 		}
 		
@@ -718,7 +821,7 @@
 			} 
 			else 
 			{
-				if(count($std) < 1) 
+				if (count($std) < 1) 
 				{
 					$this->result = array_shift($std);
 				} 
