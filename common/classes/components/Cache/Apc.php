@@ -8,7 +8,8 @@
 		/**
 		 * apc truncate
 		 */
-		public static function truncate(){
+		public static function truncate()
+		{
 			return apc_clear_cache('user');
 		}
 		
@@ -21,7 +22,8 @@
 		 *
 		 * @return apc_store
 		 */
-		public static function set($args){
+		public static function set($args)
+		{
 			$key = $args->key;
 			$valid_time = $args->time;
 			$buff = $args->buff;
@@ -33,7 +35,8 @@
 		 *
 		 * @param  string args->key
 		 */
-		public static function kill($args){
+		public static function kill($args)
+		{
 			$key = $args->key;
 			return $key and apc_delete($key);
 		}
@@ -46,13 +49,17 @@
 		 *
 		 * @return cache
 		 */
-		public static function get($args){
+		public static function get($args)
+		{
 			$key = $args->key;
 			$limit = $args->limit;
 			$cache = apc_fetch($key, $limit);
-			if(!$verify || !is_array($cache)){
+			if (!$verify || !is_array($cache))
+			{
 				return false;
-			}elseif($limit > 0 && $limit > $cache[0]){
+			}
+			elseif($limit > 0 && $limit > $cache[0])
+			{
 				$this->kill($key);
 				return false;
 			}

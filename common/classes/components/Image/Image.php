@@ -2,26 +2,33 @@
 
 	if (!defined("__FLOWER__")) exit();
 
-	class image {
+	class image 
+	{
 		
 		static $gd_exist = FALSE;
 		static $com_exist = FALSE;
 		
-		function __construct() {
-			if (extension_loaded('imagick')) {
+		function __construct() 
+		{
+			if (extension_loaded('imagick')) 
+			{
 				$this->gd_exist = TRUE;
 			}
 			
-			if (extension_loaded('COM')) {
+			if (extension_loaded('COM')) 
+			{
 				$this->com_exist = TRUE;
 			}
 		}
 		
 		//http://www.php.net/manual/en/function.imagecreatefromgif.php#104473
-		public function is_animated_gif ($filename) {
-			if ( ! ($fh = @fopen($filename, 'rb'))) {
+		public function is_animated_gif ($filename) 
+		{
+			if (!($fh = @fopen($filename, 'rb'))) 
+			{
 				return false;
 			}
+			
 			$count = 0;
 			// an animated gif contains multiple "frames", with each frame having a
 			// header made up of:
@@ -51,17 +58,21 @@
 		 *
 		 * return array
 		 */
-		public static function hex_to_rgb($args) {
+		public static function hex_to_rgb($args) 
+		{
 			
 			$src = $args->source;
 			
-			if (preg_match('/^#[A-Za-z0-9]{6}$/i',$src)) {
+			if (preg_match('/^#[A-Za-z0-9]{6}$/i',$src)) 
+			{
 				$hex = substr($src, 2, strlen($src)-1);
 				$r = hexdec(substr($hex,0,2));
 				$g = hexdec(substr($hex,2,2));
 				$b = hexdec(substr($hex,4,2));
 				return array($r, $g, $b);
-			} else {
+			} 
+			else 
+			{
 				return FALSE;
 			}
 		}
@@ -76,7 +87,8 @@
 		 * @param  int    args->blue
 		 *
 		 */
-		public static function blank_image($args) {
+		public static function blank_image($args) 
+		{
 			
 			$width = $args->width;
 			$height = $args->height;
@@ -84,7 +96,8 @@
 			$green = $args->green;
 			$blue = $args->blue;
 			
-			if (!isset($red)||!isset($green)||!isset($blue)) {
+			if (!isset($red)||!isset($green)||!isset($blue)) 
+			{
 				$red = $green = $blue = "255";
 			}
 			
@@ -106,7 +119,8 @@
 		 * @param  string  args->dest
 		 *
 		 */
-		public static function pdf_to_jpg($args) {
+		public static function pdf_to_jpg($args) 
+		{
 			$src = $args->source;
 			$dest = $args->dest;
 			
@@ -121,15 +135,18 @@
 		 * @param  string  args->source
 		 *
 		 */
-		public static function capture_site($args) {
-			if ($this->com_exist == TRUE) {
+		public static function capture_site($args) 
+		{
+			if ($this->com_exist == TRUE) 
+			{
 				$src = $args->source;
 				$browser = new COM("InternetExplorer.Application");
 				$handle = $browser->HWND;
 				$browser->Visible = true;
 				$browser->Navigate($src);
 
-				while($browser->Busy) {
+				while($browser->Busy) 
+				{
 					com_message_pump(4000);
 				}
 				
@@ -137,14 +154,16 @@
 			}
 		}
 		
-		public static function capture_screen() {
+		public static function capture_screen() 
+		{
 			return imagegrabscreen();
 		}
 		
 		/**
 		 * ignore image warning
 		 */
-		public static function ignore_warning() {
+		public static function ignore_warning() 
+		{
 			ini_set('gd.jpeg_ignore_warning', true);
 		}
 		
@@ -154,7 +173,8 @@
 		 * @param  string args->source
 		 *
 		 */
-		public static function get_exif ($args) {
+		public static function get_exif ($args) 
+		{
 			$src = $args->source;
 			return exif_read_data($src, 0, true);
 		}
@@ -168,7 +188,8 @@
 		 * @param  int    args->height
 		 *
 		 */
-		public static function get_exif_thumbnail($args) {
+		public static function get_exif_thumbnail($args) 
+		{
 			$src = $args->source;
 			$width = $args->width;
 			$height = $args->height;
@@ -182,7 +203,8 @@
 		 * @param  string args->source
 		 *
 		 */
-		public static function get_height($args) {
+		public static function get_height($args) 
+		{
 			
 			$src = $args->source;
 			
@@ -191,13 +213,17 @@
 			$args->source = $src;
 			$source_image = self::virtualimage($args);
 			
-			if (function_exists('exif_read_data')) {
+			if (function_exists('exif_read_data')) 
+			{
 				$exif = exif_read_data($source_image, 0, true);
-				if (isset($exif['COMPUTED'])) {
+				if (isset($exif['COMPUTED'])) 
+				{
 					$tmp = $exif['COMPUTED'];
 					return $tmp['Height'];
 				}
-			} else {
+			} 
+			else 
+			{
 				return $imagesy($source_image);
 			}
 		}
@@ -208,7 +234,8 @@
 		 * @param  string args->source
 		 *
 		 */
-		public static function get_width($args) {
+		public static function get_width($args) 
+		{
 			
 			$src = $args->source;
 			
@@ -216,18 +243,23 @@
 			$args = va::args();
 			$args->source = $src;
 			$source_image = self::virtualimage($args);
-			if (function_exists('exif_read_data')) {
+			if (function_exists('exif_read_data')) 
+			{
 				$exif = exif_read_data($source_image, 0, true);
-				if (isset($exif['COMPUTED'])) {
+				if (isset($exif['COMPUTED'])) 
+				{
 					$tmp = $exif['COMPUTED'];
 					return $tmp['Width'];
 				}
-			} else {
+			} 
+			else 
+			{
 				return imagesx($source_image);
 			}
 		}
 		
-		public static function draw_line($args) {
+		public static function draw_line($args) 
+		{
 			$white = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
 			ImageLine($pic,$curX,$curY,$newX,$newY,$cRed); 
 			imagedashedline($im, 50, 25, 50, 75, $white);
@@ -243,7 +275,8 @@
 		 * @param  int    args->height
 		 *
 		 */
-		public static function repeat($args) {
+		public static function repeat($args) 
+		{
 			
 			$source = $args->source;
 			$image = $args->image;
@@ -253,14 +286,16 @@
 			$args = va::args();
 			$args->source = $source;
 			$source = self::virtualimage($args);
-			
-			if (!$width) {
+		
+			if (!$width) 
+			{
 				$args_source = va::args();
 				$args_source->source = $source;
 				$width = $this->get_width($args_source);
 			}
 			
-			if (!$height) {
+			if (!$height) 
+			{
 				$args_source = va::args();
 				$args_source->source = $source;
 				$height = $this->get_height($args_source);
@@ -283,7 +318,8 @@
 		 * @param  int    args->blue
 		 *
 		 */
-		public static function draw_ellipse($args) {
+		public static function draw_ellipse($args) 
+		{
 			
 			$src = $args->source;
 			$width = $args->width;
@@ -311,7 +347,8 @@
 		 * @param  int    args->degree
 		 *
 		 */
-		public static function rotate($args) {
+		public static function rotate($args) 
+		{
 
 			$degrees = $args->degree;
 			$src = $args->source;
@@ -333,20 +370,27 @@
 		 * @param  string args->source
 		 *
 		 */
-		public static function virtualimage($args) {
+		public static function virtualimage($args) 
+		{
 			
 			$src = $args->source;
 			
-			if (@is_array(getimagesize($src))) {
+			if (@is_array(getimagesize($src))) 
+			{
 				//get virtual image
 				$image_args = va::args();
 				$image_args->source = $src;
 				$virtual_image = self::create($image_args);
-			} else {
+			} 
+			else 
+			{
 				$finfo = getImageSize($src);
-				if ($finfo === false) {
+				if ($finfo === false) 
+				{
 					return false;
-				} else {
+				} 
+				else 
+				{
 					//get file
 					//if (file_exists($src)) {
 						$virtual_image = $src;
@@ -366,7 +410,8 @@
 		 * @param  string args->type
 		 *
 		 */
-		public static function flip($args) {
+		public static function flip($args) 
+		{
 			
 			$src = $args->source;
 			$type = $args->type;
@@ -375,7 +420,8 @@
 			$args->source = $src;
 			$virtual_image = self::virtualimage($args);
 			
-			switch($type) {
+			switch($type) 
+			{
 				case 'vertical':
 					imageflip($virtual_image, IMG_FLIP_VERTICAL);
 					break;
@@ -399,7 +445,8 @@
 		 * @param  int    args->bottom
 		 *
 		 */
-		public static function watermark($args) {
+		public static function watermark($args) 
+		{
 			
 			$source = $args->source;
 			$watermark = $args->watermark;
@@ -432,19 +479,22 @@
 		 * @param  int    args->y
 		 *
 		 */
-		public static function text_image($args) {
+		public static function text_image($args) 
+		{
 			
 			$src = $args->source;
 			
 			$font = $args->font;
-			if (!isset($font)) {
+			if (!isset($font)) 
+			{
 				$font = 0;
 			}
 			
 			$red = $args->red;
 			$green = $args->green;
 			$blue = $args->blue;
-			if (!isset($red) || !isset($green) || !isset($blue)) {
+			if (!isset($red) || !isset($green) || !isset($blue)) 
+			{
 				$red = "0";
 				$green = "0";
 				$blue = "0";
@@ -469,7 +519,8 @@
 			return $virtual_image;
 		}
 		
-		public static function pick($args) {
+		public static function pick($args) 
+		{
 			$source = $args->source;
 			$x = $args->x;
 			$y = $args->y;
@@ -495,7 +546,8 @@
 		 * @param  image  args->image
 		 *
 		 */
-		public static function draw($args) {
+		public static function draw($args) 
+		{
 			
 			$src = $args->source;
 			$virtual_image = $args->image;
@@ -504,7 +556,8 @@
 			$args_image->image = $src;
 			$format = self::getimgType($args_image);
 			
-			switch($format) {
+			switch($format) 
+			{
 				case 'image/jpeg':
 					header("Content-Type: image/jpeg");
 					imagejpeg($virtual_image);
@@ -545,11 +598,13 @@
 			
 		}
 		
-		public static function getimgType($args) {
+		public static function getimgType($args) 
+		{
 			$image = $args->image;
 
 			$finfo = getimagesize($image);
-			if ($finfo === false) {
+			if ($finfo === false) 
+			{
 				return false;
 			}
 			
@@ -565,7 +620,8 @@
 		 * @param  image  args->image
 		 *
 		 */
-		public static function make($args) {
+		public static function make($args) 
+		{
 			
 			$src = $args->source;
 			$dest = $args->dest;
@@ -575,7 +631,8 @@
 			$args_image->image = $src;
 			$format = self::getimgType($args_image);
 			
-			switch ($format) {
+			switch ($format) 
+			{
 				case 'image/jpeg':
 					imagejpeg($virtual_image, $dest, 100); //default 75
 					break;
@@ -612,7 +669,8 @@
 		 * @param  string args->source
 		 *
 		 */
-		public static function create($args) {
+		public static function create($args) 
+		{
 			$src = $args->source;
 			
 			$args_image = va::args();
@@ -620,10 +678,13 @@
 			$format = self::getimgType($args_image);
 			$source_image = null;
 			
-			try {
-				switch ($format) {
+			try 
+			{
+				switch ($format) 
+				{
 					case 'image/jpeg':
-						if (extension_loaded('gd')) {
+						if (extension_loaded('gd')) 
+						{
 							$source_image = imagecreatefromjpeg($src);
 						}
 						break;
@@ -631,24 +692,29 @@
 						$source_image = imagecreatefrombmp($src);
 						break;
 					case 'image/png':
-						if (extension_loaded('gd')) {
+						if (extension_loaded('gd')) 
+						{
 							$source_image = imagecreatefrompng($src);
 						}
 						break;
 					case 'image/gif':
-						if (extension_loaded('gd')) {
+						if (extension_loaded('gd')) 
+						{
 							$source_image = imagecreatefromgif ($src);
 						}
 						break;
 					case 'image/webp':
-						if (extension_loaded('gd')) {
+						if (extension_loaded('gd')) 
+						{
 							$source_image = imagecreatefromwebp($src);
 						}
 						break;
 					default:
 						return false;
 				}
-			} catch(Exception $e) {
+			} 
+			catch(Exception $e) 
+			{
 				return false;
 			}
 			
@@ -662,7 +728,8 @@
 		 * @param  string args->type
 		 *
 		 */
-		public static function filter($args) {
+		public static function filter($args) 
+		{
 			
 			$src = $args->source;
 			$type = $args->type;
@@ -673,33 +740,55 @@
 			$args->source = $src;
 			$virtual_image = self::virtualimage($args);
 
-			if (!isset($type) || $type=='reverse') {
+			if (!isset($type) || $type=='reverse') 
+			{
 				imagefilter($virtual_image, IMG_FILTER_NEGATE);
-			} else if ($type=='gray') {
+			} 
+			else if ($type=='gray') 
+			{
 				imagefilter($virtual_image, IMG_FILTER_GRAYSCALE);
-			} else if ($type=='edge') {
+			} 
+			else if ($type=='edge') 
+			{
 				imagefilter($virtual_image, IMG_FILTER_EDGEDETECT);
-			} else if ($type=='emboss') {
+			} 
+			else if ($type=='emboss') 
+			{
 				imagefilter($virtual_image, IMG_FILTER_EMBOSS);
-			} else if ($type=='gaussian_blur') {
+			} 
+			else if ($type=='gaussian_blur') {
 				imagefilter($virtual_image, IMG_FILTER_GAUSSIAN_BLUR);
-			} else if ($type=='blur') {
+			} 
+			else if ($type=='blur') 
+			{
 				imagefilter($virtual_image, IMG_FILTER_SELECTIVE_BLUR);
-			} else if ($type=='sketch') {
+			} 
+			else if ($type=='sketch') 
+			{
 				imagefilter($virtual_image, IMG_FILTER_MEAN_REMOVAL);
-			} else if ($type=='brightness') {
+			} 
+			else if ($type=='brightness') 
+			{
 				//args1 = Brightness Level
 				imagefilter($virtual_image, IMG_FILTER_BRIGHTNESS, $args1);
-			} else if ($type=='brightness') {
+			} 
+			else if ($type=='brightness') 
+			{
 				//args1 = Contrast Level
 				imagefilter($virtual_image, IMG_FILTER_CONTRAST, $args1);
-			} else if ($type=='brightness') {
+			} 
+			else if ($type=='brightness') 
+			{
 				//args1 = Smoothness Level
 				imagefilter($virtual_image, IMG_FILTER_SMOOTH, $args1);
-			} else if ($type=='pixelate') {
+			} 
+			else if ($type=='pixelate') 
+			{
 				//arg1 = Block Size, arg2 = Pixelation Effect Mode
 				imagefilter($virtual_image, IMG_FILTER_PIXELATE, $args1, $args2);
-			} else if ($type=='colorize') {
+			} 
+			else if ($type=='colorize') 
+			{
 				//arg1, arg2 & arg3 = red, blue, green / arg4 = alpha channel
 				imagefilter($virtual_image, IMG_FILTER_COLORIZE, $args1, $args2, $args3);
 			}
@@ -715,7 +804,8 @@
 		 * @param  int    args->transparent
 		 *
 		 */
-		public static function merge($args) {
+		public static function merge($args) 
+		{
 			$src1 = $args->source1;
 			$src2 = $args->source2;
 			$transparent = $args->transparent;
@@ -743,7 +833,8 @@
 		 * @param  int    args->height
 		 *
 		 */
-		public static function resize($args) {
+		public static function resize($args) 
+		{
 			
 			$src = $args->source;
 			$mode = $args->mode;
@@ -752,15 +843,20 @@
 			
 			if (!$resize_width || !$resize_height) return;
 			
-			if ($mode=='ratio') {
-				if (file_exists($src)) {
+			if ($mode=='ratio') 
+			{
+				if (file_exists($src)) 
+				{
 					list($origin_width, $origin_height) = getimagesize($src);
 					$ratio = $origin_width / $origin_height;
 					$resize_width = $resize_height = min($resize_width, max($origin_width, $origin_height));
 					
-					if ($ratio < 1) {
+					if ($ratio < 1) 
+					{
 						$resize_width = $thumbnail_height * $ratio;
-					} else {
+					} 
+					else 
+					{
 						$resize_height = $thumbnail_width / $ratio;
 					}
 				}
@@ -771,10 +867,13 @@
 			$args->source = $src;
 			$source_image = self::virtualimage($args);
 			
-			if (extension_loaded('gd')) {
+			if (extension_loaded('gd')) 
+			{
 				$width = imagesx($source_image);
 				$height = imagesy($source_image);
-			} else {
+			} 
+			else 
+			{
 				return;
 			}
 			
@@ -784,14 +883,20 @@
 			imageAlphaBlending($virtual_image, false);
 			imageSaveAlpha($virtual_image, false);
 
-			try {
-				if ($source_image) {
+			try 
+			{
+				if ($source_image) 
+				{
 					imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $resize_width, $resize_height, $width, $height);
 					return $virtual_image;
-				} else {
+				} 
+				else 
+				{
 					return $virtual_image;
 				}
-			} catch(Exception $e) {
+			}
+			catch(Exception $e) 
+			{
 				return $virtual_image;
 			}
 		}
