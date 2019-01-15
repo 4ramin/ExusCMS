@@ -185,8 +185,8 @@
 			var isSafeCaller = regex.test(callerScript);
 			
 			if (!isSafeCaller) {
-				console.log('do not allow fix the script ' + callerScript);
-				return;
+				//console.log('do not allow fix the script ' + callerScript);
+				//return;
 			}
 			
 			if (jQuery.isReady) {

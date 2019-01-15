@@ -516,6 +516,57 @@
 					
 					$this->base->set('document_title', $this->board->document['title']);
 				}
+				
+				if($this->board->document['tag'])
+				{
+					$list_count = 5;
+					$relatedTagList = array();
+					$tagList = $this->board->model->getDocumentlistTagRelatedSrl($this->board->module_id, $this->board->document['tag']);
+					foreach($tagList as $tags)
+					{
+						array_push($relatedTagList, $tags['srl']);
+					}
+					
+					$currentTagIndex = array_search($this->board->document['srl'], $relatedTagList)-2;
+					if($currentTagIndex<0)
+					{
+						$currentTagIndex = 0;
+					}
+					
+					include_once(__MOD."/board/music/tag.item.class.php");
+					
+					$this->board->relatedTagList = new stdClass();
+					$this->board->relatedTagList->tag_list = $this->board->model->getDocumentlistTagRelated($this->board->module_id, $currentTagIndex, 5, $this->board->document['tag']);
+					$this->board->relatedTagList->page_count = count($tagList);
+					$this->board->relatedTagList->current_page = (int)ceil(($currentTagIndex + 5) / $list_count);
+					$this->board->relatedTagList->page_count = (int)ceil($this->board->relatedTagList->page_count / $list_count);
+					$this->board->relatedTagList->pagenation = $this->board->model->getPageArray($this->board->relatedTagList->page_count, $this->board->relatedTagList->current_page);
+					
+					//쿼리가 존재하지 않는다면 빈 쿼리를 반환
+					if (!is_array($this->board->relatedTagList->tag_list)) 
+					{
+						$this->board->document_count = 0;
+						$this->board->relatedTagList->tag_list = array();
+					}
+					
+					if (is_array($this->board->relatedTagList->tag_list) && count($this->board->relatedTagList->tag_list)) 
+					{
+						$query = $this->board->relatedTagList->tag_list;
+						unset($this->board->relatedTagList->tag_list);
+						
+						foreach ($query as $data) 
+						{
+							$this->board->relatedTagList->tag_list[] = $data;
+						}
+					}
+					
+					foreach ($this->board->relatedTagList->tag_list as $relatedTagItem) 
+					{
+						$this->relatedTagItem = new tag_item($this, $relatedTagItem);
+						$this->board->relatedTagList->related_tag_list[$relatedTagItem['srl']] = $this->relatedTagItem;
+					}
+					
+				}
 			}
 		}
 		
@@ -675,7 +726,7 @@
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
 			$this->board->genre = $this->getParam('genre');
 			$this->board->category = $this->getParam('category') ? $this->getParam('category') : null;
-			$this->board->sort_index = $this->getParam('sort_index');
+			$this->board->sortIndex = $this->getParam('sort_index');
 			$this->board->module_id = $this->getParam(__MODULEID);
 			$this->board->keyword = $this->getParam('keyword');
 			$this->board->type = $this->getParam('type');
@@ -724,7 +775,7 @@
 				
 				$this->CheckPage('category');
 			} 
-			else if (isset($this->board->sort_index)) 
+			else if (isset($this->board->sortIndex)) 
 			{
 				if (!isset($GLOBALS['DOCUMENT_COUNT_SORT'][$this->board->module_id])) 
 				{
@@ -736,7 +787,7 @@
 					$this->board->document_count = $GLOBALS['DOCUMENT_COUNT_SORT'][$this->board->module_id];
 				}
 				
-				switch($this->board->sort_index):
+				switch($this->board->sortIndex):
 					//다운로드 수 정렬
 					case "download_count":
 						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;

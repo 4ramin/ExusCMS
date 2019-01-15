@@ -1,6 +1,6 @@
 var viewDocumentPrefix = 'viewing_g2';
 var ajaxDocument = 'view_bd';
-var documentContent = 'documentContent';
+var documentContent = 'content_view';
 var searchForm = 'boardSearchForm';
 var glob_srl = null;
 var isForRedirect = false;
@@ -8,10 +8,14 @@ var requestBackendFile = 'index.php';
 var tmp_comment = undefined;
 
 //Readed Document Object
-var readObject = $('.' + documentContent);
+var readObject = $('#' + documentContent);
 var reRegistryDocument = function () {
-	readObject = $('.' + documentContent);
+	readObject = $('#' + documentContent);
 };
+
+$(document).ready(function() {
+reRegistryDocument();
+});
 
 //Instance Template
 if (typeof template === "undefined") {

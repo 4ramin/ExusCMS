@@ -345,12 +345,19 @@
 			
 			if (isset($memberSrl))
 			{
+				$this->post_data->nickname = $this->base->getNickName();
+			}
+			else
+			{
 				$this->post_data->nickname = "익명";
 			}
 			
-			if ($_SESSION['target_srl'] != $this->post_data->fileSequence) 
+			if (isset($_SESSION['target_srl'])) 
 			{
-				$this->post_data->fileSequence = null;
+				if ($_SESSION['target_srl'] != $this->post_data->fileSequence) 
+				{
+					$this->post_data->fileSequence = null;
+				}
 			}
 			
 			if (!isset($this->post_data->category_srl)) $this->post_data->category_srl = 0;
@@ -586,6 +593,7 @@
 			$this->post_data = new stdClass();
 			$this->post_data->target = $this->base->post_params('target');
 			$this->post_data->pos = request::decodeBinaryNumberic($this->base->post_params('pos'));
+			$this->post_data->pos = $this->post_data->pos ? $this->post_data->pos : 0;
 			$this->post_data->tag = $this->base->post_params('tag');
 			$this->post_data->module_id = $this->base->post_params(__MODULEID);
 			$this->post_data->srl = request::decodeBinaryNumberic($this->base->post_params('srl'));
@@ -601,7 +609,7 @@
 				$this->page_count = (int)ceil($this->board_count/$this->list_count);
 				$this->page_navigation = $this->board->model->getPageArray($this->page_count,  $this->page);
 				
-				$oTagDocument = $this->board->model->getDocumentlistTagRelated($this->post_data->module_id,$this->post_data->pos,$this->list_count,$this->post_data->tag);
+				$oTagDocument = $this->board->model->getDocumentlistTagRelated($this->post_data->module_id, $this->post_data->pos, $this->list_count,$this->post_data->tag);
 				
 				$json = array();
 				if ($this->post_data->target=='Related') 

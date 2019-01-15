@@ -198,27 +198,6 @@
 			return $value;
 		}
 		
-		static function decodeBinaryNumberic($value, $use_hex = false) {
-			if ($value == 0) return 0;
-			
-			if (!$value) return NULL;
-			
-			$value = request::str_baseconvert($value, 36, 10);
-			$value = request::intersect($value);
-			$value = strrev($value);
-			$value = request::makePrefix($value, 'decode');
-			$value = request::queue($value, 'decode');
-			
-			if ($use_hex) {
-				$value = request::str_baseconvert($value, 2, 16);
-				$value = hex2bin($value);
-			} else {
-				$value = request::str_baseconvert($value, 2, 10);
-			}
-			
-			return $value;
-		}
-		
 		static function str_baseconvert($str, $frombase=10, $tobase=36) { 
 			$str = trim($str); 
 			if (intval($frombase) != 10) { 
@@ -317,8 +296,6 @@
 		}
 		
 		static function encodeBinaryNumberic($value, $use_hex = false) {
-			if ($value == 0) return 0;
-			
 			if ($use_hex) {
 				$value = bin2hex($value);
 				$value = request::str_baseconvert($value, 16, 2);
@@ -335,6 +312,25 @@
 			return $value;
 		}
 
+		static function decodeBinaryNumberic($value, $use_hex = false) {
+			if (!$value) return NULL;
+			
+			$value = request::str_baseconvert($value, 36, 10);
+			$value = request::intersect($value);
+			$value = strrev($value);
+			$value = request::makePrefix($value, 'decode');
+			$value = request::queue($value, 'decode');
+			
+			if ($use_hex) {
+				$value = request::str_baseconvert($value, 2, 16);
+				$value = hex2bin($value);
+			} else {
+				$value = request::str_baseconvert($value, 2, 10);
+			}
+			
+			return $value;
+		}
+		
 		function isConnectionAlive() {
 			$conn = $_SERVER['HTTP_CONNECTION'];
 			$conn = strToLower($conn);

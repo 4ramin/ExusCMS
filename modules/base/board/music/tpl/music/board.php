@@ -8,9 +8,15 @@ core_flower.bdstyle = "<?php echo $_GET['bdstyle'] ? $_GET['bdstyle'] : $this->b
 	<div class="content newclearfix">
 		<div id="bd_3190_0" class="bd hover_effect small_lst_btn" data-default_style="<?php echo $_GET['bdstyle']; ?>" data-bdfilestype="">
 			<div class="minimalizeWindow"></div>
-			<div id="content_view" class="list_area contentArea"><div class="documentAjax"></div></div>
 			
 			<?php if(isset($this->board->document) && is_array($this->board->document)) include('view.php');?>
+			
+			
+			<div class="documentAjax">
+				<div id="content_view" class="list_area contentArea">
+				
+				</div>
+			</div>
 			
 			<div id="boardListWrap" class="boardListWrap">
 				<?php include('category.php') ?>

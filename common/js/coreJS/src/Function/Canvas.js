@@ -1,10 +1,17 @@
 //Canvas-related functions
-import OpenGLObject from './CLass/OpenGLObject.js'
+import OpenGLObject from './Class/OpenGLObject.js'
+import Canvas2D from './Class/Canvas2D.js'
 'use strict';
 
 (function ($, core) {
 
 	var A = core.Canvas = {
+		getCanvasObject: function (canvasID) {
+			return new Canvas2D(canvasID);
+		},
+		getOpenGLObject: function (canvasID) {
+			return new OpenGLObject(canvasID);
+		},
 		drawImage: function (ctx, image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
 			ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 		},

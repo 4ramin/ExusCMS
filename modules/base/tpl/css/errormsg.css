@@ -21,7 +21,14 @@ body > div {
 body > div > div {
 	background-color:#fff;
 	width:800px;
-	min-height: 300px;margin:0 auto;border:1px solid #EEE;padding:0px 15px;border-radius:3px;box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);box-sizing:border-box;border-radius:5px;
+	min-height: 300px;
+	margin:0 auto;
+	border:1px solid #EEE;
+	padding:0px 15px;
+	border-radius:3px;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	box-sizing:border-box;
+	border-radius:5px;
 }
 
 header {
@@ -29,5 +36,18 @@ header {
 }
 
 .page-title img {
-	width:35px;height:auto" src="module\base\tpl\logo.png
+	width:35px;
+	height:auto;
+}
+
+.page-title a {
+	font-size: 0.8em;
+	font-weight: lighter;
+	line-height: 1.2em;
+	color: #0074bd;
+	word-wrap: break-word;
+}
+
+.msg {
+	margin:15px 7px;
 }

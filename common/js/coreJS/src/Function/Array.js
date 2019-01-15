@@ -12,6 +12,11 @@
 				}
 			}
 		},
+		range: function (N) {
+			Array.apply(null, {length: N}).map(function(value, index){
+			  return index + 1;
+			});
+		},
 		/**
 		 * Check that Array can push
 		 *

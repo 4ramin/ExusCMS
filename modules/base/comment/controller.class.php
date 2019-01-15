@@ -84,8 +84,8 @@
 					$this->postData->step = $this->comment->model->getCommentStep($this->postData->absolute_pos, $this->postData->module_id);
 					
 					$parentCommentItem = $this->comment->model->getCommentItem($this->postData->module_id, $this->postData->parent_srl);
-					$oNotificationController = $this->base->getController('notification');
-					$oNotificationController->insertNotification($parentCommentItem[0]['document_srl'], TRUE, $this->postData->content, $this->base->getMemberSrl(), $parentCommentItem[0]['member_srl']);
+					//$oNotificationController = $this->base->getController('notification');
+					//$oNotificationController->insertNotification($parentCommentItem[0]['document_srl'], TRUE, $this->postData->content, $this->base->getMemberSrl(), $parentCommentItem[0]['member_srl']);
 					
 					//Depth가 존재한다면 추적
 					if ($this->postData->comment_depth > 0) 

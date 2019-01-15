@@ -184,17 +184,22 @@ function loadDoc(args) {
 	var hasLength = readObject.length > 0;
 	
 	if(hasLength){
+		
 		if(readObject.length==0){
 			readObject.empty();
 			$.core.Element.appendDiv('.category', documentContent);
-			readObject.parent().html($(args).find('.' + documentContent));
+			readObject.parent().html($(args).find('#' + documentContent));
 		} else {
 			readObject.empty();
-			readObject.parent().html($(args).find("." + documentContent));
+			readObject.parent().html($(args).find("#" + documentContent));
 		}
 		
 		reRegistryDocument();
 		registryBoardAjax();
+		
+		if (readObject.find('.bd_hd').length == 0) {
+			$('#content_view').prepend($(args).find('.bd_hd')[0]);
+		}
 		
 		$("html, body").animate({scrollTop: $('.list_area').position().top},{duration: 300,specialEasing: {width: 'linear',height: 'easeInBounce'}});
 	}
@@ -232,7 +237,9 @@ function loadTargetDocument(_this, url, event){
 				var rewrite_regex = '^/([0-9]+)/([a-zA-Z0-9_]+)$';
 				var rewrite_regexr = new RegExp(regex, 'g');
 				
-				var isMatch = ($(this).attr('href').match(regexr) || this.href.match(rewrite_regexr));
+				var link = $(this).attr('href') || this.href;
+				if (!link) return;
+				var isMatch = link.match(regexr);
 				if(isMatch) {
 					if($(this).hasClass(ajaxDocument)){
 						$(this).parent().find('.tmb').addClass(viewDocumentPrefix);

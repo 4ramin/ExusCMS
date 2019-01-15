@@ -92,6 +92,7 @@
 						pressed = val.pressed;
 						val = val.value;
 					}
+					
 					if (pressed && !$.core.Validate.isUndefined(i) && !$.core.Arr.Search(gamePadDynamicKeys, i) && controller.buttons[i].pressed == true) {
 						if (pressed && pressedGamePadPressedIndex != i) {
 							pressedGamePadPressedIndex = i;

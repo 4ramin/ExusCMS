@@ -39,6 +39,11 @@
 			$this->documentSrl = $this->query['srl'];
 		}
 		
+		function getNickName() 
+		{
+			return $this->query['nick_name'];
+		}
+		
 		function getSrl() 
 		{
 			$srl = (int)$this->documentSrl;

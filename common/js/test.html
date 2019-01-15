@@ -21,12 +21,15 @@
 	<script src="coreJS/dist/extend.js"></script>
 </head>
 
+
 <textarea id="data" value=""></textarea>
 <button type="button" id="cscs" value="copy">Copy</button>
+<canvas id="GLCanvas" width="720" height="480">Your Browser Doesn't Support HTML5's Canvas. </canvas>
 
 <script>
-$('#cscs').click(function(){
-	var decrypted = $.core.SimpleCrypto.AESDecrypt('hexatonics', $('#data').val());
-	$.core.Clipboard.Copy(decrypted);
-});
+	$('#cscs').click(function(){
+		var decrypted = $.core.SimpleCrypto.AESDecrypt('hexatonics', $('#data').val());
+		$.core.Clipboard.Copy(decrypted);
+	});
+	
 </script>

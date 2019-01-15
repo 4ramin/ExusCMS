@@ -86,10 +86,19 @@
 				var tmp = str.split(",");
 				var length = tmp.length;
 				for (i = 0; i < length; i++) {
-					if (tmp[i].length > 1) return false;
-					if (isNaN(tmp[i]) == true) return false;
-					if (tmp[i] > 7 || tmp[i] < 1) return false;
+					if (tmp[i].length > 1) {
+						return false;
+					}
+					
+					if (isNaN(tmp[i]) == true) {
+						return false;
+					}
+					
+					if (tmp[i] > 7 || tmp[i] < 1) {
+						return false;
+					}
 				}
+				
 				return str;
 			} finally {
 				tmp = null; 

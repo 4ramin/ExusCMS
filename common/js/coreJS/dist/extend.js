@@ -95,6 +95,18 @@
 	});
 
 	$.fn.extend({
+		isUndefined: function () {
+			return $.core.Validate.isUndefined(this);
+		},
+		isBool: function () {
+			return $.core.Validate.isBool(this);
+		},
+		isArray: function () {
+			return $.core.Validate.isArray(this);
+		},
+		isNull: function () {
+			return $.core.Validate.isNull(this);
+		},
 		appendDiv: function (id) {
 			var cls = $(this).attr("id") || $(this).attr("class");
 			if (cls) {

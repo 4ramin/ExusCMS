@@ -43,17 +43,21 @@
 						'href' => $this->board->oDocument->getDocumentLink(),
 						'data-pjax' => 'true'
 					]);?>
+					
+					<?php echo html::element('span', html::element('a', $this->board->oDocument->getFormatRegdate(), []), [
+						'class' => 'regdateArea'
+					]);?>
 				</h1>
 				
 				<div class="title title_top">
-					<span>
-						<?php echo html::element('span', html::element('a', $this->board->oDocument->getFormatRegdate(), []), [
-							'class' => 'regdateArea'
+					<span class="side">
+						<?php echo html::element('span', $this->board->oDocument->getNickName(), [
+							'class' => 'highlight'
 						]);?>
 						<span><a onclick="$('.extra_vars').Toggle();"><i class="fa fa-folder-open" aria-hidden="true"></i> <?php echo $this->board->lang['extravar']; ?></a></span>
 						<span><a onclick="$('#rel_ar').Toggle();"><i class="fa fa-ticket" aria-hidden="true"></i> <?php echo $this->board->lang['related_doc']; ?></a></span>
 					</span>
-					<span class="side">
+					<span class="side fr">
 						<span><b>조회 수</b></span>
 						<?php echo html::element('span', $this->board->oDocument->getReadedCount(), [
 							'class' => 'highlight'
@@ -78,6 +82,14 @@
 			<?php echo html::element('article', $this->board->oDocument->getContent(), [
 				'id' => 'flower_space'
 			]);?>
+			
+			<?php
+				if($this->board->config->related_view!=1){
+					if($this->board->oDocument->isTagExists()){
+						include('ext/related_doc.php');
+					}
+				}
+			?>
 			
 			<?php 
 				include('ext/vote.php');
@@ -117,12 +129,6 @@
 			</div>
 			
 			<?php 
-				if($this->board->config->related_view!=1){
-					if($this->board->oDocument->isTagExists()){
-						include('ext/related_doc.php');
-					}
-				}
-				
 				if($this->board->config->hide_comment!=1){
 					include('ext/comment.php');
 				}

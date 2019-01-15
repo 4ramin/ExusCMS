@@ -59,7 +59,7 @@
 			var enc = '';
 			
 			do {
-				enc = enc + String.fromCharCode(((str.trim().substr(ctr-1,1)).charCodeAt(0)) + margin);
+				enc = enc + String.fromCharCode(((str.trim().substr(ctr - 1, 1)).charCodeAt(0)) + margin);
 				ctr = ctr + 1;
 			} while (ctr <= slen); 
 			
@@ -71,7 +71,7 @@
 			var enc = '';
 			
 			do {
-				enc = enc + String.fromCharCode(((str.trim().substr(ctr-1,1)).charCodeAt(0)) - margin);
+				enc = enc + String.fromCharCode(((str.trim().substr(ctr - 1, 1)).charCodeAt(0)) - margin);
 				ctr = ctr + 1;
 			} while (ctr <= slen);
 			

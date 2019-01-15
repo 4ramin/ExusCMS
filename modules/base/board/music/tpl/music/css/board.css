@@ -49,8 +49,9 @@
 	background-color: #dd4b39;
 }
 .regdateArea a {
-	line-height: 23px;
+	line-height: 27px;
 	font-weight: 100;
+	float:right;
 }
 
 
@@ -491,8 +492,8 @@ color: #e4e4e4;
 	display: inline-block;
 }
 .side {
-	float: right;
 	margin-top: 5px;
+    display: inline-block;
 }
 .in_content .contentArea {
 	background: #fff !important;
@@ -514,6 +515,7 @@ color: #e4e4e4;
 }
 .documentContent .title_top {
 	padding-top: 7px;
+    height: 36px;
 }
 .documentContent .title_top span span,
 .documentContent .title_top span a {
@@ -591,14 +593,17 @@ color: #e4e4e4;
 	background-color: #bfbfbf;
 }
 .documentContent .h1_title {
-	padding: 7px 15px 0px 5px;
-	font-size: 17px;
-	font-weight: 500;
-	letter-spacing: -1px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	word-wrap: normal;
-	overflow: hidden;
+    padding: 7px 17px 7px;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    background-color: #f7f7f7;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
 }
 .documentContent .btn_line {
 	font-size: 12px;

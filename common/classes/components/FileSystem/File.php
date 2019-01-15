@@ -621,10 +621,29 @@
 		public static function download(\stdClass $args){
 			//clearstatcache();
 			
-			$source = $args->source;
-			$speed = $args->speed;
-			$name = $args->name;
-			$direct_download = $args->direct_download;
+			if (isset($args->source)) 
+			{
+				$source = $args->source;
+			}
+			
+			if (isset($args->speed)) 
+			{
+				$speed = $args->speed;
+			}
+			
+			if (isset($args->name)) 
+			{
+				$name = $args->name;
+			}
+			
+			if (isset($args->direct_download)) 
+			{
+				$direct_download = $args->direct_download;
+			}
+			else
+			{
+				$direct_download = "N";
+			}
 			
 			if(!@is_file($source)){
 				return;
