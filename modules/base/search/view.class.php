@@ -2,14 +2,17 @@
 
 	if(!defined("__FLOWER__")) exit();
 
-	class search_view extends search {
+	class search_view extends search 
+	{
 		
-		function __construct() {
+		function __construct() 
+		{
 			$this->init = new stdClass();
 			$this->init->model = new init_model();
 		}
 		
-		function init($args) {
+		function init($args) 
+		{
 			$this->base = new base();
 			$this->pdo = $this->base->getPDO();
 
@@ -19,7 +22,8 @@
 			return $this->search;
 		}
 		
-		function search() {
+		function search() 
+		{
 			$oBoardModel = $this->base->getModel('music');
 			$this->search->list_count = 20;
 			$this->search->page = $this->base->get_params('page') ? $this->base->get_params('page') : 1;
@@ -27,7 +31,8 @@
 			$this->search->page_start = ($this->search->page - 1) * $this->search->list_count;
 			$this->search->query = $oBoardModel->getAllDocumentListbyColumn($this->search->page_start, $this->search->keyword, 'title');
 			
-			foreach ($this->search->query as $key => $val) {
+			foreach ($this->search->query as $key => $val) 
+			{
 				$this->searchitem = new search_item($this, $val);
 				$this->search->search_list[$val['srl']] = $this->searchitem;
 			}

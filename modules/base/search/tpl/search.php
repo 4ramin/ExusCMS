@@ -1,6 +1,6 @@
 <?php 
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addCSS('/module/base/search/tpl/css/search.css');
+	$this->base->addCSS('/modules/base/search/tpl/css/search.css');
 ?>
 
 <a class="result">검색결과 약 <?php echo $this->search->count; ?>개</a>
