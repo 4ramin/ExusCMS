@@ -89,7 +89,7 @@
 				}
 			}
 			
-			if($tmp==1 && in_array($lastItem, $pixel)) 
+			if($tmp == 1 && in_array($lastItem, $pixel)) 
 			{
 				$txt .= empty($txt) ? $cnt : ",".$cnt;
 			}
@@ -133,9 +133,10 @@
 				$width = $_SESSION[$gameID]['width'];
 				$x = rand(1, $width);
 				$y = rand(1, $width);
-				$x = (($x -1)* $width)+1;
+				$x = (($x -1) * $width) + 1;
 				$_x = '';
 				$_y = '';
+				
 				for($i=$x; $i < $x + 10; $i++)
 				{
 					if(in_array($i, $_SESSION[$gameID]))
@@ -170,26 +171,41 @@
 				}
 			}
 			
-			if(count($gameSession['checked']) == count($gameSession) -4)
+			if (isset ($gameSession['checked'])) 
 			{
-				return $this->base->response("type", "gameend", 'count', count($gameSession));
+				if (is_array($gameSession['checked'])) 
+				{
+					if(count($gameSession['checked']) == count($gameSession) -4)
+					{
+						return $this->base->response("type", "gameend", 'count', count($gameSession));
+					}
+				}
 			}
 			
-			if(isset($gameSession)){
-				if(in_array($pixel, $gameSession)){
-					if(!isset($gameSession['checked'])){
+			if(isset($gameSession))
+			{
+				if(in_array($pixel, $gameSession))
+				{
+					if(!isset($gameSession['checked']))
+					{
 						$gameSession['checked'] = array();
 					}
 					
-					if(!in_array($pixel, $gameSession['checked'])){
+					if(!in_array($pixel, $gameSession['checked']))
+					{
 						array_push($gameSession['checked'],$pixel);
 					}
 					
 					return $this->base->response("type", "success", "pixel", $pixel, 'on', count($gameSession['checked']), 'on2', count($gameSession));
-				}else{
-					if(!isset($gameSession['failed'])){
+				}
+				else
+				{
+					if(!isset($gameSession['failed']))
+					{
 						$gameSession['failed'] = 1;
-					}else{
+					}
+					else
+					{
 						$gameSession['failed'] = ($gameSession['failed']) + 1;
 					}
 					
@@ -244,20 +260,23 @@
 			$table = '';
 			
 			$cellHtml = '';
-			for($z=1;$z<$mapsize+1;$z++){
+			for($z = 1;$z<$mapsize + 1;$z++)
+			{
 				$cellHtml .= '<div class="cell'.(($z%2)+1).'">';
 				$cellHtml .= isset($_cellData[$z-1]) ? str_replace(",","\n",$_cellData[$z-1]) : '';
 				$cellHtml .= '</div>';
 			}
 			
 			$rowHtml = '';
-			for($z=1;$z<$mapsize+1;$z++){
+			for($z = 1;$z<$mapsize + 1;$z++)
+			{
 				$rowHtml .= '<div class="cell'.(($z%2)+1).'">';
 				$rowHtml .= isset($_rowData[$z-1]) ? str_replace(","," ",$_rowData[$z-1]) : '';
 				$rowHtml .= '</div>';
 			}
 			
-			for($z=1;$z<($mapsize+1);$z++){
+			for($z = 1;$z<($mapsize + 1);$z++)
+			{
 				$table .= '<div style="display: table;">';
 					for($i=1;$i<($mapsize+1);$i++){
 						$table .= '<div data-pixel="'.($i + ($z - 1) * $mapsize).'" class="item"></div>';
@@ -265,7 +284,8 @@
 				$table .= '</div>';
 			}
 			
-			for($k=1;$k<ceil($mapsize/5);$k++){
+			for($k = 1;$k<ceil($mapsize / 5);$k++)
+			{
 				$table .= '<line style="width:2px;height: 100%;top:0px;left:'.((73 * $k) + (1.5 * $k)).'px"></line>';
 				$table .= '<line style="height:2px;width: 100%;top:'.((73 * $k) + (1.5 * $k)).'px"></line>';
 			}

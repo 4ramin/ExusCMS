@@ -3,6 +3,9 @@
 	$this->base->addJS("/modules/base/nonogram/tpl/js/nonogram.js");
 ?>
 <style>
+.gameBoard {
+    height: 900px;
+}
 .content a{
       background-color: #f1f1f1;
     margin: 5px;

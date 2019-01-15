@@ -198,10 +198,10 @@
 		
 		function setError($message) 
 		{
-			if ($this->error == 1) 
-			{
+			//if ($this->error == 1) 
+			//{
 				//exit($message);
-			}
+			//}
 			
 			$this->accept_type = $_SERVER['HTTP_ACCEPT'];
 			

@@ -1,7 +1,7 @@
 <?php if(!defined("__FLOWER__")) exit(); ?>
 <?php
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addCSS("/module/base/message/tpl/css/message.css");
+	$this->base->addCSS("/modules/base/message/tpl/css/message.css");
 ?>
 
 <script type="text/javascript">
