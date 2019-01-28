@@ -210,7 +210,10 @@
 			$subCategory = $this->board->model->getSubCategoryList($this->board->module_id, $subSrl);
 			$subCategoryArr = $subCategory;
 			
-			if(empty(array_shift($subCategory))) return $retArr;
+			if (empty(array_shift($subCategory))) 
+			{
+				return $retArr;
+			}
 			
 			foreach ($subCategoryArr as $val) 
 			{
@@ -525,7 +528,7 @@
 					$this->base->set('document_title', $this->board->document['title']);
 				}
 				
-				if($this->board->document['tag'])
+				if ($this->board->document['tag'])
 				{
 					include_once(__MOD."/board/music/tag.item.class.php");
 					
@@ -539,7 +542,7 @@
 					$this->board->relatedTagList = new stdClass();
 					$this->board->relatedTagList->list_count = 5;
 					$this->board->relatedTagList->currentTagIndex = array_search($this->board->document['srl'], $relatedTagList)-2;
-					if($this->board->relatedTagList->currentTagIndex<0)
+					if ($this->board->relatedTagList->currentTagIndex<0)
 					{
 						$this->board->relatedTagList->currentTagIndex = 0;
 					}

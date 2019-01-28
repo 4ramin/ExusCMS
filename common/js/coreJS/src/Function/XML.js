@@ -15,13 +15,18 @@
 				return xml.find(val);
 			}
 		},
-		serialize: function (str) {
+		getXMLSerializer: function () {
 			if ($.core.Validate.isUndefined($cache['xmlserializer'])) {
 				var serializer = new XMLSerializer();
 				$cache['xmlserializer'] = serializer;
 			}
 			
-			var xmlString = $cache['xmlserializer'].serializeToString(str);
+			var xmlSerializer = $cache['xmlserializer'];
+			
+			return xmlSerializer;
+		},
+		serialize: function (str) {
+			var xmlString = this.getXMLSerializer().serializeToString(str);
 			
 			return xmlString;
 		},
