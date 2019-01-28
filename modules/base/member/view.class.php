@@ -97,27 +97,30 @@ final class member_view extends member
 	
 	function dispMemberPlaylist() 
 	{
-		$oMusicModel = $this->base->getModel('music');
-		$member_extravars = $oMusicModel->getMemberExvar($this->base->getUserId());
-		
-		$oFilesModel = $this->base->getModel('files');
-		$extravars = unserialize($member_extravars);
-		$playlist = $extravars['playlist'];
-		
-		$buff = array();
-		foreach($playlist as $val) 
+		if ($this->base->isLogged()) 
 		{
-			array_push(
-				$buff, 
-				array(
-					'srl'=>$val,
-					'file'=>$oFilesModel->getFileList($val)
-				)
-			);
+			$oMusicModel = $this->base->getModel('music');
+			$member_extravars = $oMusicModel->getMemberExvar($this->base->getUserId());
+			
+			$oFilesModel = $this->base->getModel('files');
+			$extravars = unserialize($member_extravars);
+			$playlist = $extravars['playlist'];
+			
+			$buff = array();
+			foreach($playlist as $val) 
+			{
+				array_push(
+					$buff, 
+					array(
+						'srl'=>$val,
+						'file'=>$oFilesModel->getFileList($val)
+					)
+				);
+			}
+			
+			$this->member->playlist = $buff;
+			$this->base->set('skin', sprintf('%s/playlist.php', $this->member->tpl_path));
 		}
-		
-		$this->member->playlist = $buff;
-		$this->base->set('skin', sprintf('%s/playlist.php', $this->member->tpl_path));
 	}
 	
 	function dispMemberLogin() 
