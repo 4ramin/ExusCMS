@@ -11,7 +11,7 @@
 	define('__FLOWER__', TRUE);
 	define('__ROOT', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 	define('__DIR', dirname(__FILE__));
-	
+
 	try 
 	{
 		$target_include = __ROOT . '/common/classes/load.components.php';

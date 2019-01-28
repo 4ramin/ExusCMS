@@ -1,16 +1,14 @@
 <?php
 
-	if(!defined("__FLOWER__")) exit();
-
-	final class board_install 
+final class board_install 
+{
+	
+	function isInstalled()
 	{
-		
-		function isInstalled()
-		{
-			$oModuleModel = $this->base->getModel('module');
-			return $oModuleModel->isModuleInstalled;
-		}
-		
+		$oModuleModel = $this->base->getModel('module');
+		return $oModuleModel->isModuleInstalled;
 	}
 	
+}
+
 ?>
