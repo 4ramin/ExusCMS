@@ -890,7 +890,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getCategoryListWithoutSub($module) 
+		function getCategoryListWithoutSubCategory($module) 
 		{
 			return  db::Query('SELECT','def_category',[
 				['AND', 'module', '=', ':args1', $module],

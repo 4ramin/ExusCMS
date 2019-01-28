@@ -35,6 +35,11 @@
 			return $this->property;
 		}
 		
+		public function getCurrentCommentListCount() 
+		{
+			return ($this->board->cpage - 1) * $this->board->comment_listcount;
+		}
+		
 		public function getAllOriginAlbum() 
 		{
 			return $this->board->model->getAllOriginAlbum($this->board->album);
@@ -254,9 +259,59 @@
 			$this->base->set('skin', sprintf("%s/delete.php", $this->board->skin_tpl_path));
 		}
 		
+		public function getAlbum()
+		{
+			return $this->board->model->getAlbum($this->board->page_start);
+		}
+		
+		public function getCategoryList()
+		{
+			return $this->board->model->getCategoryList($this->board->module_id);
+		}
+		
+		public function getOriginAlbum()
+		{
+			return $this->board->model->getOriginAlbum($this->board->page_start);
+		}
+		
+		public function setAuthorTplPath()
+		{
+			$this->base->set('skin', sprintf("%s/author.php", $this->board->skin_tpl_path));
+		}
+		
 		public function setBoardTplPath()
 		{
 			$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));
+		}
+		
+		public function setAlbumTplPath()
+		{
+			$this->base->set('skin', sprintf(__ALBUM_TPL__, $this->board->skin_tpl_path));
+		}
+		
+		public function setOriginTplPath()
+		{
+			$this->base->set('skin', sprintf(__ORIGIN_TPL__, $this->board->skin_tpl_path));
+		}
+		
+		public function getCategoryListWithoutSubCategory()
+		{
+			return $this->board->model->getCategoryListWithoutSubCategory($this->board->module_id);
+		}
+		
+		public function getCurrentRelatedTagListPage()
+		{
+			return (int)ceil(($this->board->relatedTagList->currentTagIndex + $this->board->relatedTagList->list_count) / $this->board->relatedTagList->list_count);
+		}
+		
+		public function getCommentListCount()
+		{
+			return $this->board->config->comment_count ? $this->board->config->comment_count : 20;
+		}
+		
+		public function getCommentCPage()
+		{
+			return $this->getParam('cpage') ? $this->getParam('cpage') : 1;
 		}
 		
 		public function getPage()

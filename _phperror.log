@@ -1,9 +1,0 @@
-[28-Jan-2019 12:56:15 Asia/Seoul] PHP Fatal error:  Cannot redeclare view_abstract::setBoardSkin() in D:\server\www\hikaru_test\Exus\modules\base\board\music\view.abstract.php on line 72
-[28-Jan-2019 12:58:26 Asia/Seoul] PHP Warning:  Creating default object from empty value in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 292
-[28-Jan-2019 12:58:26 Asia/Seoul] PHP Notice:  Undefined variable: folder in D:\server\www\hikaru_test\Exus\common\classes\components\FileSystem\Directory.php on line 33
-[28-Jan-2019 12:58:26 Asia/Seoul] PHP Notice:  Undefined variable: folder in D:\server\www\hikaru_test\Exus\common\classes\components\FileSystem\Directory.php on line 33
-[28-Jan-2019 12:58:29 Asia/Seoul] PHP Warning:  Creating default object from empty value in D:\server\www\hikaru_test\Exus\modules\base\board\music\controller.class.php on line 292
-[28-Jan-2019 12:58:29 Asia/Seoul] PHP Notice:  Undefined variable: folder in D:\server\www\hikaru_test\Exus\common\classes\components\FileSystem\Directory.php on line 33
-[28-Jan-2019 12:58:29 Asia/Seoul] PHP Notice:  Undefined variable: folder in D:\server\www\hikaru_test\Exus\common\classes\components\FileSystem\Directory.php on line 33
-[28-Jan-2019 13:10:02 Asia/Seoul] PHP Parse error:  syntax error, unexpected '}', expecting ';' in D:\server\www\hikaru_test\Exus\modules\base\board\music\view.abstract.php on line 62
-[28-Jan-2019 13:17:33 Asia/Seoul] PHP Fatal error:  Cannot redeclare view_abstract::getDocumentlistBetweenbyOriginTitle() in D:\server\www\hikaru_test\Exus\modules\base\board\music\view.abstract.php on line 49

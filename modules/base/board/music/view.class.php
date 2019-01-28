@@ -189,11 +189,11 @@
 					$this->base->set('column', array_diff($this->board->column_list, $this->board->column));
 				}
 				
-				$xmlContent = simplexml_load_string(file_get_contents($this->board->xml_path));
+				$this->board->xmlContent = $this->getSkinXmlContents();
 				
 				$this->base->set('act', 'procBoardSetup');
 				$this->base->set('config', $this->board->config);
-				$this->base->set('xml', $xmlContent);
+				$this->base->set('xml', $this->board->xmlContent);
 				$this->base->set('tab', $this->getTpl("setup_tab.php"));
 				$this->base->set('attr', $this->getTpl('setup.board.php'));
 				$this->base->set('skin', $this->getCommonTpl("setup.php"));
@@ -240,7 +240,7 @@
 		{
 			$this->board->children = array();
 			$this->board->module_id = $this->getParam(__MODULEID);
-			$this->board->extralist = $this->board->model->getCategoryListWithoutSub($this->board->module_id);
+			$this->board->extralist = $this->getCategoryListWithoutSubCategory();
 			foreach($this->board->extralist as $key=>$val)
 			{
 				array_push($this->board->children, 
@@ -280,7 +280,7 @@
 			}
 			
 			$this->board->module_id = $this->getParam(__MODULEID);
-			$this->board->extralist = $this->board->model->getCategoryList($this->board->module_id);
+			$this->board->extralist = $this->getCategoryList();
 			
 			$this->base->set('config', $this->board->config);
 			$this->base->set('tab', $this->getTpl('setup_tab.php'));
@@ -304,7 +304,7 @@
 			{
 				$this->base->set('act', 'procBoardSetup');
 				$this->base->set('config', $this->board->config);
-				$this->base->set('xml', $xmlContent);
+				$this->base->set('xml', $this->board->xmlContent);
 				$this->base->set('tab', $this->getTpl("setup_tab.php"));
 				$this->base->set('skin', $this->getCommonTpl("setup.php"));
 			}
@@ -374,7 +374,7 @@
 		function dispBoardAuthor() 
 		{
 			$this->board->query = $this->board->model->getAuthor();
-			$this->base->set('skin', sprintf("%s/author.php", $this->board->skin_tpl_path));
+			$this->setAuthorTplPath();
 		}
 		
 		//오리지널
@@ -385,11 +385,11 @@
 			
 			$this->board->document_count = $this->board->model->getOriginAlbumCount();
 			$this->board->page_start = $this->getCurrentListCount();
-			$this->board->query = $this->board->model->getOriginAlbum($this->board->page_start);
+			$this->board->query = $this->getOriginAlbum();
 			
 			$this->setDocumentItem();
 			
-			$this->base->set('skin', sprintf(__ORIGIN_TPL__, $this->board->skin_tpl_path));
+			$this->setOriginTplPath();
 			
 			$this->getPagination();
 			$this->ajaxCall();
@@ -403,11 +403,11 @@
 			
 			$this->board->document_count = $this->board->model->getAlbumCount();
 			$this->board->page_start = $this->getCurrentListCount();
-			$this->board->query = $this->board->model->getAlbum($this->board->page_start);
+			$this->board->query = $this->getAlbum();
 			
 			$this->setDocumentItem();
 			
-			$this->base->set('skin', sprintf(__ALBUM_TPL__, $this->board->skin_tpl_path));
+			$this->setAlbumTplPath();
 			
 			$this->getPagination();
 			$this->ajaxCall();
@@ -429,7 +429,7 @@
 			$this->board->tag = $this->getParam('tag');
 			
 			$this->board->document_count = $this->getDocumentCountbyTag();
-			$this->board->page_start = ($this->board->page-1) * $this->board->config->list_count;
+			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->query = $this->getDocumentlistBetweenCategory();
 			
 			$this->setDocumentItem();
@@ -495,15 +495,15 @@
 					unset($this->document_item);
 					
 					//댓글 목록
-					$this->board->cpage = $this->getParam('cpage') ? $this->getParam('cpage') : 1;
-					$this->board->comment_listcount = $this->board->config->comment_count ? $this->board->config->comment_count : 20;
+					$this->board->cpage = $this->getCommentCPage();
+					$this->board->comment_listcount = $this->getCommentListCount();
 					$this->board->comment_count = $this->getCommentCount($this->board->module_id, $this->board->srl);
 					
 					if ($this->board->comment_listcount > 0) 
 					{
 						$this->board->comment_count_rel = ceil($this->board->comment_count / $this->board->comment_listcount);
 						$this->board->comment_navigation = $this->board->model->getPageArray($this->board->comment_count_rel, $this->board->cpage);
-						$this->board->comment_page = ($this->board->cpage - 1) * $this->board->comment_listcount;
+						$this->board->comment_page = $this->getCurrentCommentListCount();
 						$this->board->comment_list = $this->getCommentList();
 						$this->board->voted_comment_list = $this->getVotedCommentList($this->board->module_id, $this->board->srl, 1, 1);
 						$this->board->blamed_comment_list = $this->getBlamedCommentList($this->board->module_id, $this->board->srl, 1, 1);
@@ -542,9 +542,9 @@
 						$this->board->relatedTagList->currentTagIndex = 0;
 					}
 					
-					$this->board->relatedTagList->tag_list = $this->getRelatedTagList(5);
+					$this->board->relatedTagList->tag_list = $this->getRelatedTagList($this->board->relatedTagList->list_count);
 					$this->board->relatedTagList->page_count = count($tagList);
-					$this->board->relatedTagList->current_page = (int)ceil(($this->board->relatedTagList->currentTagIndex + 5) / $this->board->relatedTagList->list_count);
+					$this->board->relatedTagList->current_page = $this->getCurrentRelatedTagListPage();
 					$this->board->relatedTagList->page_count = (int)ceil($this->board->relatedTagList->page_count / $this->board->relatedTagList->list_count);
 					$this->board->relatedTagList->pagenation = $this->board->model->getPageArray($this->board->relatedTagList->page_count, $this->board->relatedTagList->current_page);
 					
