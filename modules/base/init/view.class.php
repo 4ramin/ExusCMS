@@ -495,7 +495,11 @@ final class init_view
 				}
 				else 
 				{
-					$this->setBaseBoardProperty();
+					if ($this->moduleID == 'board' && class_exists('board_model')) 
+					{
+						$this->setBaseBoardProperty();
+					}
+					
 					$this->setModel();
 				}
 			} 
