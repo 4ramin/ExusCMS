@@ -172,7 +172,7 @@ class board_view extends view_abstract implements viewInterface
 		
 		$this->board->module_id = $this->getModuleID();
 		$this->board->skin = $this->board->model->getModuleLayoutbyBoard($this->board->module_id);
-		$this->board->xml_path = $this->getTpl('default.xml');
+		$this->board->xml_path = $this->getTpl('xml/default.xml');
 		
 		if (file_exists($this->board->xml_path)) 
 		{
