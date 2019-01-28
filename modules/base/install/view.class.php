@@ -9,7 +9,7 @@
 		}
 		
 		function init() {
-			$this->base->addCSS("/library/css/install_accept.css");
+			$this->base->addCSS("/common/css/install_accept.css");
 			$this->install = new stdClass;
 			$this->install->default_action = "dispInstallLicense";
 			
@@ -79,14 +79,16 @@
 						"type" => "varchar",
 						"size" => "250",
 						"default" => "NULL"
-					],
-					[
+					], [
 						"column" => "type",
 						"type" => "varchar",
 						"size" => "250",
 						"notnull" => "NOT NULL"
 					]
 				]);
+				
+				$sth = db::Compile($DefineAddon);
+				db::getOutput($sth, 'boolean', '');
 				
 				$DefineAlbum = Db::getCreateQuery("def_album", [
 					[
@@ -95,14 +97,16 @@
 						"size" => "11",
 						"notnull" => "NOT NULL",
 						"autoincrement" => true
-					],
-					[
+					], [
 						"column" => "album",
 						"type" => "varchar",
 						"size" => "250",
 						"notnull" => "NOT NULL"
 					]
 				], 'srl', ["key" => "album", "name" => "album"]);
+				
+				$sth = db::Compile($DefineAlbum);
+				db::getOutput($sth, 'boolean', '');
 				
 				$DefineArtist = Db::getCreateQuery("def_artist", [
 					[
@@ -112,6 +116,9 @@
 						"notnull" => "NOT NULL"
 					]
 				]);
+				
+				$sth = db::Compile($DefineArtist);
+				db::getOutput($sth, 'boolean', '');
 				
 				$args = va::args();
 				$args->append = TRUE;

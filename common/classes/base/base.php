@@ -968,7 +968,12 @@
 		function getPDO() 
 		{
 			$self = static::$instance;
-			return $self->pdo;
+			if (isset($self->pdo))
+			{
+				return $self->pdo;
+			}
+			
+			return new stdClass();
 		}
 		
 		function getHost() 

@@ -27,10 +27,42 @@
 		{
 			
 			//args init
-			$localhost = $args->localhost;
-			$db = $args->db;
-			$user = $args->user;
-			$password = $args->password;
+			if (isset($args->localhost))
+			{
+				$localhost = $args->localhost;
+			}
+			else
+			{
+				$localhost = "localhost";
+			}
+			
+			if (isset($args->db))
+			{
+				$db = $args->db;
+			}
+			else
+			{
+				die("Invalid database name");
+			}
+			
+			if (isset($args->user))
+			{
+				$user = $args->user;
+			}
+			else
+			{
+				die("Invalid username");
+			}
+			
+			if (isset($args->password))
+			{
+				$password = $args->password;
+			}
+			else
+			{
+				die("Invalid password");
+			}
+			
 			$catch_err = $args->catch_err;
 			
 			if (isset($args->setting)) 
@@ -162,7 +194,8 @@
 				)
 
 			*/
-			$in_query = "";
+			unset($in_query);
+			
 			foreach($column as $columnData) 
 			{
 				if ($in_query) $in_query .= ", ";
@@ -172,8 +205,24 @@
 					$vcolumn = $columnData['column'];
 					$in_query .= "`$vcolumn` ";
 					
-					$type = $columnData['type'];
-					$size = $columnData['size'];
+					if (isset($columnData['type']))
+					{
+						$type = $columnData['type'];
+					}
+					else
+					{
+						unset($type);
+					}
+					
+					if (isset($columnData['size']))
+					{
+						$size = $columnData['size'];
+					}
+					else
+					{
+						unset($size);
+					}
+					
 					if ($type == 'text' || $type == 'date' || $type == 'longtext') 
 					{
 						$in_query .= "$type";
@@ -183,32 +232,72 @@
 						$in_query .= "$type ($size) ";
 					}
 					
-					$notnull = $columnData['notnull'];
-					if ($notnull) 
+					if (isset($columnData['notnull']))
+					{
+						$notnull = $columnData['notnull'];
+					}
+					else
+					{
+						unset($notnull);
+					}
+					
+					if (isset($notnull))
 					{
 						$in_query .= "$notnull ";
 					}
+						
+					if (isset($columnData['autoincrement']))
+					{
+						$autoincrement = $columnData['autoincrement'];
+					}
+					else
+					{
+						unset($autoincrement);
+					}
 					
-					$autoincrement = $columnData['autoincrement'];
-					if ($autoincrement == true) 
+					if (isset($autoincrement) && $autoincrement === true) 
 					{
 						$in_query .= "AUTO_INCREMENT ";
 					}
 					
-					$charset = $columnData['charset'];
-					if ($charset) 
+					if (isset($columnData['charset']))
+					{
+						$charset = $columnData['charset'];
+					}
+					else
+					{
+						unset($charset);
+					}
+					
+					if (isset($charset))
 					{
 						$in_query .= "CHARACTER SET $charset ";
 					}
 					
-					$collate = $columnData['collate'];
-					if ($collate) 
+					if (isset($columnData['collate']))
+					{
+						$collate = $columnData['collate'];
+					}
+					else
+					{
+						unset($collate);
+					}
+					
+					if (isset($collate))
 					{
 						$in_query .= "COLLATE $collate ";
 					}
 					
-					$default = $columnData['default'];
-					if ($default) 
+					if (isset($columnData['default']))
+					{
+						$default = $columnData['default'];
+					}
+					else
+					{
+						unset($default);
+					}
+					
+					if (isset($default))
 					{
 						$in_query .= "DEFAULT $default ";
 					}
@@ -220,7 +309,7 @@
 				$in_query .= ", PRIMARY KEY (`$primaryKey`)";
 			}
 			
-			if (is_array($uniqueKey)) 
+			if (is_array($uniqueKey) && count($uniqueKey) > 0) 
 			{
 				$uniqueKeyKey = $uniqueKey['key'];
 				$uniqueKeyName = $uniqueKey['name'];

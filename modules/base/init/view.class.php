@@ -880,19 +880,22 @@ final class init_view
 	 **/
 	function dispContent() 
 	{
-		if ($this->systemConfig->css_minify === 'Y') 
+		if (isset($this->systemConfig))
 		{
-			$this->cssMinify();
-		}
-		
-		if ($this->systemConfig->js_minify === 'Y') 
-		{
-			$this->jsMinify();
-		}
-		
-		if ($this->systemConfig->jsbody_minify === 'Y') 
-		{
-			$this->jsBodyMinify();
+			if ($this->systemConfig->css_minify === 'Y') 
+			{
+				$this->cssMinify();
+			}
+			
+			if ($this->systemConfig->js_minify === 'Y') 
+			{
+				$this->jsMinify();
+			}
+			
+			if ($this->systemConfig->jsbody_minify === 'Y') 
+			{
+				$this->jsBodyMinify();
+			}
 		}
 		
 		$this->getContentRet($this->base->get('skin'), 'article', true);
