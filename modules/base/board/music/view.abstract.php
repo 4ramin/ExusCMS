@@ -35,9 +35,34 @@
 			return $this->property;
 		}
 		
+		public function getAllOriginAlbum() 
+		{
+			return $this->board->model->getAllOriginAlbum($this->board->album);
+		}
+		
+		public function getOriginAlbumbysrl() 
+		{
+			return $this->board->model->getOriginAlbumbysrl($this->board->related);
+		}
+		
 		public function updateReadedCount() 
 		{
 			$this->board->model->UpdateReadedCount($this->board->readed_count, $this->board->srl);
+		}
+		
+		public function getSkinXmlContents()
+		{
+			if (file_exists($this->board->xml_path)) 
+			{
+				return simplexml_load_string(file_get_contents($this->board->xml_path));
+			}
+			
+			return null;
+		}
+		
+		public function getCurrentListCount()
+		{
+			return ($this->board->page - 1) * $this->board->list_count;
 		}
 		
 		public function getReadedCount() 

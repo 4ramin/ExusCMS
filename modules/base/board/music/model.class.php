@@ -986,7 +986,7 @@
 		 *
 		 * @param string $album
 		 */
-		function getOriginAlbumFilesAll($album) 
+		function getAllOriginAlbum($album) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['', 'album_only', '=', ':args1', $album],

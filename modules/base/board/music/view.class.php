@@ -96,10 +96,10 @@
 			$this->board->list_count = $this->getListCount();
 			$this->board->related = $this->getParam('related');
 			$this->board->module_id = $this->getParam(__MODULEID);
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
-			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-			$this->board->album = $this->board->model->getOriginAlbumbysrl($this->board->related);
-			$this->board->item_popular = $this->board->model->getOriginAlbumFilesAll($this->board->album);
+			$this->board->page = $this->getPage();
+			$this->board->page_start = $this->getCurrentListCount();
+			$this->board->album = $this->getOriginAlbumbysrl();
+			$this->board->item_popular = $this->getAllOriginAlbum();
 			
 			if ($this->board->item_popular == NULL) 
 			{
@@ -126,9 +126,9 @@
 		{
 			$this->board->list_count = $this->getListCount();
 			$this->board->related = $this->getParam('related');
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
+			$this->board->page = $this->getPage();
 			
-			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->album = $this->board->model->getAlbumbysrl($this->board->related);
 			$this->board->item_popular = $this->board->model->getAlbumFilesAll($this->board->album);
 			
@@ -298,12 +298,9 @@
 			$this->board->skin = $this->board->model->getModuleLayoutbyBoard($this->board->module_id);
 			$this->board->xml_path = sprintf(__SKIN_XML__, $this->board->skin_tpl_path);
 			
-			if (file_exists($this->board->xml_path)) 
-			{
-				$xmlContent = simplexml_load_string(file_get_contents($this->board->xml_path));
-			}
+			$this->board->xmlContent = $this->getSkinXmlContents();
 			
-			if (isset($xmlContent)) 
+			if (isset($this->board->xmlContent)) 
 			{
 				$this->base->set('act', 'procBoardSetup');
 				$this->base->set('config', $this->board->config);
@@ -315,10 +312,10 @@
 		
 		function dispBoardPlaylist() 
 		{
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
+			$this->board->page = $this->getPage();
 			$this->board->module_id = $this->getParam(__MODULEID);
 			$this->board->list_count = $this->getListCount();
-			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+			$this->board->page_start = $this->getCurrentListCount();
 			
 			if ($this->isLogged())
 			{
@@ -356,10 +353,10 @@
 			$this->board->popular_count = $this->board->config->popular_count ? $this->board->config->popular_count : 15;
 			$this->board->list_count = $this->getListCount();
 			$this->board->module_id = $this->getParam(__MODULEID);
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
+			$this->board->page = $this->getPage();
 			$this->board->document_count = $this->board->model->getFileListPopularCount($this->board->module_id, $this->board->popular_count);
 			
-			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->query = $this->board->model->getPopularQueryByJoin($this->board->module_id, $this->board->popular_count, $this->board->page_start, $this->board->list_count);
 			
 			$this->setDocumentItem();
@@ -383,11 +380,11 @@
 		//오리지널
 		function dispBoardOrigin() 
 		{
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
+			$this->board->page = $this->getPage();
 			$this->board->list_count = $this->getListCount();
 			
 			$this->board->document_count = $this->board->model->getOriginAlbumCount();
-			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->query = $this->board->model->getOriginAlbum($this->board->page_start);
 			
 			$this->setDocumentItem();
@@ -401,11 +398,11 @@
 		//앨범
 		function dispBoardAlbum() 
 		{
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
+			$this->board->page = $this->getPage();
 			$this->board->list_count = $this->getListCount();
 			
 			$this->board->document_count = $this->board->model->getAlbumCount();
-			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->query = $this->board->model->getAlbum($this->board->page_start);
 			
 			$this->setDocumentItem();
@@ -663,7 +660,7 @@
 			{
 				$query = $this->board->query;
 				
-				$vid = ($this->board->document_count) - ($this->board->list_count * ($this->board->page-1));
+				$vid = ($this->board->document_count) - ($this->board->list_count * ($this->board->page - 1));
 				unset($this->board->query);
 				
 				foreach ($query as $data) 
@@ -750,7 +747,7 @@
 			//카테고리
 			if (isset($this->board->category)) 
 			{
-				$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+				$this->board->page_start = $this->getCurrentListCount();
 			
 				if ($this->board->keyword) 
 				{
@@ -798,38 +795,38 @@
 				switch($this->board->sortIndex):
 					//다운로드 수 정렬
 					case "download_count":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getPopularDocumentList();
 						break;
 					case "playtime":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("playtime");
 						break;
 					//조회수 정렬
 					case "readed_count":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("readed");
 						break;
 					//가수 정렬
 					case "artist":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("artist");
 						break;
 					//추천수 정렬
 					case "voted_count":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("voted");
 						break;
 					case "category":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("category");
 						break;
 					case "regdate":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("regdate");
 						break;
 					case "star_count":
-						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->page_start = $this->getCurrentListCount();
 						$this->board->query = $this->getDocumentListbyArticle("star");
 						break;
 				endswitch;
@@ -862,31 +859,31 @@
 						//제목
 						case "title":
 							$this->board->document_count = $this->getDocumenCountbyTitle();
-							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+							$this->board->page_start = $this->getCurrentListCount();
 							$this->board->query = $this->getDocumentlistBetweenbyTitle();
 							break;
 						//태그
 						case "tag":
 							$this->board->document_count = $this->getDocumenCountbyTag();
-							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+							$this->board->page_start = $this->getCurrentListCount();
 							$this->board->query = $this->getDocumentlistBetweenbyTag();
 							break;
 						//가수
 						case "artist":
 							$this->board->document_count = $this->getDocumenCountbyAuthor();
-							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+							$this->board->page_start = $this->getCurrentListCount();
 							$this->board->query = $this->getDocumentlistBetweenbyAuthor();
 							break;
 						//앨범 오리지널
 						case "albumorigin":
 							$this->board->document_count = $this->getDocumenCountbyOriginAlbum();
-							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+							$this->board->page_start = $this->getCurrentListCount();
 							$this->board->query = $this->getDocumentlistBetweenbyOriginAlbum();
 							break;
 						//제목 오리지널
 						case "titleorigin":
 							$this->board->document_count = $this->getDocumenCountbyOriginTitle();
-							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
+							$this->board->page_start = $this->getCurrentListCount();
 							$this->board->query = $this->getDocumentlistBetweenbyOriginTitle();
 							break;
 						default:
@@ -895,7 +892,7 @@
 				}
 				else 
 				{
-					$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+					$this->board->page_start = $this->getCurrentListCount();
 					$this->board->document_count = $this->getDocumenCountbyColumn();
 					$this->board->query = $this->getDocumentListbyColumn();
 				}
