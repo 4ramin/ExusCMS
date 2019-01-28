@@ -262,7 +262,7 @@
 						
 						if ($vars) 
 						{
-							$vars = $this->base->filterVars($_ruleset[$key], $vars);
+							$vars = str::filterVars($_ruleset[$key], $vars);
 							$this->base->set_params($key, $vars, $this->requestMethod);
 						}
 					}
