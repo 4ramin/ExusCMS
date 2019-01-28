@@ -99,6 +99,7 @@
 	defined('__SYS') || define('__SYS', __DIR."/modules");
 	defined('__REQURL') || define('__REQURL', $_SERVER['REQUEST_URI']);
 	defined('__SERVERNAME') || define('__SERVERNAME', $_SERVER['SERVER_NAME']);
+	defined('__PATH') || define('__PATH', "/modules"."/".__COMPONENTS__);
 	defined('__MOD') || define('__MOD', __SYS."/".__COMPONENTS__);
 	
 	if (defined('__SEQ') && __SEQ == true) 

@@ -1,15 +1,15 @@
 <?php
 	if (!defined("__FLOWER__")) exit();
 
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.gamepad.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.prefix.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.instanceTemplate.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.function.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.register.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.process.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/board/board.js", 'body');
-	$this->base->addJS("/modules/base/board/music/skins/music/js/ZeroClipboard.min.js");
-	$this->base->addCSS("/modules/base/board/music/skins/music/css/board.css");
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.gamepad.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.prefix.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.instanceTemplate.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.function.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.register.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.process.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/board/board.js", 'body');
+	$this->base->addJS($this->board->skin_tpl_url_path."/js/ZeroClipboard.min.js");
+	$this->base->addCSS($this->board->skin_tpl_url_path."/css/board.css");
 	
 	if (empty($this->board->config->star_max) && isset($this->board->config->star_max)) 
 	{
@@ -38,16 +38,16 @@
 
 	if ($this->board->config->list_player=="btn") 
 	{
-		$this->base->addJS("/modules/base/board/music/skins/music/js/audio/button.js", 'body');
-		$this->base->addCSS("/modules/base/board/music/skins/music/css/button.css");
+		$this->base->addJS($this->board->skin_tpl_url_path."/js/audio/button.js", 'body');
+		$this->base->addCSS($this->board->skin_tpl_url_path."/css/button.css");
 	} 
 	else if ($this->board->config->list_player=="360") 
 	{
-		$this->base->addJS("/modules/base/board/music/skins/music/js/audio/360.js", 'body');
-		$this->base->addCSS("/modules/base/board/music/skins/music/css/360.css");
+		$this->base->addJS($this->board->skin_tpl_url_path."/js/audio/360.js", 'body');
+		$this->base->addCSS($this->board->skin_tpl_url_path."/css/360.css");
 	}
-		$this->base->addJS("/modules/base/board/music/skins/music/js/lazad.js", 'body');
-		$this->base->addJS("/modules/base/board/music/skins/music/js/intersection-observer.js", 'body');
+		$this->base->addJS($this->board->skin_tpl_url_path."/js/lazad.js", 'body');
+		$this->base->addJS($this->board->skin_tpl_url_path."/js/intersection-observer.js", 'body');
 	
 	$bdstyle = $this->base->get_params('bdstyle');
 	
@@ -57,7 +57,8 @@
 	
 	if (($bdstyle=='flat' && isset($bdstyle) || $bdstyle=='webzine') && isset($bdstyle)) 
 	{
-		$this->base->addJS("/modules/base/board/music/skins/music/js/imagesloaded.pkgd.min.js", 'body');
-		$this->base->addJS("/modules/base/board/music/skins/music/js/jquery.masonry.min.js", 'body');
+		$this->base->addJS($this->board->skin_tpl_url_path."/js/imagesloaded.pkgd.min.js", 'body');
+		$this->base->addJS($this->board->skin_tpl_url_path."/js/jquery.masonry.min.js", 'body');
 	}
+	
 ?>
