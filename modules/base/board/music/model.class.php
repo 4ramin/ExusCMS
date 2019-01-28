@@ -1137,7 +1137,7 @@
 			],'*', 'all');
 		}
 	
-		function getFileListPopularCount($module, $down_count) 
+		function getPopularFilesCount($module, $down_count) 
 		{
 			return db::Query('SELECT','def_file',[
 				['AND', 'module', '=', ':args1', $module],

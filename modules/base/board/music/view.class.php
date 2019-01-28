@@ -24,8 +24,8 @@
 		
 		function dispBoardDelete()
 		{
-			$this->board->srl = $this->getParam('srl');
-			$this->board->mid = $this->getParam(__MODULEID);
+			$this->board->srl = $this->getSrl();
+			$this->board->mid = $this->getModuleID();
 			
 			if (isset($this->board->srl)) 
 			{
@@ -42,8 +42,8 @@
 				return $this->board->model->dispMemberLogin();
 			}
 			
-			$this->board->srl = $this->getParam('srl');
-			$this->board->mid = $this->getParam(__MODULEID);
+			$this->board->srl = $this->getSrl();
+			$this->board->mid = $this->getModuleID();
 			
 			if (isset($this->board->srl)) 
 			{
@@ -95,7 +95,7 @@
 		{
 			$this->board->list_count = $this->getListCount();
 			$this->board->related = $this->getParam('related');
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->page = $this->getPage();
 			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->album = $this->getOriginAlbumbysrl();
@@ -158,7 +158,7 @@
 			
 			unset($_SESSION['target_srl']);
 			$this->board->extra_var = $this->board->model->getExtraVar($this->getParam(__MODULEID));
-			$this->board->srl = $this->getParam('srl');
+			$this->board->srl = $this->getSrl();
 			$this->board->fileSequence = '';
 			$this->base->set('skin', sprintf(__WRITE_TPL__, $this->board->skin_tpl_path));
 			$this->base->set('editor', $this->getEditor());
@@ -172,7 +172,7 @@
 				return $this->board->model->dispMemberLogin();
 			}
 			
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->skin = $this->board->model->getModuleLayoutbyBoard($this->board->module_id);
 			$this->board->xml_path = $this->getTpl('default.xml');
 			
@@ -206,7 +206,7 @@
 		
 			$retArr = array();
 			
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$subCategory = $this->board->model->getSubCategoryList($this->board->module_id, $subSrl);
 			$subCategoryArr = $subCategory;
 			
@@ -239,7 +239,7 @@
 		function getCategory()
 		{
 			$this->board->children = array();
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->extralist = $this->getCategoryListWithoutSubCategory();
 			foreach($this->board->extralist as $key=>$val)
 			{
@@ -265,7 +265,7 @@
 				return $this->board->model->dispMemberLogin();
 			}
 			
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->extralist = $this->board->model->getExtraVar($this->board->module_id);
 			$this->base->set('config', $this->board->config);
 			$this->base->set('tab', $this->getTpl('setup_tab.php'));
@@ -279,7 +279,7 @@
 				return $this->board->model->dispMemberLogin();
 			}
 			
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->extralist = $this->getCategoryList();
 			
 			$this->base->set('config', $this->board->config);
@@ -294,7 +294,7 @@
 				return $this->board->model->dispMemberLogin();
 			}
 			
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->skin = $this->board->model->getModuleLayoutbyBoard($this->board->module_id);
 			$this->board->xml_path = sprintf(__SKIN_XML__, $this->board->skin_tpl_path);
 			
@@ -313,32 +313,31 @@
 		function dispBoardPlaylist() 
 		{
 			$this->board->page = $this->getPage();
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->list_count = $this->getListCount();
 			$this->board->page_start = $this->getCurrentListCount();
 			
 			if ($this->isLogged())
 			{
-				$MemberExtraVar = $this->board->model->getMemberExvar($this->getUserId());
-				$mExvar = unserialize($MemberExtraVar);
-				if (array_key_exists("playlist", $mExvar)) 
+				$extraVars = $this->getCurrentUserExtraVars();
+				if (array_key_exists("playlist", $extraVars)) 
 				{
-					$pListArr = $mExvar['playlist'];
+					$playlist = $extraVars['playlist'];
 				}
 				else
 				{
-					$pListArr = array();
+					$playlist = array();
 				}
 				
-				$this->board->document_count = count($pListArr);
-				$this->board->query = $this->board->model->getDocumentListInDocumentSrls(array_slice($pListArr, $this->board->page_start, $this->board->config->list_count));
+				$this->board->document_count = count($playlist);
+				$this->board->query = $this->board->model->getDocumentListInDocumentSrls(array_slice($playlist, $this->board->page_start, $this->board->config->list_count));
 			}
 			
 			if (isset($this->board->query)) 
 			{
 				$this->setDocumentItem();
 				
-				$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));
+				$this->setBoardTplPath();
 				
 				$this->getPagination();
 				$this->CheckDocument();
@@ -352,16 +351,16 @@
 		{
 			$this->board->popular_count = $this->board->config->popular_count ? $this->board->config->popular_count : 15;
 			$this->board->list_count = $this->getListCount();
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->page = $this->getPage();
-			$this->board->document_count = $this->board->model->getFileListPopularCount($this->board->module_id, $this->board->popular_count);
+			$this->board->document_count = $this->getPopularFilesCount();
 			
 			$this->board->page_start = $this->getCurrentListCount();
 			$this->board->query = $this->board->model->getPopularQueryByJoin($this->board->module_id, $this->board->popular_count, $this->board->page_start, $this->board->list_count);
 			
 			$this->setDocumentItem();
 			
-			$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));
+			$this->setBoardTplPath();
 			
 			
 			$this->getPagination();
@@ -417,13 +416,13 @@
 		function dispBoardTag() 
 		{
 			$this->board->tag_list = $this->getTagList();
-			$this->base->set('skin', sprintf(__TAG_TPL__, $this->board->skin_tpl_path));
+			$this->setTagTplPath();
 		}
 		
 		//태그 목록
 		function dispBoardTagList() 
 		{
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->page = $this->getPage();
 			$this->board->list_count = $this->getListCount();
 			$this->board->tag = $this->getParam('tag');
@@ -434,7 +433,7 @@
 			
 			$this->setDocumentItem();
 			
-			$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));
+			$this->setBoardTplPath();
 			
 			$this->getPagination();
 			$this->CheckDocument();
@@ -467,8 +466,8 @@
 		//읽기 문서 조회
 		protected function CheckDocument() 
 		{
-			$this->board->srl = $this->getParam('srl');
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->srl = $this->getSrl();
+			$this->board->module_id = $this->getModuleID();
 			
 			if (isset($this->board->srl)) 
 			{
@@ -581,17 +580,17 @@
 			if ($this->board->isAjax ==	TRUE) 
 			{
 				//댓글 목록
-				$this->board->srl = $this->getParam('srl');
-				$this->board->module_id = $this->getParam(__MODULEID);
-				$this->board->cpage = $this->getParam('cpage') ? $this->getParam('cpage') : 1;
-				$this->board->comment_listcount = $this->board->config->comment_count ? $this->board->config->comment_count : 20;
+				$this->board->srl = $this->getSrl();
+				$this->board->module_id = $this->getModuleID();
+				$this->board->cpage = $this->getCommentCPage();
+				$this->board->comment_listcount = $this->getCommentListCount();
 				$this->board->comment_count = $this->getCommentCount($this->board->module_id, $this->board->srl);
 				
 				if ($this->board->comment_listcount > 0) 
 				{
 					$this->board->comment_count_rel = ceil($this->board->comment_count / $this->board->comment_listcount);
 					$this->board->comment_navigation = $this->board->model->getPageArray($this->board->comment_count_rel, $this->board->cpage);
-					$this->board->comment_page = ($this->board->cpage - 1) * $this->board->comment_listcount;
+					$this->board->comment_page = $this->getCurrentCommentCPage();
 					$this->board->comment_list = $this->getCommentList();
 					$this->board->voted_comment_list = $this->getVotedCommentList($this->board->module_id, $this->board->srl, 1, 5);
 					$this->board->blamed_comment_list = $this->getBlamedCommentList($this->board->module_id, $this->board->srl, 1, 5);
@@ -635,7 +634,7 @@
 		//올바르지 않는 페이지 교정(크롤링->접속->게시글 페이지값이 잘못되었다면 교정)
 		protected function CheckPage($called_position) 
 		{
-			$this->board->srl = $this->getParam('srl');
+			$this->board->srl = $this->getSrl();
 			$this->board->page_count = (int)ceil($this->board->document_count / $this->board->list_count);
 			$hasDocumentSrl = isset($this->board->srl) && $this->board->srl > 0;
 			
@@ -726,13 +725,13 @@
 			}
 			
 			//파라미터
-			$this->board->srl = $this->getParam('srl');
+			$this->board->srl = $this->getSrl();
 			$this->board->list_count = $this->getListCount();
 			$this->board->page = $this->getPage();
 			$this->board->genre = $this->getParam('genre');
 			$this->board->category = $this->getCategorySrl();
 			$this->board->sortIndex = $this->getParam('sort_index');
-			$this->board->module_id = $this->getParam(__MODULEID);
+			$this->board->module_id = $this->getModuleID();
 			$this->board->keyword = $this->getParam('keyword');
 			$this->board->type = $this->getParam('type');
 			
@@ -905,7 +904,7 @@
 				}
 				
 				//일반 문서
-				if (($this->board->config->list_view_on|1) || !isset($this->board->srl)) 
+				if (($this->board->config->list_view_on | 1) || !isset($this->board->srl)) 
 				{
 					//카운트 조회
 					if (!isset($GLOBALS['DOCUMENT_COUNT_ALL'][$this->board->module_id])) 

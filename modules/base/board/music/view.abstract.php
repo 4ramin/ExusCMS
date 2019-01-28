@@ -259,6 +259,11 @@
 			$this->base->set('skin', sprintf("%s/delete.php", $this->board->skin_tpl_path));
 		}
 		
+		public function getSrl()
+		{
+			return $this->getParam('srl');
+		}
+		
 		public function getAlbum()
 		{
 			return $this->board->model->getAlbum($this->board->page_start);
@@ -274,9 +279,30 @@
 			return $this->board->model->getOriginAlbum($this->board->page_start);
 		}
 		
+		public function getModuleID()
+		{
+			return $this->getParam(__MODULEID);
+		}
+			
+		public function getPopularFilesCount()
+		{
+			return $this->board->model->getPopularFilesCount($this->board->module_id, $this->board->popular_count);
+		}
+		
+		public function setTagTplPath()
+		{
+			$this->base->set('skin', sprintf(__TAG_TPL__, $this->board->skin_tpl_path));
+		}
+		
 		public function setAuthorTplPath()
 		{
 			$this->base->set('skin', sprintf("%s/author.php", $this->board->skin_tpl_path));
+		}
+		
+		public function getCurrentUserExtraVars()
+		{
+			$memberExtraVars = $this->board->model->getMemberExvar($this->getUserId());
+			return unserialize($memberExtraVars);
 		}
 		
 		public function setBoardTplPath()
@@ -307,6 +333,11 @@
 		public function getCommentListCount()
 		{
 			return $this->board->config->comment_count ? $this->board->config->comment_count : 20;
+		}
+		
+		public function getCurrentCommentCPage()
+		{
+			return ($this->board->cpage - 1) * $this->board->comment_listcount;
 		}
 		
 		public function getCommentCPage()
