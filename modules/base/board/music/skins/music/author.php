@@ -1,5 +1,5 @@
 <?php if(!defined("__FLOWER__")) exit(); ?>
-<?php $this->base->addCSS("/module/base/board/music/tpl/music/css/author.css"); ?>
+<?php $this->base->addCSS("/module/base/board/music/skins/music/css/author.css"); ?>
 
 <div class="list_area" style="background-color:#fff !important">
 <?php foreach($this->board->query as $key=>$value): ?>

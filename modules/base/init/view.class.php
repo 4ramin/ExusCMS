@@ -361,7 +361,7 @@
 		{
 			$this->{$this->moduleID}->model = new board_model($this);
 			$this->{$this->moduleID}->category_list = (array)$this->{$this->moduleID}->model->getModuleCategoryList($this->{$this->moduleID}->module_id);
-			$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/tpl", __MOD, $this->module);
+			$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/skins", __MOD, $this->module);
 			$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
 		}
 		
@@ -379,7 +379,7 @@
 		//설정파일을 가져온다.
 		function loadSettingFile() 
 		{
-			$this->settingFile = sprintf("%s/tpl/%s/_setting.php", $this->moduleDirectory, $this->module);
+			$this->settingFile = sprintf("%s/skins/%s/_setting.php", $this->moduleDirectory, $this->module);
 			
 			if (file_exists($this->settingFile) && is_readable($this->settingFile)) 
 			{

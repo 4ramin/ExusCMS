@@ -26,6 +26,7 @@
 			$directory = dirname($reflectClass->getFilename());
 			$this->base->set('skin', sprintf("%s/tpl/%s", $directory, $tpl));
 		}
+		
 	}
 	
 ?>

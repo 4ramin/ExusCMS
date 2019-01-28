@@ -1,8 +1,8 @@
 <?php
 	if(!defined("__FLOWER__")) exit();
-	$this->base->addCSS('/module/base/board/music/tpl/music/css/album.css');
-	$this->base->addCSS('/module/base/board/music/tpl/music/css/button.css');
-	$this->base->addJS('/module/base/board/music/tpl/music/js/audio/button.js');
+	$this->base->addCSS('/module/base/board/music/skins/music/css/album.css');
+	$this->base->addCSS('/module/base/board/music/skins/music/css/button.css');
+	$this->base->addJS('/module/base/board/music/skins/music/js/audio/button.js');
 ?>
 
 <div class="list_area" style="margin-top:10px;padding:10px">

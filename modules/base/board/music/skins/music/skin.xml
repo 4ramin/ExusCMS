@@ -34,16 +34,16 @@
 				<options value="list">
 					<title>리스트</title>
 				</options>
-				<options image="module/base/board/music/tpl/music//preview/style/gallery.png" value="gallery">
+				<options image="module/base/board/music/skins/music//preview/style/gallery.png" value="gallery">
 					<title>갤러리</title>
 				</options>
-				<options image="module/base/board/music/tpl/music//preview/style/flat.png" value="flat">
+				<options image="module/base/board/music/skins/music//preview/style/flat.png" value="flat">
 					<title>Flat 갤러리</title>
 				</options>
-				<options image="module/base/board/music/tpl/music//preview/style/card.png" value="gallery3">
+				<options image="module/base/board/music/skins/music//preview/style/card.png" value="gallery3">
 					<title>카드 갤러리</title>
 				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/webzine.png" value="webzine">
+				<options image="module/base/board/music/skins/music/preview/style/webzine.png" value="webzine">
 					<title>웹진</title>
 				</options>
 				<options value="justfied">
@@ -75,94 +75,6 @@
 		<group>
 			<title>플레이어 설정</title>
 			<description>음악을 재생할 플레이어를 설정합니다.</description>
-			<var name="view_player" type="select">
-				<title>음악 플레이어</title>
-				<toggle value="jwplayer" target="#set_jwplayer_skin"></toggle>
-				<description>기본 음악 플레이어를 설정합니다.</description>
-				<options image="module/base/board/music/tpl/music/preview/style/browseraudio.png" value="">
-					<title>일반 플레이어</title>
-				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/audiojs.png" value="audiojs">
-					<title>Audiojs</title>
-				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/audioplayer.png" value="audioplayer">
-					<title>Audio Player</title>
-				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/browseraudio.png" value="audiosurfer">
-					<title>Audio Surfer</title>
-				</options>
-				<options value="jwplayer">
-					<title>Jwplayer</title>
-				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/mediaelement.png" value="mediaelement">
-					<title>MediaElement</title>
-				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/acrorn.png" value="acornmediaplayer">
-					<title>Acorn Media Player</title>
-				</options>
-				<options value="oiplayer">
-					<title>Oiplayer</title>
-				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/leanback.png" value="leanback">
-					<title>LeanBack Player</title>
-				</options>
-				<options value="simplehtml5player">
-					<title>Simple Html5 Player</title>
-				</options>
-				<options value="plyr">
-					<title>Plyr</title>
-				</options>
-				<options value="flathtml5video">
-					<title>Flat Responsive HTML5 Video Player With jQuery And CSS3</title>
-				</options>
-			</var>
-			<title>JWPLAYER</title>
-			<var name="jwplayer_skin" type="select">
-				<title>JWPLAYER 설정</title>
-				<description>JWPLAYER의 기본플레이어를 설정합니다.</description>
-				<options value="Aero">
-					<title>Aero</title>
-				</options>
-				<options value="beelden">
-					<title>beelden</title>
-				</options>
-				<options value="facebook">
-					<title>facebook</title>
-				</options>
-				<options value="fs">
-					<title>fs</title>
-				</options>
-				<options value="kleur">
-					<title>kleur</title>
-				</options>
-				<options value="lulu">
-					<title>lulu</title>
-				</options>
-				<options value="modieus">
-					<title>modieus</title>
-				</options>
-				<options value="NewTubeDark">
-					<title>NewTubeDark</title>
-				</options>
-				<options value="norden">
-					<title>norden</title>
-				</options>
-				<options value="schoon">
-					<title>schoon</title>
-				</options>
-				<options value="simple">
-					<title>simple</title>
-				</options>
-				<options value="snel">
-					<title>snel</title>
-				</options>
-				<options value="stijl">
-					<title>stijl</title>
-				</options>
-				<options value="stormtrooper">
-					<title>stormtrooper</title>
-				</options>
-			</var>
 			<var name="list_player" type="select">
 				<title>목록 플레이어</title>
 				<description>목록의 플레이어를 설정합니다.</description>
