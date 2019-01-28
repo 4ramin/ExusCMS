@@ -245,7 +245,7 @@
 			return false;
 		}
 		
-		//룰셋을 적용한다.
+		//Apply rule-sets.
 		function applyRuleset() 
 		{
 			$ruleset = sprintf("%s/ruleset/%s.php", $this->moduleDirectory, $this->requestMethod);
@@ -270,7 +270,7 @@
 			}
 		}
 		
-		//모듈 언어파일을 가져온다.
+		//Import the module language file.
 		function loadModuleLanguage() 
 		{
 			$this->languageFile = sprintf("%s/lang/%s.php", $this->moduleDirectory, $this->langType);
@@ -292,7 +292,7 @@
 			}
 		}
 		
-		//모듈 기본 프로퍼티를 지정한다.
+		//Specify module default properties.
 		function setModuleBasicProperty() 
 		{
 			if (in_array($this->module, $this->exceptModule) && is_array($this->exceptModule)) 
@@ -311,7 +311,7 @@
 			}
 		}
 		
-		//모듈 클래스를 가져온다.
+		//Get the module class.
 		function loadModuleClass($baseComponent, $requestType) 
 		{
 			$prefixHandler = $this->requestMethod === "GET" ? 'view' : ($this->requestMethod === "POST" ? 'controller' : null);
@@ -338,7 +338,7 @@
 			}
 		}
 		
-		//모듈클래스를 만든다.
+		//Create a module class.
 		function makeModuleClass() 
 		{
 			$this->{$this->moduleID} = new stdClass();
@@ -357,7 +357,7 @@
 			$this->{$this->moduleID}->module_id = $this->base->get_params(__MODULEID, 'string');
 		}
 		
-		//게시판 기본 프로퍼티를 지정한다.
+		//Specifies bulletin board default properties.
 		function setBoardProperty() 
 		{
 			if (class_exists("board_model"))
@@ -374,7 +374,7 @@
 			$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
 		}
 		
-		//모델 핸들러를 지정한다.
+		//Specifies the model handler.
 		function setModel() 
 		{
 			$this->modelObject = sprintf("%s_model", $this->moduleID);
@@ -385,7 +385,7 @@
 			}
 		}
 		
-		//설정파일을 가져온다.
+		//Import the configuration file.
 		function loadSettingFile() 
 		{
 			$this->settingFile = sprintf("%s/skins/%s/_setting.php", $this->moduleDirectory, $this->module);
@@ -396,7 +396,7 @@
 			}
 		}
 		
-		//페이지가 변경되었는지를 확인한다.
+		//Check that the page has been changed.
 		function checkModified() 
 		{
 			$this->{$this->moduleID}->isAjax = (request::isAjax() === true) ? true : false;
@@ -423,7 +423,7 @@
 			}
 		}
 		
-		//모듈 핸들러를 초기화한다.
+		//Initialize the module handler.
 		function initializeModuleHandler() 
 		{
 			if (class_exists($this->requestHandler)) 
@@ -436,7 +436,7 @@
 			}
 		}
 		
-		//인스턴스 오브젝트를 가져온다.
+		//Get the instance object.
 		function getInstanceObject() 
 		{
 			if (class_exists($this->moduleID)) 
@@ -449,7 +449,7 @@
 			}
 		}
 		
-		//모듈 프로퍼티를 지정한다.
+		//Specify the module property.
 		function setModuleProperty($requestType) 
 		{
 			if (isset($requestType)) 
@@ -494,7 +494,7 @@
 			}
 		}
 		
-		//모델링 모듈을 가져온다.
+		//Import the modeling module.
 		function loadModelingModule() 
 		{
 			$itemObject = sprintf("%s/item.class.php", $this->moduleDirectory);
@@ -507,7 +507,7 @@
 			);
 		}
 		
-		//오브젝트 클래스를 불러온다.
+		//Invoke the object class.
 		function loadObjectClass() 
 		{
 			$objectClass = sprintf("%s/init/object.class.php", __MOD);
@@ -520,7 +520,7 @@
 			);
 		}
 		
-		//메소드 요청
+		//Method request
 		function method() 
 		{
 			if (!isset($this->{$this->moduleID}->private_action)) 
@@ -545,7 +545,7 @@
 			}
 		}
 		
-		//모듈 초기화
+		//Module initialization
 		function initializeModule($requestType = 'view') 
 		{
 			$this->getPlugin('before', 'initializeModule', $this);
@@ -694,7 +694,7 @@
 			$this->initializeView();
 		}
 		
-		//모듈값이 없다면 SRL 값으로 모듈을 찾는다.
+		//If there is no module value, find the module with the SRL value.
 		function findModulebySrl() 
 		{
 			$this->getSrl = (int)$this->base->get_params('srl', 'int');
@@ -754,7 +754,7 @@
 			}
 		}
 		
-		//화면을 초기화한다.
+		//Initialize the view.
 		function initializeView() 
 		{
 			if (isset($this->requestModuleID) && is_string($this->requestModuleID) && preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/", $this->requestModuleID)) 
@@ -814,7 +814,7 @@
 			$this->dispContentView();
 		}
 		
-		//제목을 지정한다.
+		//Specify the title.
 		function setTitle() 
 		{
 			$this->module_title = $this->base->get('module_title');
@@ -856,7 +856,7 @@
 		}
 		
 		/**
-		 * 내용 출력
+		 * Content output
 		 **/
 		function dispContent() 
 		{
@@ -896,7 +896,7 @@
 		}
 		
 		/**
-		 * 스킨 파일의 내용을 가져온다.
+		 * Retrieves the contents of the skin file.
 		 *
 		 * @public String $skin
 		 * @public String $ret
@@ -954,7 +954,7 @@
 		}
 		
 		/**
-		 * 기본 리소스 파일을 지정한다.
+		 * Specify default resource file.
 		 **/
 		function setBaseResource() 
 		{
@@ -999,7 +999,7 @@
 		}
 		
 		/**
-		 * 토큰을 생성한다.
+		 * Generate a token.
 		 **/
 		function generateToken() 
 		{
@@ -1013,7 +1013,7 @@
 		}
 		
 		/**
-		 * 쿠키정보를 가져와서 언어를 설정한다.
+		 * Get cookie information and set the language.
 		 **/
 		function setLanguageByCookie() 
 		{
@@ -1042,7 +1042,7 @@
 		}
 		
 		/**
-		 * 언어파일을 불러온다.
+		 * Load a language file
 		 **/
 		function loadLanguage() 
 		{
@@ -1085,7 +1085,7 @@
 		}
 		
 		/**
-		 * HTTP 요청 (GET/POST)
+		 * HTTP Request (GET/POST)
 		 **/
 		function httpRequest() 
 		{
@@ -1116,7 +1116,7 @@
 		
 		
 		/**
-		 * 초기화
+		 * Initialize
 		 **/
 		function init() 
 		{
@@ -1159,7 +1159,7 @@
 		}
 		
 		/**
-		 * 플러그인 프로퍼티 설정
+		 * Setting plug-in properties
 		 *
 		 * @public String $prop
 		 **/
@@ -1177,7 +1177,7 @@
 		}
 		
 		/**
-		 * 플러그인 실행
+		 * Run the plugin
 		 *
 		 * @public String $status
 		 * @public String $position
@@ -1194,7 +1194,7 @@
 		}
 		
 		/**
-		 * 메소드 요청
+		 * Method request
 		 *
 		 * @public String $module
 		 * @public Method $oModule
