@@ -4,18 +4,34 @@
 	{
 		
 		abstract function procBoardCategoryMoveFolder();
-		
 		abstract function procBoardCategoryFolderOut();
-		
 		abstract function procBoardCategoryMove();
-		
 		abstract function getAudiolyrics();
-		
 		abstract function procAddPlaylist();
-		
 		abstract function insertDocument();
-		
+		abstract function procBoardCategoryRename();
+		abstract function procBoardCategoryRemove();
+		abstract function procInsertCategory();
+		abstract function deleteDocument();
 		abstract function procBoardBlame();
+		abstract function procBoardStar();
+		abstract function procBoardVote();
+		abstract function procBoardRelatedList();
+		abstract function procRandomDocument();
+		abstract function procRandomMusic();
+		abstract function procBoardUpdateSinger();
+		abstract function procBoardUpdateGenre();
+		abstract function procBoardSetup();
+		
+		public function setMessage($msg)
+		{
+			return $this->base->response("type", "success", "html", $msg);
+		}
+		
+		public function setError($errorMsg)
+		{
+			return $this->base->response("type", "error", "html", $errorMsg);
+		}
 		
 		public function getUserId()
 		{
@@ -79,6 +95,11 @@
 		{
 			$oMemberView = $this->base->getView('member');
 			return $oMemberView->dispMemberLogin();
+		}
+		
+		public function getParam($var) 
+		{
+			return $this->base->post_params($var);
 		}
 		
 	}

@@ -932,7 +932,7 @@
 				if (isset($this->board->srl)) 
 				{
 					$oBoardModel = $this->base->getModel('music');
-					$this->board->document = $oBoardModel->getDocumentItems($this->board->srl);
+					$this->board->document = $oBoardModel->getDocumentItem($this->board->srl);
 					$this->document_item = new board_item($this, $this->board->document);
 					$this->board->oDocument = $this->document_item;
 					$content = $this->board->oDocument->getContent();

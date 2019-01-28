@@ -19,7 +19,7 @@ class AudioPlayer
 		$FileList = $oFileModel->getFileList($fileSequence);
 		
 		$oBoardModel = $this->base->getModel('music');
-		$oDocument = $oBoardModel->getDocumentItems($document_srl);
+		$oDocument = $oBoardModel->getDocumentItem($document_srl);
 		
 		foreach($FileList as $key => $fileInfo)
 		{

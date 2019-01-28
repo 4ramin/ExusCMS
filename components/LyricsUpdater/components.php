@@ -14,7 +14,7 @@
 			if(!$document_srl || $document_srl <= -1) return;
 			
 			$oBoardModel = $this->base->getModel('music');
-			$oDocument = $oBoardModel->getDocumentItems($document_srl);
+			$oDocument = $oBoardModel->getDocumentItem($document_srl);
 			
 			$oFileModel = $this->base->getModel('files');
 			$fileSequence = $oFileModel->getDocumentFileSequence($document_srl);

@@ -12,7 +12,7 @@
 			$this->base = new base();
 			
 			$oBoardModel = $this->base->getModel('music');
-			$commentList = $oBoardModel->getPopularQuery("index", 2, 1, 20);
+			$commentList = $oBoardModel->getPopularDocumentList("index", 2, 1, 20);
 			
 			$oBoardItem = $this->base->getItem('music');
 			$oCommentItem = $oBoardItem->__registry($this, $commentList);

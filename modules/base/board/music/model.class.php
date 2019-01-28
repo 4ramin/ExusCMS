@@ -1318,7 +1318,7 @@
 			],'count(*)', 'one');
 		}
 		
-		function getDocumentCountbyBoardbyGenre($get_board, $genre) 
+		function getDocumentCountbyGenre($get_board, $genre) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $get_board],
@@ -1332,7 +1332,7 @@
 		 * @param string $module
 		 * @param string $tag
 		 */
-		function getDocumentCountbyBoardbyTag($module, $tag) 
+		function getDocumentCountbyTag($module, $tag) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1340,7 +1340,7 @@
 			],'count(*)', 'one');
 		}
 	
-		function getDocumentCountbyBoardbyCategory($module, $category) 
+		function getDocumentCountbyCategory($module, $category) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':module', $module],
@@ -1348,7 +1348,7 @@
 			],'count(*)', 'one');
 		}
 	
-		function getDocumentCountbyBoardbyCategoryAndArticle($module, $category, $keyword, $target) 
+		function getDocumentCountbyCategoryArticle($module, $category, $keyword, $target) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1366,7 +1366,7 @@
 			],'count(*)', 'one');
 		}
 			
-		function getDocumenCountbyalborigin($module, $page_start, $author) 
+		function getDocumenCountbyOriginAlbum($module, $page_start, $author) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':bd', $module],
@@ -1382,7 +1382,7 @@
 		 * @param string $title_origin
 		 * @param   int  $page_start
 		 */
-		function getDocumenCountbytitorigin($module, $page_start, $title_only) 
+		function getDocumenCountbyOriginTitle($module, $page_start, $title_only) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':module', $module],
@@ -1444,7 +1444,7 @@
 		 *
 		 * @param string $module
 		 */
-		function getDocumentCountbyBoard($module) 
+		function getDocumentCountbyBoardId($module) 
 		{
 			if (!isset($_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module])) 
 			{
@@ -1493,7 +1493,7 @@
 			],'count(*)', 'one');
 		}
 		
-		function getDocumentlistTagRelatedSrl($module, $tag) 
+		function getTagRelatedDocumentSrl($module, $tag) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1510,7 +1510,7 @@
 		 * @param int $page_end
 		 * @param str $tag
 		 */
-		function getDocumentlistTagRelated($get_board, $page_start, $page_end, $tag) 
+		function getRelatedTagList($get_board, $page_start, $page_end, $tag) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $get_board],
@@ -1541,7 +1541,7 @@
 		 * @param str $get_board
 		 * @param int $page_start
 		 */
-		function getRandomDocumentListbySrl($array, $get_board, $page_start) 
+		function getDocumentListInDocumentSrls($array, $get_board, $page_start) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['', 'srl', 'IN', '[]', $array]
@@ -1557,7 +1557,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenAuthorLIKE($module, $page_start, $author) 
+		function getDocumentlistBetweenbyAuthor($module, $page_start, $author) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1574,7 +1574,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenAlbOriginLIKE($module, $page_start, $author) 
+		function getDocumentlistBetweenbyOriginAlbum($module, $page_start, $author) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1591,7 +1591,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenTitOriginLIKE($module, $page_start, $author) 
+		function getDocumentlistBetweenbyOriginTitle($module, $page_start, $author) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1608,7 +1608,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenTagLIKE($module, $page_start, $tag) 
+		function getDocumentlistBetweenbyTag($module, $page_start, $tag) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $module],
@@ -1629,7 +1629,7 @@
 			],'*', 'all');
 		}
 
-		function getDocumentlistBetweenbyCategoryAndArticle($get_board, $page_start, $page_end, $get_category, $keyword, $target) 
+		function getDocumentlistBetweenbyCategoryArticle($get_board, $page_start, $page_end, $get_category, $keyword, $target) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $get_board],
@@ -1654,7 +1654,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getDocumentItems($srl) 
+		function getDocumentItem($srl) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['', 'srl', '=', ':srl', $srl]
@@ -1692,7 +1692,7 @@
 		 * @param int $page_start
 		 * @param int $list_count
 		 */
-		function getPopularQuery($module, $down_count, $page_start, $list_count) 
+		function getPopularDocumentList($module, $down_count, $page_start, $list_count) 
 		{
 			$sth = $this->pdo->prepare("SELECT * FROM def_document_music AS BD, (SELECT target AS FD FROM def_file WHERE down >= :down AND module = :module AND origin LIKE '%.mp3' ORDER by down desc LIMIT :px, :pgy) AS temp WHERE BD.srl = FD");
 			$sth->bindParam(':module', $module,PDO::PARAM_INT);
@@ -1797,7 +1797,7 @@
 			],'*', 'all');
 		}
 
-		function getDocumentlistBetweenGenre($get_board, $page_start, $list_count, $genre) 
+		function getDocumentlistBetweenbyGenre($get_board, $page_start, $list_count, $genre) 
 		{
 			return db::Query('SELECT','def_document_music',[
 				['AND', 'module', '=', ':args1', $get_board],

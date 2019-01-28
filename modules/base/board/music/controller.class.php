@@ -14,7 +14,7 @@
 		{
 			$this->board = new stdClass;
 			$this->board->module = $args->module;
-			$this->board->model = new Board_Model($this);
+			$this->board->model = new board_model($this);
 			
 			return $this->board;
 		}
@@ -23,12 +23,12 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$module = $this->base->post_params(__MODULEID);
-			$category_srl = $this->base->post_params('category_srl');
-			$parent_srl = $this->base->post_params('parent_srl');
+			$module = $this->getParam(__MODULEID);
+			$category_srl = $this->getParam('category_srl');
+			$parent_srl = $this->getParam('parent_srl');
 			
 			// Update parent_srl of category to root_srl
 			$this->board->model->updateCategoryParentSrl($category_srl, $parent_srl);
@@ -38,11 +38,11 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$module = $this->base->post_params(__MODULEID);
-			$category_srl = $this->base->post_params('category_srl');
+			$module = $this->getParam(__MODULEID);
+			$category_srl = $this->getParam('category_srl');
 			
 			// Update parent_srl of category to null
 			$this->board->model->updateCategoryParentSrl($category_srl, null);
@@ -52,12 +52,12 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$module = $this->base->post_params(__MODULEID);
-			$category_srl = $this->base->post_params('category_srl');
-			$text = $this->base->post_params('text');
+			$module = $this->getParam(__MODULEID);
+			$category_srl = $this->getParam('category_srl');
+			$text = $this->getParam('text');
 			
 			// Update category caption
 			$this->board->model->updateCategoryCaption($category_srl, $text);
@@ -67,12 +67,12 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$module = $this->base->post_params(__MODULEID);
-			$category_srl = $this->base->post_params('category_srl');
-			$parent_srl = $this->base->post_params('parent_srl');
+			$module = $this->getParam(__MODULEID);
+			$category_srl = $this->getParam('category_srl');
+			$parent_srl = $this->getParam('parent_srl');
 			
 			// Just exchange listorder of two items
 			$this->board->model->updateCategoryOrders($category_srl, $parent_srl);
@@ -157,18 +157,18 @@
 			
 			$msg = "<ts moveType='$moveType' startKey='$startKey' endKey='$endKey' key='$key'></ts>";
 			
-			return $this->base->response("type", "success", "msg", $msg, "html", $this->board->lang['categorymovesuccess']);
+			return $this->setMessage($this->board->lang['categorymovesuccess']);
 		}
 		
 		function procBoardCategoryRemove() 
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$module = $this->base->post_params(__MODULEID);
-			$category_srl = $this->base->post_params("category_srl");
+			$module = $this->getParam(__MODULEID);
+			$category_srl = $this->getParam("category_srl");
 			$this->board->model->deleteCategory($category_srl, $module);
 			
 			// Redirect to Page
@@ -181,12 +181,12 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$module = $this->base->post_params(__MODULEID);
-			$type = $this->base->post_params("type");
-			$name = $this->base->post_params("name");
+			$module = $this->getParam(__MODULEID);
+			$type = $this->getParam("type");
+			$name = $this->getParam("name");
 			$ai = $this->board->model->getAutoIncrement("def_category");
 			
 			// Insert new category
@@ -200,9 +200,9 @@
 		
 		function getAudiolyrics() 
 		{
-			$module = $this->base->post_params(__MODULEID);
+			$module = $this->getParam(__MODULEID);
 			$request = new request();
-			$srl = $request::decodeBinaryNumberic($this->base->post_params('srl'));
+			$srl = $request::decodeBinaryNumberic($this->getParam('srl'));
 			$lyrics = htmlspecialchars_decode($this->board->model->getLysicsFull($module, $srl));
 			
 			// If has lyric
@@ -254,7 +254,7 @@
 						}, $lyrics
 					);
 					
-					return $this->base->response("type", "success", "html", $lyrics);
+					return $this->setMessage($lyrics);
 				}
 				else 
 				{
@@ -282,15 +282,15 @@
 						}
 					}
 					
-					return $this->base->response("type", "error", "html", $this->board->lang['notfoundlyrics']);
+					return $this->setError($this->board->lang['notfoundlyrics']);
 				}
 			}
 		}
 		
 		function deleteDocument()
 		{
-			$this->post_data->mid = $this->base->post_params(__MODULEID);
-			$this->post_data->srl = $this->base->post_params('srl');
+			$this->post_data->mid = $this->getParam(__MODULEID);
+			$this->post_data->srl = $this->getParam('srl');
 			
 			$this->board->model->deleteDocument($this->post_data->srl, $this->post_data->mid);
 			
@@ -307,39 +307,39 @@
 		{
 			if ($this->isLogged() !== true) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notlogged']);
+				return $this->setError($this->board->lang['notlogged']);
 			}
 			
 			if (!session::isExistToken()) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['invalidtoken']);
+				return $this->setError($this->board->lang['invalidtoken']);
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->mid = $this->base->post_params(__MODULEID);
-			$this->post_data->srl = $this->base->post_params('srl');
-			$this->post_data->fileSequence = $this->base->post_params('file_sequence');
-			$this->post_data->category_srl = $this->base->post_params('category');
-			$this->post_data->title = $this->base->post_params('title');
+			$this->post_data->mid = $this->getParam(__MODULEID);
+			$this->post_data->srl = $this->getParam('srl');
+			$this->post_data->fileSequence = $this->getParam('file_sequence');
+			$this->post_data->category_srl = $this->getParam('category');
+			$this->post_data->title = $this->getParam('title');
 			$this->post_data->title = strip_tags($this->post_data->title);
-			$this->post_data->tag_list = $this->base->post_params('tag');
+			$this->post_data->tag_list = $this->getParam('tag');
 			$this->post_data->tag_list = strip_tags($this->post_data->tag_list);
-			$this->post_data->content = ($this->base->post_params('content'));
+			$this->post_data->content = ($this->getParam('content'));
 			$this->post_data->content = $this->base->cleanPurifier($this->post_data->content);
 			$this->post_data->ExtraVars = array();
-			$this->post_data->title = urldecode($this->base->post_params('title'));
+			$this->post_data->title = urldecode($this->getParam('title'));
 			$this->post_data->memberSrl = $this->base->getMemberSrl();
 			
-			$this->board->extra_var = $this->board->model->getExtraVar($this->base->post_params(__MODULEID));
+			$this->board->extra_var = $this->board->model->getExtraVar($this->getParam(__MODULEID));
 			
 			if (is_int($this->post_data->srl)) 
 			{
-				$this->board->document = $this->board->model->getDocumentItems($this->board->srl);
+				$this->board->document = $this->board->model->getDocumentItem($this->board->srl);
 				$memberSrl = $this->board->document['member_srl'];
 				
 				if ($this->post_data->memberSrl !== $memberSrl) 
 				{
-					return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+					return $this->setError($this->board->lang['notpermit']);
 				}
 			}
 			
@@ -364,12 +364,12 @@
 			
 			if (!isset($this->post_data->title)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['inserttitle']);
+				return $this->setError($this->board->lang['inserttitle']);
 			}
 			
 			if (!isset($this->post_data->content)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['insertcontent']);
+				return $this->setError($this->board->lang['insertcontent']);
 			}
 			
 			if ($this->post_data->srl) 
@@ -456,11 +456,11 @@
 		{
 			if (!$this->isLogged()) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->srl = $this->base->post_params('srl');
+			$this->post_data->srl = $this->getParam('srl');
 			
 			// Get blamed count
 			$blamed_count = $this->board->model->getBlamedCount($this->post_data->srl);
@@ -470,17 +470,17 @@
 			}
 			else
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			// Update blamed count
 			if ($this->board->model->UpdateBlamedCount($blamed_count, $this->post_data->srl)) 
 			{
-				$this->base->response("type", "sucess", "html", $blamed_count);
+				$this->setMessage($blamed_count);
 			} 
 			else 
 			{
-				$this->base->response("type", "sucess", "html", $blamed_count['blamed']);
+				$this->setMessage($blamed_count['blamed']);
 			}
 		}
 		
@@ -488,10 +488,10 @@
 		{
 			if ($this->isLogged() !== true) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notlogged']);
+				return $this->setError($this->board->lang['notlogged']);
 			}
 			
-			$target_srl = $this->base->post_params('target');
+			$target_srl = $this->getParam('target');
 			
 			// Get extravars in member
 			$mExvar = unserialize($this->board->model->getMemberExvar($_SESSION['logged_info']['user_id']));
@@ -505,7 +505,7 @@
 				// If found playlist target in extravars in member
 				if (is_array($mExvar['playlist']) && in_array($target_srl, $mExvar['playlist'])) 
 				{
-					return $this->base->response("type", "error", "html", $this->board->lang['alreadyinsertedmusic']);
+					return $this->setError($this->board->lang['alreadyinsertedmusic']);
 				}
 				
 				array_push($mExvar['playlist'], $target_srl);
@@ -513,11 +513,11 @@
 			
 			if ($this->board->model->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 
 			{
-				return $this->base->response("type", "success", "html", "등록이 완료되었습니다.");
+				return $this->setMessage("등록이 완료되었습니다.");
 			} 
 			else 
 			{
-				return $this->base->response("type", "error", "html", "등록을 실패하였습니다.");
+				return $this->setError("등록을 실패하였습니다.");
 			}
 		}
 		
@@ -525,13 +525,13 @@
 		{
 			if (!$this->isLogged()) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->md = $this->base->post_params(__MODULEID);
-			$this->post_data->srl = $this->base->post_params('srl');
-			$this->post_data->point = $this->base->post_params('star');
+			$this->post_data->md = $this->getParam(__MODULEID);
+			$this->post_data->srl = $this->getParam('srl');
+			$this->post_data->point = $this->getParam('star');
 			$this->post_data->star = $this->board->model->getDocumentStarCount($this->post_data->srl);
 			$this->post_data->star_cnt = $this->board->model->getDocumentStarVotedCount($this->post_data->srl) + 1;
 			
@@ -541,12 +541,12 @@
 			if ($this->board->model->UpdateDocumentStarCount($star_count, $this->post_data->srl)) 
 			{
 				$starCount = round($current_star_count / $this->post_data->star_cnt);
-				$this->base->response("type", "sucess", "html", $starCount);
+				$this->setMessage($starCount);
 				$this->board->model->UpdateDocumentStarVotedCount($this->post_data->star_cnt, $this->post_data->srl);
 			}
 			else 
 			{
-				$this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				$this->setError($this->board->lang['notpermit']);
 			}
 		}
 		
@@ -554,11 +554,11 @@
 		{
 			if (!$this->isLogged()) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->srl = $this->base->post_params('srl');
+			$this->post_data->srl = $this->getParam('srl');
 			
 			// Get voted count
 			$voted_count = $this->board->model->getVotedCount($this->post_data->srl);
@@ -569,17 +569,17 @@
 			}
 			else
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			// Update voted count
 			if ($this->board->model->UpdateVotedCount($voted_count, $this->post_data->srl)) 
 			{
-				$this->base->response("type", "sucess", "html", $voted_count);
+				$this->setMessage($voted_count);
 			}
 			else 
 			{
-				$this->base->response("type", "sucess", "html", $voted_count['voted']);
+				$this->setMessage($voted_count['voted']);
 			}
 		}
 		
@@ -591,12 +591,12 @@
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->target = $this->base->post_params('target');
-			$this->post_data->pos = request::decodeBinaryNumberic($this->base->post_params('pos'));
+			$this->post_data->target = $this->getParam('target');
+			$this->post_data->pos = request::decodeBinaryNumberic($this->getParam('pos'));
 			$this->post_data->pos = $this->post_data->pos ? $this->post_data->pos : 0;
-			$this->post_data->tag = $this->base->post_params('tag');
-			$this->post_data->module_id = $this->base->post_params(__MODULEID);
-			$this->post_data->srl = request::decodeBinaryNumberic($this->base->post_params('srl'));
+			$this->post_data->tag = $this->getParam('tag');
+			$this->post_data->module_id = $this->getParam(__MODULEID);
+			$this->post_data->srl = request::decodeBinaryNumberic($this->getParam('srl'));
 			$this->list_count = 5;
 		
 			if (isset($this->post_data->pos) && isset($this->post_data->tag)) 
@@ -708,7 +708,7 @@
 			{
 				if (preg_match('/\.(mp3|mp4|wav)(?:[\?\#].*)?$/i', $val['files'], $matches)) 
 				{
-					return $this->base->response("type", "success", "html", str::getUrl('', 'srl', $srl, 'RToken', request::encodeBinaryNumbericPassword(date('His'),'001')));
+					return $this->setMessage(str::getUrl('', 'srl', $srl, 'RToken', request::encodeBinaryNumbericPassword(date('His'),'001')));
 					exit();
 				}
 			}
@@ -734,23 +734,23 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->md = $this->base->post_params(__MODULEID);
-			$this->post_data->srl = $this->base->post_params('srl');
-			$this->post_data->singer = $this->base->post_params('singer');
+			$this->post_data->md = $this->getParam(__MODULEID);
+			$this->post_data->srl = $this->getParam('srl');
+			$this->post_data->singer = $this->getParam('singer');
 			
 			// Update singer info
 			if ($this->hasGrant(true)) 
 			{
 				$this->board->model->UpdateArtist($this->post_data->srl, $this->post_data->md, $this->post_data->singer);
-				return $this->base->response("type", "success", "html", "성공적으로 변경했습니다.");
+				return $this->setMessage("성공적으로 변경했습니다.");
 			} 
 			else 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 		}
 		
@@ -758,23 +758,23 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
 			$this->post_data = new stdClass();
-			$this->post_data->md = $this->base->post_params(__MODULEID);
-			$this->post_data->srl = $this->base->post_params('srl');
-			$this->post_data->genre = $this->base->post_params('genre');
+			$this->post_data->md = $this->getParam(__MODULEID);
+			$this->post_data->srl = $this->getParam('srl');
+			$this->post_data->genre = $this->getParam('genre');
 			
 			// Update genre info
 			if ($this->hasGrant(true)) 
 			{
 				$this->board->model->UpdateGenre($this->post_data->srl, $this->post_data->md, $this->post_data->genre);
-				return $this->base->response("type", "success", "html", "성공적으로 변경했습니다.");
+				return $this->setMessage("성공적으로 변경했습니다.");
 			} 
 			else 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 		}
 		
@@ -782,16 +782,16 @@
 		{
 			if (!$this->hasGrant(true)) 
 			{
-				return $this->base->response("type", "error", "html", $this->board->lang['notpermit']);
+				return $this->setError($this->board->lang['notpermit']);
 			}
 			
-			$this->board->config_post = $this->base->post_params('post_area');
+			$this->board->config_post = $this->getParam('post_area');
 			
 			// If exists config parameter
 			if ($this->board->config_post) 
 			{
-				$act = $this->base->post_params('afteract');
-				$module_setup = $this->base->post_params(__MODULEID);
+				$act = $this->getParam('afteract');
+				$module_setup = $this->getParam(__MODULEID);
 				
 				// Get that board configuration is exists
 				if ($module_setup) 
@@ -820,7 +820,7 @@
 					}
 					
 					// Move multiorder option to board configuration if multiorder is exists
-					$this->board->multiorder_option = $this->base->post_params('multiorder_option');
+					$this->board->multiorder_option = $this->getParam('multiorder_option');
 					if ($this->board->multiorder_option) 
 					{
 						$this->board->config_base->multiorder_option = $this->board->multiorder_option;
@@ -830,7 +830,7 @@
 					$this->updateModuleConfig($module_setup, json_encode($this->board->config_base));
 				}
 				
-				$this->board->module_post = $this->base->post_params('module_post');
+				$this->board->module_post = $this->getParam('module_post');
 				
 				// Update board layout and title
 				if ($this->board->module_post) 

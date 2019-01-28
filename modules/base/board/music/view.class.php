@@ -29,9 +29,9 @@
 			
 			if (isset($this->board->srl)) 
 			{
-				$this->board->document = $this->board->model->getDocumentItems($this->board->srl);
+				$this->board->document = $this->getDocumentItem();
 				
-				$this->base->set('skin', sprintf("%s/delete.php", $this->board->skin_tpl_path));
+				$this->setDeleteDocumentTplPath();
 			}
 		}
 		
@@ -47,7 +47,7 @@
 			
 			if (isset($this->board->srl)) 
 			{
-				$this->board->document = $this->board->model->getDocumentItems($this->board->srl);
+				$this->board->document = $this->getDocumentItem();
 				
 				// Document not found
 				if (!$this->board->document) 
@@ -75,7 +75,7 @@
 				}
 				
 				// Get document Items
-				$this->board->document = $this->board->model->getDocumentItems($this->board->srl);
+				$this->board->document = $this->getDocumentItem();
 				
 				// If cannot found document Items
 				if (!is_array($this->board->document) || !isset($this->board->document)) 
@@ -85,15 +85,15 @@
 				// If found document Items
 				else 
 				{
-					$this->base->set('editor', $this->getEditor());
-					$this->base->set('skin', sprintf(__WRITE_TPL__, $this->board->skin_tpl_path));
+					$this->setEditor();
+					$this->setDocumentWriteTplPath();
 				}
 			}
 		}
 		
 		function dispOriginContent() 
 		{
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->list_count = $this->getListCount();
 			$this->board->related = $this->getParam('related');
 			$this->board->module_id = $this->getParam(__MODULEID);
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
@@ -110,11 +110,11 @@
 				$this->board->file_list = $this->board->model->getFileItemsArray($this->board->item_popular);
 			}
 			
-			$this->board->query = $this->board->model->getRandomDocumentListbySrl($this->board->item_popular, $this->board->module_id, $this->board->page_start);
+			$this->board->query = $this->getDocumentListInDocumentSrls($this->board->item_popular);
 			
 			$this->setDocumentSubItem();
 			
-			$this->board->document = $this->board->model->getDocumentItems($this->board->item_popular[0]['srl']);
+			$this->board->document = $this->board->model->getDocumentItem($this->board->item_popular[0]['srl']);
 			
 			$this->dispBoardOrigin();
 			$this->getPagination();
@@ -124,7 +124,7 @@
 		
 		function dispAlbumContent() 
 		{
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->list_count = $this->getListCount();
 			$this->board->related = $this->getParam('related');
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
 			
@@ -317,7 +317,7 @@
 		{
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
 			$this->board->module_id = $this->getParam(__MODULEID);
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->list_count = $this->getListCount();
 			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
 			
 			if ($this->isLogged())
@@ -334,9 +334,7 @@
 				}
 				
 				$this->board->document_count = count($pListArr);
-				$this->board->query = $this->board->model->getRandomDocumentListbySrl(
-					array_slice($pListArr, $this->board->page_start, $this->board->config->list_count), $this->board->module_id, $this->board->page_start
-				);
+				$this->board->query = $this->board->model->getDocumentListInDocumentSrls(array_slice($pListArr, $this->board->page_start, $this->board->config->list_count));
 			}
 			
 			if (isset($this->board->query)) 
@@ -356,7 +354,7 @@
 		function dispBoardPopular() 
 		{
 			$this->board->popular_count = $this->board->config->popular_count ? $this->board->config->popular_count : 15;
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->list_count = $this->getListCount();
 			$this->board->module_id = $this->getParam(__MODULEID);
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
 			$this->board->document_count = $this->board->model->getFileListPopularCount($this->board->module_id, $this->board->popular_count);
@@ -386,7 +384,7 @@
 		function dispBoardOrigin() 
 		{
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->list_count = $this->getListCount();
 			
 			$this->board->document_count = $this->board->model->getOriginAlbumCount();
 			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
@@ -404,7 +402,7 @@
 		function dispBoardAlbum() 
 		{
 			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->list_count = $this->getListCount();
 			
 			$this->board->document_count = $this->board->model->getAlbumCount();
 			$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
@@ -421,7 +419,7 @@
 		//태그
 		function dispBoardTag() 
 		{
-			$this->board->tag_list = $this->board->model->getTagList();
+			$this->board->tag_list = $this->getTagList();
 			$this->base->set('skin', sprintf(__TAG_TPL__, $this->board->skin_tpl_path));
 		}
 		
@@ -429,13 +427,13 @@
 		function dispBoardTagList() 
 		{
 			$this->board->module_id = $this->getParam(__MODULEID);
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
+			$this->board->page = $this->getPage();
+			$this->board->list_count = $this->getListCount();
 			$this->board->tag = $this->getParam('tag');
 			
-			$this->board->document_count = $this->board->model->getDocumentCountbyBoardbyTag($this->board->module_id, $this->board->tag);
+			$this->board->document_count = $this->getDocumentCountbyTag();
 			$this->board->page_start = ($this->board->page-1) * $this->board->config->list_count;
-			$this->board->query = $this->board->model->getDocumentlistBetweenCategory($this->board->module_id, $this->board->page_start, $page_end, $this->board->tag);
+			$this->board->query = $this->getDocumentlistBetweenCategory();
 			
 			$this->setDocumentItem();
 			
@@ -477,7 +475,7 @@
 			
 			if (isset($this->board->srl)) 
 			{
-				$this->board->document = $this->board->model->getDocumentItems($this->board->srl);
+				$this->board->document = $this->getDocumentItem();
 				$this->board->extra_vars = $this->board->model->getExtraVars($this->board->srl);
 				
 				if (!is_array($this->board->document)) 
@@ -491,8 +489,8 @@
 						$this->board->star_rate = round($this->board->document['star'] / $this->board->document['star_cnt']);
 					}
 					
-					$readed_count = $this->board->document['readed'] + 1;
-					$this->board->model->UpdateReadedCount($readed_count, $this->board->srl);
+					$this->board->readed_count = $this->getReadedCount();
+					$this->updateReadedCount();
 					$this->board->file_list = $this->getFileList($this->board->srl);
 					
 					$this->document_item = new board_item($this, $this->board->document);
@@ -509,7 +507,7 @@
 						$this->board->comment_count_rel = ceil($this->board->comment_count / $this->board->comment_listcount);
 						$this->board->comment_navigation = $this->board->model->getPageArray($this->board->comment_count_rel, $this->board->cpage);
 						$this->board->comment_page = ($this->board->cpage - 1) * $this->board->comment_listcount;
-						$this->board->comment_list = $this->getCommentList($this->board->module_id, $this->board->srl, $this->board->comment_page, $this->board->comment_listcount);
+						$this->board->comment_list = $this->getCommentList();
 						$this->board->voted_comment_list = $this->getVotedCommentList($this->board->module_id, $this->board->srl, 1, 1);
 						$this->board->blamed_comment_list = $this->getBlamedCommentList($this->board->module_id, $this->board->srl, 1, 1);
 					} 
@@ -533,7 +531,7 @@
 					include_once(__MOD."/board/music/tag.item.class.php");
 					
 					$relatedTagList = array();
-					$tagList = $this->board->model->getDocumentlistTagRelatedSrl($this->board->module_id, $this->board->document['tag']);
+					$tagList = $this->getTagRelatedDocumentSrl();
 					foreach($tagList as $tags)
 					{
 						array_push($relatedTagList, $tags['srl']);
@@ -541,13 +539,13 @@
 					
 					$this->board->relatedTagList = new stdClass();
 					$this->board->relatedTagList->list_count = 5;
-					$this->board->relatedTagList->currentTagIndex = array_search($this->board->document['srl'], $relatedTagList)-2;
+					$this->board->relatedTagList->currentTagIndex = array_search($this->board->document['srl'], $relatedTagList) - 2;
 					if ($this->board->relatedTagList->currentTagIndex<0)
 					{
 						$this->board->relatedTagList->currentTagIndex = 0;
 					}
 					
-					$this->board->relatedTagList->tag_list = $this->board->model->getDocumentlistTagRelated($this->board->module_id, $this->board->relatedTagList->currentTagIndex, 5, $this->board->document['tag']);
+					$this->board->relatedTagList->tag_list = $this->getRelatedTagList(5);
 					$this->board->relatedTagList->page_count = count($tagList);
 					$this->board->relatedTagList->current_page = (int)ceil(($this->board->relatedTagList->currentTagIndex + 5) / $this->board->relatedTagList->list_count);
 					$this->board->relatedTagList->page_count = (int)ceil($this->board->relatedTagList->page_count / $this->board->relatedTagList->list_count);
@@ -597,7 +595,7 @@
 					$this->board->comment_count_rel = ceil($this->board->comment_count / $this->board->comment_listcount);
 					$this->board->comment_navigation = $this->board->model->getPageArray($this->board->comment_count_rel, $this->board->cpage);
 					$this->board->comment_page = ($this->board->cpage - 1) * $this->board->comment_listcount;
-					$this->board->comment_list = $this->getCommentList($this->board->module_id, $this->board->srl, $this->board->comment_page, $this->board->comment_listcount);
+					$this->board->comment_list = $this->getCommentList();
 					$this->board->voted_comment_list = $this->getVotedCommentList($this->board->module_id, $this->board->srl, 1, 5);
 					$this->board->blamed_comment_list = $this->getBlamedCommentList($this->board->module_id, $this->board->srl, 1, 5);
 				} 
@@ -732,18 +730,17 @@
 			
 			//파라미터
 			$this->board->srl = $this->getParam('srl');
-			$this->board->list_count = $this->board->config->list_count ? $this->board->config->list_count : 20;
-			$this->board->list_count = $this->getParam('list_count') ? $this->getParam('list_count') : $this->board->list_count;
-			$this->board->page = $this->getParam('page') ? $this->getParam('page') : 1;
+			$this->board->list_count = $this->getListCount();
+			$this->board->page = $this->getPage();
 			$this->board->genre = $this->getParam('genre');
-			$this->board->category = $this->getParam('category') ? $this->getParam('category') : null;
+			$this->board->category = $this->getCategorySrl();
 			$this->board->sortIndex = $this->getParam('sort_index');
 			$this->board->module_id = $this->getParam(__MODULEID);
 			$this->board->keyword = $this->getParam('keyword');
 			$this->board->type = $this->getParam('type');
 			
 			//스킨 설정
-			$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));
+			$this->setBoardTplPath();
 			
 			if ((isset($this->board->keyword) && isset($this->board->srl)) || !isset($this->board->keyword)) 
 			{
@@ -759,7 +756,7 @@
 				{
 					if (!isset($GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->board->module_id])) 
 					{
-						$this->board->document_count = $this->board->model->getDocumentCountbyBoardbyCategoryAndArticle($this->board->module_id, $this->getParam('category'), $this->board->keyword, $this->board->type);
+						$this->board->document_count = $this->board->model->getDocumentCountbyCategoryArticle($this->board->module_id, $this->getParam('category'), $this->board->keyword, $this->board->type);
 						$GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->board->module_id] = $this->board->document_count;
 					} 
 					else 
@@ -767,13 +764,13 @@
 						$this->board->document_count = $GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->board->module_id];
 					}
 					
-					$this->board->query = ($this->board->model->getDocumentlistBetweenbyCategoryAndArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->category, $this->board->keyword, $this->board->type));
+					$this->board->query = $this->getDocumentlistBetweenbyCategoryArticle();
 				}
 				else 
 				{
 					if (!isset($GLOBALS['DOCUMENT_COUNT_LIST'][$this->board->module_id])) 
 					{
-						$this->board->document_count = $this->board->model->getDocumentCountbyBoardbyCategory($this->board->module_id, $this->getParam('category'));
+						$this->board->document_count = $this->getDocumentCountbyCategory();
 						$GLOBALS['DOCUMENT_COUNT_LIST'][$this->board->module_id] = $this->board->document_count;
 					} 
 					else 
@@ -781,7 +778,7 @@
 						$this->board->document_count = $GLOBALS['DOCUMENT_COUNT_LIST'][$this->board->module_id];
 					}
 					
-					$this->board->query = ($this->board->model->getDocumentlistBetweenbyCategory($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->getParam('category')));
+					$this->board->query = $this->getDocumentlistBetweenbyCategory();
 				}
 				
 				$this->CheckPage('category');
@@ -790,7 +787,7 @@
 			{
 				if (!isset($GLOBALS['DOCUMENT_COUNT_SORT'][$this->board->module_id])) 
 				{
-					$this->board->document_count = $this->board->model->getDocumentCountbyBoard($this->board->module_id);
+					$this->board->document_count = $this->getDocumentCountbyBoardId();
 					$GLOBALS['DOCUMENT_COUNT_SORT'][$this->board->module_id] = $this->board->document_count;
 				} 
 				else 
@@ -801,39 +798,39 @@
 				switch($this->board->sortIndex):
 					//다운로드 수 정렬
 					case "download_count":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getPopularQuery($this->board->module_id, 0, $this->board->page_start, $this->board->list_count);
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getPopularDocumentList();
 						break;
 					case "playtime":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "playtime");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("playtime");
 						break;
 					//조회수 정렬
 					case "readed_count":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "readed");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("readed");
 						break;
 					//가수 정렬
 					case "artist":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "artist");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("artist");
 						break;
 					//추천수 정렬
 					case "voted_count":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "voted");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("voted");
 						break;
 					case "category":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "category");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("category");
 						break;
 					case "regdate":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "regdate");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("regdate");
 						break;
 					case "star_count":
-						$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-						$this->board->query = $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, "star");
+						$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
+						$this->board->query = $this->getDocumentListbyArticle("star");
 						break;
 				endswitch;
 				
@@ -844,7 +841,7 @@
 			{
 				if (!isset($GLOBALS['DOCUMENT_COUNT_GENRE'][$this->board->module_id])) 
 				{
-					$this->board->document_count = $this->board->model->getDocumentCountbyBoardbyGenre($this->board->module_id, $this->board->genre);
+					$this->board->document_count = $this->getDocumentCountbyGenre();
 					$GLOBALS['DOCUMENT_COUNT_GENRE'][$this->board->module_id] = $this->board->document_count;
 				} 
 				else 
@@ -853,7 +850,7 @@
 				}
 				
 				$this->board->page_start = ($this->board->page-1) * ($this->board->list_count);
-				$this->board->query = $this->board->model->getDocumentlistBetweenGenre($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->genre);
+				$this->board->query = $this->getDocumentlistBetweenbyGenre();
 				
 				$this->CheckPage('genre');
 			} 
@@ -864,33 +861,33 @@
 					switch($this->board->type):
 						//제목
 						case "title":
-							$this->board->document_count = $this->board->model->getDocumenCountbyTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->document_count = $this->getDocumenCountbyTitle();
 							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-							$this->board->query = $this->board->model->getDocumentlistBetweenbyTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->query = $this->getDocumentlistBetweenbyTitle();
 							break;
 						//태그
 						case "tag":
-							$this->board->document_count = $this->board->model->getDocumenCountbyTag($this->board->module_id, $this->board->page_start, $page_end, $this->board->keyword);
+							$this->board->document_count = $this->getDocumenCountbyTag();
 							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-							$this->board->query = $this->board->model->getDocumentlistBetweenTagLIKE($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->query = $this->getDocumentlistBetweenbyTag();
 							break;
 						//가수
 						case "artist":
-							$this->board->document_count = $this->board->model->getDocumenCountbyAuthor($this->board->module_id, $this->board->page_start, $page_end, $this->board->keyword);
+							$this->board->document_count = $this->getDocumenCountbyAuthor();
 							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-							$this->board->query = $this->board->model->getDocumentlistBetweenAuthorLIKE($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->query = $this->getDocumentlistBetweenbyAuthor();
 							break;
 						//앨범 오리지널
 						case "albumorigin":
-							$this->board->document_count = $this->board->model->getDocumenCountbyalborigin($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->document_count = $this->getDocumenCountbyOriginAlbum();
 							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-							$this->board->query = $this->board->model->getDocumentlistBetweenAlbOriginLIKE($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->query = $this->getDocumentlistBetweenbyOriginAlbum();
 							break;
 						//제목 오리지널
 						case "titleorigin":
-							$this->board->document_count = $this->board->model->getDocumenCountbytitorigin($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->document_count = $this->getDocumenCountbyOriginTitle();
 							$this->board->page_start = ($this->board->page-1) * $this->board->list_count;
-							$this->board->query = $this->board->model->getDocumentlistBetweenTitOriginLIKE($this->board->module_id, $this->board->page_start, $this->board->keyword);
+							$this->board->query = $this->getDocumentlistBetweenbyOriginTitle();
 							break;
 						default:
 							break;
@@ -899,8 +896,8 @@
 				else 
 				{
 					$this->board->page_start = ($this->board->page - 1) * $this->board->list_count;
-					$this->board->document_count = $this->board->model->getDocumenCountbyColumn($this->board->module_id, $this->board->page_start, $this->board->keyword, $this->board->type);
-					$this->board->query = $this->board->model->getDocumentListbyColumn($this->board->module_id, $this->board->page_start, $this->board->keyword, $this->board->type);
+					$this->board->document_count = $this->getDocumenCountbyColumn();
+					$this->board->query = $this->getDocumentListbyColumn();
 				}
 			} 
 			else 
@@ -916,7 +913,7 @@
 					//카운트 조회
 					if (!isset($GLOBALS['DOCUMENT_COUNT_ALL'][$this->board->module_id])) 
 					{
-						$this->board->document_count = $this->board->model->getDocumentCountbyBoard($this->board->module_id);
+						$this->board->document_count = $this->getDocumentCountbyBoardId();
 						$GLOBALS['DOCUMENT_COUNT_ALL'][$this->board->module_id] = (int)$this->board->document_count;
 					} 
 					else 

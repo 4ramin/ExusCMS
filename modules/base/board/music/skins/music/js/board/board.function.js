@@ -138,21 +138,23 @@ function lazyloadRegsitry() {
     pictureObserver.observe();
 }
 
-function popstateEvent(_this, event){
+function popstateEvent(_this, event) {
 	var target_url = event.target.location.href;
 	var target_srl = $.core.URL.getParam('srl', target_url);
 	var target_page = $.core.URL.getParam('page', target_url);
 	
-	if (!target_url || target_url.indexOf('#')) return;
+	if (!target_url || target_url.indexOf('#') > -1) return;
 	
 	reRegistryDocument();
 	
 	var url = $.core.URL.setParam('act', '', target_url);
 	
 	if (target_srl && readObject.length>0) {
-		$.core.Request.ajax("GET", url, '', 'completeLoadDocument', '');
+		$.core.Request.ajax("GET", url, '', 'completeLoadDocument');
 	} else if (!target_srl && target_page) {
-		$.core.Request.ajax("GET", url, '', 'completeLoadPage', '');
+		$.core.Request.ajax("GET", url, '', 'completeLoadPage');
+	} else {
+		$.core.Request.ajax("GET", url, '', 'completeLoadPage');
 	}
 }
 
@@ -185,7 +187,7 @@ function loadDoc(args) {
 	
 	if(hasLength){
 		
-		if(readObject.length==0){
+		if(readObject.length == 0){
 			readObject.empty();
 			$.core.Element.appendDiv('.category', documentContent);
 			readObject.parent().html($(args).find('#' + documentContent));
@@ -193,6 +195,8 @@ function loadDoc(args) {
 			readObject.empty();
 			readObject.parent().html($(args).find("#" + documentContent));
 		}
+		
+		$.core.Browser.setTitle($(args).filter('title').text());
 		
 		reRegistryDocument();
 		registryBoardAjax();
