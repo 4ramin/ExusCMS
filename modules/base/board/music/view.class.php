@@ -610,6 +610,11 @@ class board_view extends view_abstract implements viewInterface
 	
 	protected function getCurrentPage():int
 	{
+		if (!isset($this->board->document['srl_bd']))
+		{
+			return 0;
+		}
+		
 		if ($this->board->config->bd_query !== "LIMIT") 
 		{
 			$targetDocumentCount = $this->board->document['srl_bd'];
