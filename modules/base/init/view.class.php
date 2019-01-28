@@ -948,17 +948,17 @@
 		{
 			$this->base->addJS(
 				'head',
-				"/common/js/jQuery/jquery-3.2.1.min.js",
-				"/common/js/jQuery/jquery.migrate-1.2.1.js",
-				"/common/js/jQuery/jquery-ui.min.js",
-				"/common/js/jQuery/jquery-jtemplates.js",
+				"/common/js/jquery/jquery-3.2.1.min.js",
+				"/common/js/jquery/jquery.migrate-1.2.1.js",
+				"/common/js/jquery/jquery-ui.min.js",
+				"/common/js/jquery/jquery-jtemplates.js",
 				"/common/js/swfobject.js",
 				
 				"/common/js/coreJS/dist/config.js",
 				"/common/js/coreJS/dist/variables.js",
 				"/common/js/coreJS/dist/coreJS.js",
 				"/common/js/coreJS/dist/extend.js",
-				"/common/js/coreJS/dist/Global Event.js"
+				"/common/js/coreJS/dist/Global Event.js",
 				
 				"/common/js/messenger/notify.js",
 				"/common/js/messenger/messenger.js",
