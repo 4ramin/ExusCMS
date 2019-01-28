@@ -948,10 +948,10 @@
 		{
 			$this->base->addJS(
 				'head',
-				"/common/js/jquery-3.2.1.min.js",
-				"/common/js/jquery.migrate-1.2.1.js",
-				"/common/js/jquery-ui.min.js",
-				"/common/js/jquery-jtemplates.js",
+				"/common/js/jQuery/jquery-3.2.1.min.js",
+				"/common/js/jQuery/jquery.migrate-1.2.1.js",
+				"/common/js/jQuery/jquery-ui.min.js",
+				"/common/js/jQuery/jquery-jtemplates.js",
 				"/common/js/swfobject.js",
 				
 				"/common/js/coreJS/dist/config.js",
@@ -959,6 +959,12 @@
 				"/common/js/coreJS/dist/coreJS.js",
 				"/common/js/coreJS/dist/extend.js",
 				"/common/js/coreJS/dist/Global Event.js"
+				
+				"/common/js/messenger/notify.js",
+				"/common/js/messenger/messenger.js",
+				"/common/js/messenger/messenger-theme-future.js",
+				"/common/js/messenger/messenger-theme-flat.js",
+				"/common/js/messenger/messenger.option.js"
 			);
 			
 			$this->base->addCSS(
@@ -974,14 +980,6 @@
 				"/common/css/messenger/messenger-theme-air.css"
 			);
 		
-			$this->base->addJS(
-				'head',
-				"/common/js/messenger/messenger.js",
-				"/common/js/messenger/messenger-theme-future.js",
-				"/common/js/messenger/messenger-theme-flat.js",
-				"/common/js/messenger/messenger.option.js"
-			);
-			
 			$this->base->addMeta("theme-color", "#1A70DC");
 			$this->base->addMeta("generator", "exuscms");
 			$this->base->addMeta("viewport", "width=device-width, initial-scale=1");
