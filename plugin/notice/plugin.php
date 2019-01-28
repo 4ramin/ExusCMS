@@ -4,7 +4,7 @@
 	
 	$this->notice = new stdClass();
 	$this->base = new base();
-	
+
 	if($position == 'init' && $status == 'after')
 	{
 		if($this->base->isLogged())

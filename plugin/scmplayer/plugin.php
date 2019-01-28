@@ -9,7 +9,6 @@
 	{
 		if($this->base->isLogged())
 		{
-			$oFilesModel = $this->base->getModel('files');
 			$oBoardModel = $this->base->getModel('music');
 			$MemberExtraVar = $oBoardModel->getMemberExvar($this->base->getUserId());
 			$mExvar = unserialize($MemberExtraVar);
@@ -19,6 +18,7 @@
 			{
 				foreach($pListArr as $plist)
 				{
+					$oFilesModel = $this->base->getModel('files');
 					$this_file = $oFilesModel->getFileList($plist);
 					foreach($this_file as $key=>$flst)
 					{
@@ -27,11 +27,11 @@
 							$file_name = __SUB.__FILE__ATTACH.$plist.'/'.$flst['files'];
 							if($playlist)
 							{
-								$playlist .= ",{'title':'".str_replace("'","",$flst['origin'])."','url':'".$file_name."'}";
+								$playlist .= ",{'title':'".str_replace("'", "", $flst['origin'])."','url':'".$file_name."'}";
 							}
 							else
 							{
-								$playlist .= "{'title':'".str_replace("'","",$flst['origin'])."','url':'".$file_name."'}";
+								$playlist .= "{'title':'".str_replace("'", "", $flst['origin'])."','url':'".$file_name."'}";
 							}
 						}
 					}

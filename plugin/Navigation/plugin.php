@@ -6,7 +6,7 @@
 	{
 		include "html.php";
 	}
-	elseif($position == 'init' && $status == 'before')
+	else if($position == 'init' && $status == 'before')
 	{
 		$this->base = new base();
 		$this->base->addCSS('/plugin/Navigation/navigator.css');

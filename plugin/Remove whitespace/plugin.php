@@ -13,9 +13,10 @@
 			"#\s+<#"      => " <",
 			"#>\s+#"      => ">"
 		);
+		
 		$search = array_keys($replace);
 		$output = preg_replace($search, $replace, $output);
 		$content = $this->base->set('content', $output);
 	}
-	
+
 ?>

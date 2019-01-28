@@ -10,5 +10,5 @@
 		$output = str_replace('<div style="" id="rel_ar', '<p>test</p>'.'<div style="" id="rel_ar', $output);
 		$this->base->set('content', $output);
 	}
-	
+
 ?>
