@@ -10,7 +10,6 @@
 	 
 	final class init_view
 	{
-		
 		protected $acceptedModuleType = array('view', 'controller');
 		protected $exceptModule = array('music', 'document');
 		protected $isAcceptAttacker = false;
@@ -26,6 +25,7 @@
 		function __construct() 
 		{
 			ob_clean();
+			
 			if (class_exists('base')) 
 			{
 				$this->base = new base();
@@ -103,8 +103,8 @@
 			{
 				foreach ($js_list as $val) 
 				{
-					$filename = preg_replace('/(\?[a-z0-9]{1,500})/','',$val);
-					$localJS = __ROOT_DIR . preg_replace('/(\?\d{1,500})/','',$filename);
+					$filename = preg_replace('/(\?[a-z0-9]{1,500})/', '', $val);
+					$localJS = __ROOT_DIR . preg_replace('/(\?\d{1,500})/', '', $filename);
 					if (file_exists($localJS)) 
 					{
 						$this->getContentRetFile($localJS, 'jsbuffer');
@@ -216,7 +216,7 @@
 			} 
 			else 
 			{
-				if ($this->requestMethod=='GET') 
+				if ($this->requestMethod == 'GET') 
 				{
 					$mid = $this->base->get_params(__MODULEID, 'string');
 					if ($mid == 'message') 
@@ -250,11 +250,11 @@
 		{
 			$ruleset = sprintf("%s/ruleset/%s.php", $this->moduleDirectory, $this->requestMethod);
 			
-			if (file_exists($ruleset) && $this->requestMethod !='REQUEST') 
+			if (file_exists($ruleset) && $this->requestMethod != 'REQUEST') 
 			{
 				include($ruleset);
 				
-				foreach ($_ruleset as $key=>$val) 
+				foreach ($_ruleset as $key => $val) 
 				{
 					if (isset($_ruleset[$key])) 
 					{
@@ -345,7 +345,8 @@
 			
 			if (method_exists($this->moduleHandler, 'init')) 
 			{
-				$this->{$this->moduleID} = $this->moduleHandler->init($this) ? $this->moduleHandler->init($this) : new stdClass();
+				$initializeConcat = $this->moduleHandler->init($this);
+				$this->{$this->moduleID} = $initializeConcat ? $initializeConcat : new stdClass();
 			} 
 			else 
 			{
@@ -359,7 +360,15 @@
 		//게시판 기본 프로퍼티를 지정한다.
 		function setBoardProperty() 
 		{
-			$this->{$this->moduleID}->model = new board_model($this);
+			if (class_exists("board_model"))
+			{
+				$this->{$this->moduleID}->model = new board_model($this);
+			}
+			else
+			{
+				return $this->setError($this->lang['notfoundbaseresource']);
+			}
+			
 			$this->{$this->moduleID}->category_list = (array)$this->{$this->moduleID}->model->getModuleCategoryList($this->{$this->moduleID}->module_id);
 			$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/skins", __MOD, $this->module);
 			$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
@@ -368,7 +377,7 @@
 		//모델 핸들러를 지정한다.
 		function setModel() 
 		{
-			$this->modelObject = $this->moduleID.'_model';
+			$this->modelObject = sprintf("%s_model", $this->moduleID);
 			
 			if (class_exists($this->modelObject)) 
 			{
@@ -390,22 +399,22 @@
 		//페이지가 변경되었는지를 확인한다.
 		function checkModified() 
 		{
-			$this->{$this->moduleID}->isAjax = (request::isAjax() === TRUE) ? TRUE : false;
-			$this->{$this->moduleID}->hasReferer = (request::hasReferer() === TRUE) ? TRUE : false;
+			$this->{$this->moduleID}->isAjax = (request::isAjax() === true) ? true : false;
+			$this->{$this->moduleID}->hasReferer = (request::hasReferer() === true) ? true : false;
 			
 			if ($this->requestMethod === "GET" && $this->{$this->moduleID}->hasReferer) 
 			{
 				$this->referer = request::get_ref();
 				parse_str(parse_url($this->referer, PHP_URL_QUERY), $this->referer_param);
 				
-				if (request::decodeBinaryNumbericPassword($this->base->get_params('RToken'),'001') === date('His')) 
+				if (request::decodeBinaryNumbericPassword($this->base->get_params('RToken'), '001') === date('His')) 
 				{
 					$this->{$this->moduleID}->is_modified = true;
 					$this->base->set_params('RToken', '', $this->requestMethod);
 				} 
 				else 
 				{
-					$this->{$this->moduleID}->is_modified = ($this->referer_param === $_GET) ? false : TRUE;
+					$this->{$this->moduleID}->is_modified = ($this->referer_param === $_GET) ? false : true;
 				}
 			} 
 			else 
@@ -493,8 +502,8 @@
 			
 			$this->base->includeFile(
 				false, 
-				$modelObject, $this->moduleID.'_model', 
-				$itemObject, $this->moduleID.'_item'
+				$modelObject, sprintf("%s_model", $this->moduleID), 
+				$itemObject, sprintf("%_item", $this->moduleID)
 			);
 		}
 		
@@ -537,9 +546,9 @@
 		}
 		
 		//모듈 초기화
-		function initializeModule($requestType='view') 
+		function initializeModule($requestType = 'view') 
 		{
-			$this->getPlugin('before','initializeModule', $this);
+			$this->getPlugin('before', 'initializeModule', $this);
 			if (!in_array($requestType, $this->acceptedModuleType)) 
 			{
 				return $this->setError($this->lang['invalid']);
@@ -592,22 +601,23 @@
 					return $this->setError($this->lang['invalid']);
 				}
 				
-				$this->getPlugin('after','initializeModule',$this);
+				$this->getPlugin('after', 'initializeModule', $this);
 			}
 		}
 		
 		//POST Request
 		function processPOST() 
 		{
-			$this->getPlugin('post','execute',$this);
+			$this->getPlugin('post', 'execute', $this);
 			
 			$this->requestModuleID = $this->base->post_params(__MODULEID);
 			
-			if (preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/",$this->requestModuleID) && is_string($this->requestModuleID)) 
+			if (preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/", $this->requestModuleID) && is_string($this->requestModuleID)) 
 			{
 				if (isset($this->requestModuleID)) 
 				{
 					$this->module = $this->init->model->getModule($this->requestModuleID);
+					
 					if ($this->module) 
 					{
 						$this->initializeModule('controller');
@@ -629,12 +639,12 @@
 		//GET Request
 		function processGET() 
 		{
-			$this->getPlugin('get','execute',$this);
+			$this->getPlugin('get', 'execute', $this);
 			$this->requestModuleID = $this->base->get_params(__MODULEID, 'string');
 			
 			if (isset($this->requestModuleID)) 
 			{
-				if (preg_match("/^[A-Za-z0-9\_\-]{1,25}+$/",$this->requestModuleID) && is_string($this->requestModuleID)) 
+				if (preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/", $this->requestModuleID) && is_string($this->requestModuleID)) 
 				{
 					
 					if ($this->base->isInstalled()) 
@@ -689,11 +699,11 @@
 		{
 			$this->getSrl = (int)$this->base->get_params('srl', 'int');
 			
-			if (preg_match("/^[1-9][0-9]{1,25}$/",$this->getSrl) && isset($this->getSrl) && ctype_digit($this->getSrl)) 
+			if (preg_match("/^[1-9][0-9]{1,25}$/", $this->getSrl) && isset($this->getSrl) && ctype_digit($this->getSrl) && $this->getSrl >= 0) 
 			{
 				$this->requestModuleID = $this->init->model->getModulebysrl($this->getSrl);
 				
-				if (preg_match("/^[0-9a-zA-Z\_\-]{1,25}$/",$this->requestModuleID) && isset($this->requestModuleID) && is_string($this->requestModuleID)) 
+				if (preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/", $this->requestModuleID) && isset($this->requestModuleID) && is_string($this->requestModuleID)) 
 				{
 					$this->moduleExists = $this->init->model->isModuleExits($this->requestModuleID);
 					
@@ -723,7 +733,7 @@
 			{
 				$this->requestModuleID = $this->init->model->getDefaultModule();
 				
-				if (preg_match("/^[0-9a-zA-Z\_\-]{1,25}$/",$this->requestModuleID) && isset($this->requestModuleID) && is_string($this->requestModuleID)) 
+				if (preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/", $this->requestModuleID) && isset($this->requestModuleID) && is_string($this->requestModuleID)) 
 				{
 					$this->module = $this->init->model->getModule($this->requestModuleID);
 					$this->base->set_params(__MODULEID, $this->requestModuleID);
@@ -747,17 +757,19 @@
 		//화면을 초기화한다.
 		function initializeView() 
 		{
-			if (isset($this->requestModuleID) && is_string($this->requestModuleID) && preg_match("/^[a-zA-Z0-9\_\-]{1,25}+$/", $this->requestModuleID)) 
+			if (isset($this->requestModuleID) && is_string($this->requestModuleID) && preg_match("/^[a-zA-Z0-9\_\-]{1,50}+$/", $this->requestModuleID)) 
 			{
 				if ($this->base->isInstalled()) 
 				{
 					$this->base->set('module_title', $this->init->model->getModuleTitle($this->requestModuleID));
-					$this->skin = $this->isMobile ? $this->init->model->getMobileSkin($this->requestModuleID) : $this->init->model->getSkin($this->requestModuleID);
+					$this->skin = $this->isMobile ? $this->init->model->getMobileSkin($this->requestModuleID) : 
+													$this->init->model->getSkin($this->requestModuleID);
 				}
 				
 				if (empty($this->skin)) 
 				{
-					$this->layout = $this->isMobile ? $this->base->getLayoutList(true) : $this->base->getLayoutList();
+					$this->layout = $this->isMobile ? $this->base->getLayoutList(true) : //Mobile
+									$this->base->getLayoutList(); 						 //PC
 					
 					if (is_array($this->layout)) 
 					{
@@ -810,7 +822,7 @@
 			
 			if (isset($this->document_title)) 
 			{
-				$this->base->set('title', $this->module_title." - ".$this->document_title);
+				$this->base->set('title', sprintf("%s - %s", $this->module_title, $this->document_title));
 				$this->base->addMeta('title', $this->document_title);
 			} 
 			else 
@@ -934,7 +946,7 @@
 			
 			if ($this->base->isInstalled()) 
 			{
-				$this->isDefaultPage = $this->init->model->getDefaultModule() == $this->base->get_params(__MODULEID) ? TRUE : false;
+				$this->isDefaultPage = $this->init->model->getDefaultModule() == $this->base->get_params(__MODULEID) ? true : false;
 			}
 			
 			$this->setTitle();
@@ -1142,7 +1154,7 @@
 			$this->loadLanguage();
 			$this->httpRequest();
 			
-			$this->getPlugin('after','init',$this);
+			$this->getPlugin('after', 'init', $this);
 			define('__PHPTime__',request::getMicroTime() - __StartTime__);
 		}
 		
@@ -1193,23 +1205,12 @@
 		{
 			$this->getPlugin('before', 'method', $this);
 			
-			if (empty($_GET) && $this->requestMethod === "GET") 
+			if (((empty($_GET) && $this->requestMethod === "GET") || (empty($_POST) && $this->requestMethod === "POST")))
 			{
 				if (isset($default_action) && method_exists($oModule, $default_action)) 
 				{
 					call_user_func(array($oModule, $default_action));
-				} 
-				else 
-				{
-					throw new Exception(sprintf($lang['nonexistentmodule'], $module));
 				}
-			} 
-			else if (empty($_POST) && $this->requestMethod === "POST") 
-			{
-				if (isset($default_action) && method_exists($oModule, $default_action)) 
-				{
-					call_user_func(array($oModule, $default_action));
-				} 
 				else 
 				{
 					throw new Exception(sprintf($lang['nonexistentmodule'], $module));
@@ -1217,7 +1218,8 @@
 			} 
 			else 
 			{
-				$this->action = ($this->requestMethod === "POST") ? (string)$this->base->post_params(__ACTION) : ($this->requestMethod === "GET" ? (string)$this->base->get_params(__ACTION, 'string') : null);
+				$this->action = ($this->requestMethod === "POST") ? (string)$this->base->post_params(__ACTION) : 
+								(($this->requestMethod === "GET") ? (string)$this->base->get_params(__ACTION, 'string') : null);
 				
 				if ($this->action === null) 
 				{
@@ -1229,7 +1231,7 @@
 				if (isset($this->action) && method_exists($oModule, $this->action) && !in_array($this->action, $private_action)) 
 				{
 					call_user_func(array($oModule, $this->action));
-				} 
+				}
 				else if (isset($default_action)) 
 				{
 					if (method_exists($oModule, $default_action) && !in_array($this->action, $private_action)) 
@@ -1244,7 +1246,7 @@
 				
 			}
 			
-			$this->getPlugin('after','method',$this);
+			$this->getPlugin('after', 'method', $this);
 		}
 		
 	}
