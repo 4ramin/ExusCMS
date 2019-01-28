@@ -18,6 +18,8 @@
 		}
 	});
 	
+	var messangerType = 'messanger';
+	
 	$.core.CoreMessanger = {
 		Show: function (msg, bottom, left, type) {
 			if (messangerType=='messanger') {

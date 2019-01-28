@@ -1,0 +1,1 @@
+[28-Jan-2019 09:54:43 Asia/Seoul] PHP Warning:  Cannot enable Linkify injector because a.href is not allowed in D:\server\www\hikaru_test\Exus\common\libraries\htmlpurifier\library\HTMLPurifier\Strategy\MakeWellFormed.php on line 114

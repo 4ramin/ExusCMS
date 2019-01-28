@@ -4,13 +4,13 @@ var proc = (function () {
 	return {
 		comment: function ($form) {
 			event.preventDefault();
-			$.getScript("library/js/jquery.form.js");
+			$.getScript("common/js/jquery.form.js");
 			var params = $("#form_cmt").serialize();
 			$.core.Request.ajax("POST", requestBackendFile, params, 'completeInsertComment', "json");
 		},
 		parent_comment: function ($form, $srl) {
 			event.preventDefault();
-			$.getScript("library/js/jquery.form.js");
+			$.getScript("common/js/jquery.form.js");
 			var params = $("#cw_" + $srl).serialize();
 			$.core.Request.ajax("POST", requestBackendFile, params, 'completeInsertComment', "json");
 		},

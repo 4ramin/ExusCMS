@@ -957,7 +957,8 @@
 				"/common/js/coreJS/dist/config.js",
 				"/common/js/coreJS/dist/variables.js",
 				"/common/js/coreJS/dist/coreJS.js",
-				"/common/js/coreJS/dist/extend.js"
+				"/common/js/coreJS/dist/extend.js",
+				"/common/js/coreJS/dist/Global Event.js"
 			);
 			
 			$this->base->addCSS(

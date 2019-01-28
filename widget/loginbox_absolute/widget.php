@@ -4,7 +4,7 @@
 	$base->addCSS('/widget/loginbox_absolute/css/basic.css');
 ?>
 <div id="loginbox" style="display:none;">
-<?php if(!$_SESSION['is_logged']):?>
+<?php if(!$this->base->isLogged()):?>
 	<div class="login_box">
 		<form id="simple_outlogin" name="simple_outlogin" method="post" action="" autocomplete="off" role="form" class="form" onsubmit="return simple_outlogin_form(this);">
 		<input type="hidden" name="url" value="">
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 	<div id="loginbox_widget">
-		<?php if($_SESSION['logged_info']['is_admin']):?>
+		<?php if($this->base->isAdmin()):?>
 			<div class="widget_user_menu">
 				<i style="width: 100%;padding:3px 11px 0px" class="fa fa-bell" aria-hidden="true"></i>
 				<a class="user_menu" href="<?php echo str::getUrl('md','admin'); ?>">알림</a>

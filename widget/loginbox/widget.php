@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div style="width: 100%;height: 45px;background-color: #fff;border: 1px solid #ddd;border-top: none;margin-bottom: 10px;">
-		<?php if($_SESSION['logged_info']['is_admin']):?>
+		<?php if($this->base->isLogged()):?>
 			<div class="widget_user_menu">
 				<i style="width: 100%;padding:3px 11px 0px" class="fa fa-bell" aria-hidden="true"></i>
 				<a class="user_menu" href="<?php echo str::getUrl('md','admin'); ?>">알림</a>
