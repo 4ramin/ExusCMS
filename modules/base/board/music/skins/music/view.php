@@ -1,17 +1,25 @@
 <?php 
 	if(!defined("__FLOWER__")) exit(); 
-	if(!isset($this->board->config->image_viewer) || $this->board->config->image_viewer=='lightbox'){
-		$this->base->addJS("/module/base/board/music/tpl/music/js/lightbox/lightbox.js");
-		$this->base->addCSS("/module/base/board/music/tpl/music/css/lightbox/lightbox.css");
-	}elseif($this->board->config->image_viewer=='imageviewer'){
-		$this->base->addJS("/module/base/board/music/tpl/music/js/imageviewer/imageviewer.min.js");
-		$this->base->addCSS("/module/base/board/music/tpl/music/css/imageviewer/imageviewer.css");
-	}elseif($this->board->config->image_viewer=='fancybox'){
-		$this->base->addJS("/module/base/board/music/tpl/music/js/Fancybox/jquery.fancybox.js");
-		$this->base->addCSS("/module/base/board/music/tpl/music/css/Fancybox/fancybox.css");
-	}elseif($this->board->config->image_viewer=='viewer'){
-		$this->base->addJS("/module/base/board/music/tpl/music/js/viewer/viewer.js");
-		$this->base->addCSS("/module/base/board/music/tpl/music/css/viewer/viewer.css");
+	
+	if(!isset($this->board->config->image_viewer) || $this->board->config->image_viewer=='lightbox')
+	{
+		$this->base->addJS("/module/base/board/music/skins/music/js/lightbox/lightbox.js");
+		$this->base->addCSS("/module/base/board/music/skins/music/css/lightbox/lightbox.css");
+	}
+	elseif($this->board->config->image_viewer=='imageviewer')
+	{
+		$this->base->addJS("/module/base/board/music/skins/music/js/imageviewer/imageviewer.min.js");
+		$this->base->addCSS("/module/base/board/music/skins/music/css/imageviewer/imageviewer.css");
+	}
+	elseif($this->board->config->image_viewer=='fancybox')
+	{
+		$this->base->addJS("/module/base/board/music/skins/music/js/Fancybox/jquery.fancybox.js");
+		$this->base->addCSS("/module/base/board/music/skins/music/css/Fancybox/fancybox.css");
+	}
+	elseif($this->board->config->image_viewer=='viewer')
+	{
+		$this->base->addJS("/module/base/board/music/skins/music/js/viewer/viewer.js");
+		$this->base->addCSS("/module/base/board/music/skins/music/css/viewer/viewer.css");
 	}
 ?>
 <div class="documentAjax">

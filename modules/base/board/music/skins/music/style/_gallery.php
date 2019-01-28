@@ -15,7 +15,7 @@ jQuery(function($){
       <div class="tmb_wrp ribbon_v fin_load">
 		<i class="bg fixed"></i>
 		<i class="bg2 fixed"></i>
-		<img class="ie8_only shadow" src="module/base/board/music/tpl/music/img/ie/shadow.png" alt="">
+		<img class="ie8_only shadow" src="module/base/board/music/skins/music/img/ie/shadow.png" alt="">
 		<?php foreach($this_file as $key=>$flst): ?>
 			<?php if(maya::execute('@\@+.+!jpg||png||gif||jpeg!', $flst['files'],'boolean')):?>
 				<img class="tmb" src="<?php echo $this->base->makeThumbnail($flst['files'], $document['srl'], $this->board->config->thumbnail_width, $this->board->config->thumbnail_height)?>" alt="">	

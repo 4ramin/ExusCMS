@@ -81,10 +81,10 @@
 				<options value="none">
 					<title>사용하지 않음</title>
 				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/btn.png" value="btn">
+				<options image="module/base/board/music/skins/music/preview/style/btn.png" value="btn">
 					<title>Sound Manager2 버튼 플레이어</title>
 				</options>
-				<options image="module/base/board/music/tpl/music/preview/style/360.png" value="360">
+				<options image="module/base/board/music/skins/music/preview/style/360.png" value="360">
 					<title>Sound Manager2 360 플레이어</title>
 				</options>
 			</var>
