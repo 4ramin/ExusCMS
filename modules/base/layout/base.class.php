@@ -1,9 +1,10 @@
 <?php
 
-	class layout{
-		
-		function __construct(){
-		}
-		
+class layout{
+	
+	function __construct(){
 	}
+	
+}
+
 ?>

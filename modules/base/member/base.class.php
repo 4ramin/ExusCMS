@@ -1,30 +1,31 @@
 <?php
 
-	if(!defined("__FLOWER__")) exit();
-
-	class member{
+class member
+{
+	
+	function __construct()
+	{
+	}
+	
+	function getHandler($usePDO = false)
+	{
 		
-		function __construct(){
+		$this->base = new base();
+		if (!isset($_base))
+		{
+			$this->base = new base();
+			$_base = $this->base;
+		}
+		else
+		{
+			$this->base = $_base;
 		}
 		
-		function getHandler($usePDO = false)
+		if ($usePDO) 
 		{
-			
-			$this->base = new base();
-			if (!isset($_base))
-			{
-				$this->base = new base();
-				$_base = $this->base;
-			}
-			else
-			{
-				$this->base = $_base;
-			}
-			
-			if ($usePDO) 
-			{
-				$this->pdo = $this->base->getPDO();
-			}
+			$this->pdo = $this->base->getPDO();
 		}
 	}
+}
+
 ?>
