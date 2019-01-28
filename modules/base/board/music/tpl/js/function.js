@@ -1,11 +1,9 @@
 var requestUrl = "index.php";
 
-function onRename(e, data) 
-{
+function onRename(e, data) {
 	var target = data.node.original;
 	
-	var params = 
-	{
+	var params = {
 		[core_flower.def_mid]: core_flower.mid,
 		act: 'procBoardCategoryRename',
 		category_srl: target.category_srl,
@@ -15,8 +13,7 @@ function onRename(e, data)
 	$.core.Request.ajax("POST", requestUrl, params, 'completeMoveCategory');
 }
 
-function onMove(e, data) 
-{
+function onMove(e, data) {
 	var target = data.node.original;
 	var target_submenu = data.node.original;
 	var target_parent = data.node.parent;
@@ -29,12 +26,9 @@ function onMove(e, data)
 	var instance = $('#data').jstree(true);
 
 	//Move with no depth
-	if(parent==="#")
-	{
-		if(target_parent=="#")
-		{
-			var params = 
-			{
+	if(parent==="#") {
+		if(target_parent=="#") {
+			var params = {
 				[core_flower.def_mid]: core_flower.mid,
 				act: 'procBoardCategoryFolderOut',
 				category_srl: target.category_srl
@@ -43,17 +37,13 @@ function onMove(e, data)
 			//exus.Request.ajax("POST", requestUrl, params, 'completeMoveCategory');
 		}
 		
-		if (old_position > position) 
-		{
+		if (old_position > position) {
 			var old_item_category_srl = instance._model.data[instance._model.data["#"].children[position+1]].original.category_srl;
-		} 
-		else 
-		{
+		} else {
 			var old_item_category_srl = instance._model.data[instance._model.data["#"].children[position-1]].original.category_srl;
 		}
 		
-		var params = 
-		{
+		var params = {
 			[core_flower.def_mid]: core_flower.mid,
 			act: 'procBoardCategoryMove',
 			category_srl: target.category_srl,
@@ -64,16 +54,10 @@ function onMove(e, data)
 		$.core.Request.ajax("POST", requestUrl, params, 'completeMoveCategory');
 		console.log('move item');
 	
-	}
-	else
-	{
-		if (old_parent == parent) 
-		{
-		} 
-		else 
-		{
-			var params = 
-			{
+	} else {
+		if (old_parent == parent) {
+		} else {
+			var params = {
 				[core_flower.def_mid]: core_flower.mid,
 				act: 'procBoardCategoryMoveFolder',
 				category_srl: target.category_srl,
@@ -86,12 +70,10 @@ function onMove(e, data)
 	}
 }
 
-function onDelete(e, data) 
-{
+function onDelete(e, data) {
 	var target = data.node.original;
 	
-	var params = 
-	{
+	var params = {
 		[core_flower.def_mid]: core_flower.mid,
 		act: 'procBoardCategoryRemove',
 		category_srl: target.category_srl,

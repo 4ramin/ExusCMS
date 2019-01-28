@@ -1,4 +1,3 @@
-
 $(function () {
 	$('.multiorder_add').click(function () {
 		$.core.OptionList.moveSelectedItem('.multiorder_show', '.multiorder_selected');
