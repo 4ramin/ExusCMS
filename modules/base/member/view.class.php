@@ -85,11 +85,14 @@ final class member_view extends member
 	
 	function dispMemberInfo() 
 	{
-		$memberInfo = $this->member->model->getMemberInfo($this->base->getUserId());
-		$this->member->email = $memberInfo[0]['email'];
-		$this->member->nickname = $memberInfo[0]['nick_name'];
-		$this->member->userId = $memberInfo[0]['user_id'];
-		$this->base->set('skin', sprintf('%s/memberinfo.php', $this->member->tpl_path));
+		if ($this->base->isLogged()) 
+		{
+			$memberInfo = $this->member->model->getMemberInfo($this->base->getUserId());
+			$this->member->email = $memberInfo[0]['email'];
+			$this->member->nickname = $memberInfo[0]['nick_name'];
+			$this->member->userId = $memberInfo[0]['user_id'];
+			$this->base->set('skin', sprintf('%s/memberinfo.php', $this->member->tpl_path));
+		}
 	}
 	
 	function dispMemberPlaylist() 
