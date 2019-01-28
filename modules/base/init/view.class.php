@@ -368,8 +368,11 @@ final class init_view
 			return $this->setError($this->lang['notfoundbaseresource']);
 		}
 		
-		$this->{$this->moduleID}->category_list = (array)$this->{$this->moduleID}->model->getModuleCategoryList($this->{$this->moduleID}->module_id);
-		
+		if (method_exists($this->{$this->moduleID}->model, "getModuleCategoryList"))
+		{
+			$this->{$this->moduleID}->category_list = (array)$this->{$this->moduleID}->model->getModuleCategoryList($this->{$this->moduleID}->module_id);
+		}
+			
 		$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/skins", __MOD, $this->module);
 		$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
 		
