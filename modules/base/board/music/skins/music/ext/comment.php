@@ -155,7 +155,7 @@
 			
 			<?php foreach($this->board->comment_navigation as $key=>$value): ?>
 				<?php echo html::element('a', $value, [
-					'class' => 'comment_navi'.($_GET['cpage'] == $value) ? "current_page": "",
+					'class' => 'comment_navi '.(($_GET['cpage'] == $value) ? "current_page": ""),
 					'href' => str::getUrl(__MODULEID, $_GET[__MODULEID], 'cpage', $value, 'act', 'getCommentPage')
 				]);?>
 			<?php endforeach; ?>
