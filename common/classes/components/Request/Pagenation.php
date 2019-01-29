@@ -10,6 +10,7 @@ class Pagenation
 	
 	function __construct($total_count, $current_page = 1, $list_count = 10) 
 	{
+		$page_margin = 0;
 		$first_page = 0;
 		$list_count_rel = ceil($list_count / 2);
 		$total_count = ($total_count < 0) ? 1 : $total_count;
@@ -42,6 +43,11 @@ class Pagenation
 		return str::getUrl(__MODULEID, $_GET[__MODULEID], 'page', $this->getLastPage(), 'srl', '');
 	}
 	
+	function getCommentPageLink()
+	{
+		return str::getUrl(__MODULEID, $_GET[__MODULEID], 'cpage', $value, 'act', 'getCommentPage');
+	}
+	
 	function getPageLink()
 	{
 		return str::getUrl(__MODULEID, $_GET[__MODULEID], 'page', $this->getCurrentPage(), 'srl', '');
@@ -52,10 +58,15 @@ class Pagenation
 		return ($_GET['page'] == $this->getCurrentPage()) ? true : false;
 	}
 	
+	function isCurrentCPage()
+	{
+		return ($_GET['cpage'] == $this->getCurrentPage()) ? true : false;
+	}
+	
 	function hasNextPage()
 	{
 		$page = ($this->first_page + ++$this->point);
-		if ($page > $this->total_count)
+		if ($page > $this->list_count)
 		{
 			$this->point = 0;
 			return false;
@@ -68,7 +79,7 @@ class Pagenation
 	
 	function getCurrentPage()
 	{
-		return ($this->first_page + $this->point);
+		return ($this->page_margin + $this->first_page + $this->point);
 	}
 	
 }
