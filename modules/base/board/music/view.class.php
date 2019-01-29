@@ -105,14 +105,14 @@ class board_view extends view_abstract implements viewInterface
 		} 
 		else 
 		{
-			$this->board->file_list = $this->board->model->getFileItemsArray($this->board->item_popular);
+			$this->board->file_list = $this->board->query->getFileItemsArray($this->board->item_popular);
 		}
 		
-		$this->board->query = $this->getDocumentListInDocumentSrls($this->board->item_popular);
+		$this->board->result = $this->getDocumentListInDocumentSrls($this->board->item_popular);
 		
 		$this->setDocumentSubItem();
 		
-		$this->board->document = $this->board->model->getDocumentItem($this->board->item_popular[0]['srl']);
+		$this->board->document = $this->board->query->getDocumentItem($this->board->item_popular[0]['srl']);
 		
 		$this->dispBoardOrigin();
 		$this->getPagination();
@@ -127,8 +127,8 @@ class board_view extends view_abstract implements viewInterface
 		$this->board->page = $this->getPage();
 		
 		$this->board->page_start = $this->getCurrentListCount();
-		$this->board->album = $this->board->model->getAlbumbysrl($this->board->related);
-		$this->board->item_popular = $this->board->model->getAlbumFilesAll($this->board->album);
+		$this->board->album = $this->board->query->getAlbumbysrl($this->board->related);
+		$this->board->item_popular = $this->board->query->getAlbumFilesAll($this->board->album);
 		
 		if ($this->board->item_popular == NULL) 
 		{
@@ -136,7 +136,7 @@ class board_view extends view_abstract implements viewInterface
 		} 
 		else 
 		{
-			$this->board->file_list = $this->board->model->getFileItemsArray($this->board->item_popular);
+			$this->board->file_list = $this->board->query->getFileItemsArray($this->board->item_popular);
 		}
 		
 		$this->base->set('skin', sprintf(__ALBUM_VIEW_TPL__, $this->board->skin_tpl_path));
@@ -146,7 +146,7 @@ class board_view extends view_abstract implements viewInterface
 	{
 		if (!$this->hasGrant(false)) 
 		{
-			return $this->board->model->dispMemberLogin();
+			return $this->board->query->dispMemberLogin();
 		}
 		
 		if (!$this->hasGrant(true)) 
@@ -155,7 +155,7 @@ class board_view extends view_abstract implements viewInterface
 		}
 		
 		unset($_SESSION['target_srl']);
-		$this->board->extra_var = $this->board->model->getExtraVar($this->getParam(__MODULEID));
+		$this->board->extra_var = $this->board->query->getExtraVar($this->getParam(__MODULEID));
 		$this->board->srl = $this->getSrl();
 		$this->board->fileSequence = '';
 		$this->base->set('skin', sprintf(__WRITE_TPL__, $this->board->skin_tpl_path));
@@ -167,11 +167,11 @@ class board_view extends view_abstract implements viewInterface
 		
 		if (!$this->hasGrant(true)) 
 		{
-			return $this->board->model->dispMemberLogin();
+			return $this->board->query->dispMemberLogin();
 		}
 		
 		$this->board->module_id = $this->getModuleID();
-		$this->board->skin = $this->board->model->getModuleLayoutbyBoard($this->board->module_id);
+		$this->board->skin = $this->board->query->getModuleLayoutbyBoard($this->board->module_id);
 		$this->board->xml_path = $this->getTpl('xml/default.xml');
 		
 		if (file_exists($this->board->xml_path)) 
@@ -205,7 +205,7 @@ class board_view extends view_abstract implements viewInterface
 		$retArr = array();
 		
 		$this->board->module_id = $this->getModuleID();
-		$subCategory = $this->board->model->getSubCategoryList($this->board->module_id, $subSrl);
+		$subCategory = $this->board->query->getSubCategoryList($this->board->module_id, $subSrl);
 		$subCategoryArr = $subCategory;
 		
 		if (empty(array_shift($subCategory))) 
@@ -264,7 +264,7 @@ class board_view extends view_abstract implements viewInterface
 		}
 		
 		$this->board->module_id = $this->getModuleID();
-		$this->board->extralist = $this->board->model->getExtraVar($this->board->module_id);
+		$this->board->extralist = $this->board->query->getExtraVar($this->board->module_id);
 		$this->base->set('config', $this->board->config);
 		$this->base->set('tab', $this->getTpl('setup_tab.php'));
 		$this->setTpl('extravars.php');
@@ -293,7 +293,7 @@ class board_view extends view_abstract implements viewInterface
 		}
 		
 		$this->board->module_id = $this->getModuleID();
-		$this->board->skin = $this->board->model->getModuleLayoutbyBoard($this->board->module_id);
+		$this->board->skin = $this->board->query->getModuleLayoutbyBoard($this->board->module_id);
 		$this->board->xml_path = sprintf(__SKIN_XML__, $this->board->skin_tpl_path);
 		
 		$this->board->xmlContent = $this->getSkinXmlContents();
@@ -328,7 +328,7 @@ class board_view extends view_abstract implements viewInterface
 			}
 			
 			$this->board->document_count = count($playlist);
-			$this->board->query = $this->board->model->getDocumentListInDocumentSrls(array_slice($playlist, $this->board->page_start, $this->board->config->list_count));
+			$this->board->result = $this->board->query->getDocumentListInDocumentSrls(array_slice($playlist, $this->board->page_start, $this->board->config->list_count));
 		}
 		
 		if (isset($this->board->query)) 
@@ -354,7 +354,7 @@ class board_view extends view_abstract implements viewInterface
 		$this->board->document_count = $this->getPopularFilesCount();
 		
 		$this->board->page_start = $this->getCurrentListCount();
-		$this->board->query = $this->board->model->getPopularQueryByJoin($this->board->module_id, $this->board->popular_count, $this->board->page_start, $this->board->list_count);
+		$this->board->result = $this->board->query->getPopularQueryByJoin($this->board->module_id, $this->board->popular_count, $this->board->page_start, $this->board->list_count);
 		
 		$this->setDocumentItem();
 		
@@ -370,19 +370,21 @@ class board_view extends view_abstract implements viewInterface
 	//가수
 	function dispBoardAuthor() 
 	{
-		$this->board->query = $this->board->model->getAuthor();
+		$this->board->result = $this->board->query->getAuthor();
 		$this->setAuthorTplPath();
 	}
 	
-	//오리지널
+	/** 
+	 * @brief display music original list
+	 **/
 	function dispBoardOrigin() 
 	{
 		$this->board->page = $this->getPage();
 		$this->board->list_count = $this->getListCount();
 		
-		$this->board->document_count = $this->board->model->getOriginAlbumCount();
+		$this->board->document_count = $this->board->query->getOriginAlbumCount();
 		$this->board->page_start = $this->getCurrentListCount();
-		$this->board->query = $this->getOriginAlbum();
+		$this->board->result = $this->getOriginAlbum();
 		
 		$this->setDocumentItem();
 		
@@ -392,15 +394,17 @@ class board_view extends view_abstract implements viewInterface
 		$this->ajaxCall();
 	}
 	
-	//앨범
+	/** 
+	 * @brief display music album list
+	 **/
 	function dispBoardAlbum() 
 	{
 		$this->board->page = $this->getPage();
 		$this->board->list_count = $this->getListCount();
 		
-		$this->board->document_count = $this->board->model->getAlbumCount();
+		$this->board->document_count = $this->board->query->getAlbumCount();
 		$this->board->page_start = $this->getCurrentListCount();
-		$this->board->query = $this->getAlbum();
+		$this->board->result = $this->getAlbum();
 		
 		$this->setDocumentItem();
 		
@@ -410,14 +414,18 @@ class board_view extends view_abstract implements viewInterface
 		$this->ajaxCall();
 	}
 	
-	//태그
+	/** 
+	 * @brief display tag
+	 **/
 	function dispBoardTag() 
 	{
 		$this->board->tag_list = $this->getTagList();
 		$this->setTagTplPath();
 	}
 	
-	//태그 목록
+	/** 
+	 * @brief display tag list
+	 **/
 	function dispBoardTagList() 
 	{
 		$this->board->module_id = $this->getModuleID();
@@ -427,7 +435,7 @@ class board_view extends view_abstract implements viewInterface
 		
 		$this->board->document_count = $this->getDocumentCountbyTag();
 		$this->board->page_start = $this->getCurrentListCount();
-		$this->board->query = $this->getDocumentlistBetweenCategory();
+		$this->board->result = $this->getDocumentlistBetweenCategory();
 		
 		$this->setDocumentItem();
 		
@@ -461,7 +469,9 @@ class board_view extends view_abstract implements viewInterface
 		$this->board->page_navigation = $this->board->model->getPageArray($this->board->page_count, $this->board->page);
 	}
 	
-	//읽기 문서 조회
+	/** 
+	 * @brief check document
+	 **/
 	protected function CheckDocument() 
 	{
 		$this->board->srl = $this->getSrl();
@@ -470,7 +480,7 @@ class board_view extends view_abstract implements viewInterface
 		if (isset($this->board->srl)) 
 		{
 			$this->board->document = $this->getDocumentItem();
-			$this->board->extra_vars = $this->board->model->getExtraVars($this->board->srl);
+			$this->board->extra_vars = $this->board->query->getExtraVars($this->board->srl);
 			
 			if (!is_array($this->board->document)) 
 			{
@@ -621,7 +631,7 @@ class board_view extends view_abstract implements viewInterface
 		} 
 		else if ($this->board->config->bd_query == "LIMIT") 
 		{
-			$targetDocumentCount = $this->board->model->getCountInTargetDocument($this->board->document['module'], $this->board->document['srl_bd'])->data();
+			$targetDocumentCount = $this->board->query->getCountInTargetDocument($this->board->document['module'], $this->board->document['srl_bd'])->data();
 		}
 		
 		$possibleDocumentCount = floor($this->board->document_count / $this->board->list_count) * $this->board->list_count;
@@ -652,28 +662,28 @@ class board_view extends view_abstract implements viewInterface
 	protected function setDocumentSubItem($type = 'none') 
 	{
 		//쿼리가 존재하지 않는다면 빈 쿼리를 반환
-		if (!is_array($this->board->query)) 
+		if (!is_array($this->board->result)) 
 		{
 			$this->board->document_count = 0;
-			$this->board->query = array();
+			$this->board->result = array();
 		}
 		
-		if (is_array($this->board->query) && count($this->board->query)) 
+		if (is_array($this->board->result) && count($this->board->result)) 
 		{
-			$query = $this->board->query;
+			$query = $this->board->result;
 			
 			$vid = ($this->board->document_count) - ($this->board->list_count * ($this->board->page - 1));
-			unset($this->board->query);
+			unset($this->board->result);
 			
 			foreach ($query as $data) 
 			{
 				$data['no'] = $vid;
-				$this->board->query[] = $data;
+				$this->board->result[] = $data;
 				$vid--;
 			}
 		}
 		
-		foreach ($this->board->query as $documentItem) 
+		foreach ($this->board->result as $documentItem) 
 		{
 			$this->boarditem = new board_item($this, $documentItem);
 			$this->board->sub_list[$documentItem['srl']] = $this->boarditem;
@@ -692,28 +702,28 @@ class board_view extends view_abstract implements viewInterface
 		}
 		
 		//쿼리가 존재하지 않는다면 빈 쿼리를 반환
-		if (!is_array($this->board->query)) 
+		if (!is_array($this->board->result)) 
 		{
 			$this->board->document_count = 0;
-			$this->board->query = array();
+			$this->board->result = array();
 		}
 		
-		if (is_array($this->board->query) && count($this->board->query)) 
+		if (is_array($this->board->result) && count($this->board->result)) 
 		{
-			$query = $this->board->query;
+			$query = $this->board->result;
 			
 			$vid = ($this->board->document_count) - ($this->board->list_count * ($this->board->page-1));
-			unset($this->board->query);
+			unset($this->board->result);
 			
 			foreach ($query as $data) 
 			{
 				$data['no'] = $vid;
-				$this->board->query[] = $data;
+				$this->board->result[] = $data;
 				$vid--;
 			}
 		}
 		
-		foreach ($this->board->query as $documentItem) 
+		foreach ($this->board->result as $documentItem) 
 		{
 			$this->boarditem = new board_item($this, $documentItem);
 			$this->board->document_list[$documentItem['srl']] = $this->boarditem;
@@ -755,7 +765,7 @@ class board_view extends view_abstract implements viewInterface
 			{
 				if (!isset($GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->board->module_id])) 
 				{
-					$this->board->document_count = $this->board->model->getDocumentCountbyCategoryArticle($this->board->module_id, $this->getParam('category'), $this->board->keyword, $this->board->type);
+					$this->board->document_count = $this->board->query->getDocumentCountbyCategoryArticle($this->board->module_id, $this->getParam('category'), $this->board->keyword, $this->board->type);
 					$GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->board->module_id] = $this->board->document_count;
 				} 
 				else 
@@ -763,7 +773,7 @@ class board_view extends view_abstract implements viewInterface
 					$this->board->document_count = $GLOBALS['DOCUMENT_COUNT_KEYWORD'][$this->board->module_id];
 				}
 				
-				$this->board->query = $this->getDocumentlistBetweenbyCategoryArticle();
+				$this->board->result = $this->getDocumentlistBetweenbyCategoryArticle();
 			}
 			else 
 			{
@@ -777,7 +787,7 @@ class board_view extends view_abstract implements viewInterface
 					$this->board->document_count = $GLOBALS['DOCUMENT_COUNT_LIST'][$this->board->module_id];
 				}
 				
-				$this->board->query = $this->getDocumentlistBetweenbyCategory();
+				$this->board->result = $this->getDocumentlistBetweenbyCategory();
 			}
 			
 			$this->CheckPage('category');
@@ -798,38 +808,38 @@ class board_view extends view_abstract implements viewInterface
 				//다운로드 수 정렬
 				case "download_count":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getPopularDocumentList();
+					$this->board->result = $this->getPopularDocumentList();
 					break;
 				case "playtime":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("playtime");
+					$this->board->result = $this->getDocumentListbyArticle("playtime");
 					break;
 				//조회수 정렬
 				case "readed_count":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("readed");
+					$this->board->result = $this->getDocumentListbyArticle("readed");
 					break;
 				//가수 정렬
 				case "artist":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("artist");
+					$this->board->result = $this->getDocumentListbyArticle("artist");
 					break;
 				//추천수 정렬
 				case "voted_count":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("voted");
+					$this->board->result = $this->getDocumentListbyArticle("voted");
 					break;
 				case "category":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("category");
+					$this->board->result = $this->getDocumentListbyArticle("category");
 					break;
 				case "regdate":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("regdate");
+					$this->board->result = $this->getDocumentListbyArticle("regdate");
 					break;
 				case "star_count":
 					$this->board->page_start = $this->getCurrentListCount();
-					$this->board->query = $this->getDocumentListbyArticle("star");
+					$this->board->result = $this->getDocumentListbyArticle("star");
 					break;
 			endswitch;
 			
@@ -849,7 +859,7 @@ class board_view extends view_abstract implements viewInterface
 			}
 			
 			$this->board->page_start = ($this->board->page-1) * ($this->board->list_count);
-			$this->board->query = $this->getDocumentlistBetweenbyGenre();
+			$this->board->result = $this->getDocumentlistBetweenbyGenre();
 			
 			$this->CheckPage('genre');
 		} 
@@ -862,31 +872,31 @@ class board_view extends view_abstract implements viewInterface
 					case "title":
 						$this->board->document_count = $this->getDocumenCountbyTitle();
 						$this->board->page_start = $this->getCurrentListCount();
-						$this->board->query = $this->getDocumentlistBetweenbyTitle();
+						$this->board->result = $this->getDocumentlistBetweenbyTitle();
 						break;
 					//태그
 					case "tag":
 						$this->board->document_count = $this->getDocumenCountbyTag();
 						$this->board->page_start = $this->getCurrentListCount();
-						$this->board->query = $this->getDocumentlistBetweenbyTag();
+						$this->board->result = $this->getDocumentlistBetweenbyTag();
 						break;
 					//가수
 					case "artist":
 						$this->board->document_count = $this->getDocumenCountbyAuthor();
 						$this->board->page_start = $this->getCurrentListCount();
-						$this->board->query = $this->getDocumentlistBetweenbyAuthor();
+						$this->board->result = $this->getDocumentlistBetweenbyAuthor();
 						break;
 					//앨범 오리지널
 					case "albumorigin":
 						$this->board->document_count = $this->getDocumenCountbyOriginAlbum();
 						$this->board->page_start = $this->getCurrentListCount();
-						$this->board->query = $this->getDocumentlistBetweenbyOriginAlbum();
+						$this->board->result = $this->getDocumentlistBetweenbyOriginAlbum();
 						break;
 					//제목 오리지널
 					case "titleorigin":
 						$this->board->document_count = $this->getDocumenCountbyOriginTitle();
 						$this->board->page_start = $this->getCurrentListCount();
-						$this->board->query = $this->getDocumentlistBetweenbyOriginTitle();
+						$this->board->result = $this->getDocumentlistBetweenbyOriginTitle();
 						break;
 					default:
 						break;
@@ -896,7 +906,7 @@ class board_view extends view_abstract implements viewInterface
 			{
 				$this->board->page_start = $this->getCurrentListCount();
 				$this->board->document_count = $this->getDocumenCountbyColumn();
-				$this->board->query = $this->getDocumentListbyColumn();
+				$this->board->result = $this->getDocumentListbyColumn();
 			}
 		} 
 		else 
@@ -928,7 +938,7 @@ class board_view extends view_abstract implements viewInterface
 					$this->board->page_start = (int)$query_count > 0 ? $query_count : 0;
 					$this->board->page_end = (int)$this->board->page_start + $this->board->list_count - 1;
 					$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
-					$this->board->query = ($this->board->model->getDocumentListLIMIT($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
+					$this->board->result = ($this->board->query->getDocumentListLIMIT($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
 					
 				} 
 				else if ($this->board->config->bd_query=="JOIN") 
@@ -937,7 +947,7 @@ class board_view extends view_abstract implements viewInterface
 					$this->board->page_start = (int)$query_count > 0 ? $query_count : 0;
 					$this->board->page_end = (int)$this->board->page_start + $this->board->list_count - 1;
 					$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
-					$this->board->query = array_reverse($this->board->model->getDocumentListJOIN($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
+					$this->board->result = array_reverse($this->board->query->getDocumentListJOIN($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
 				} 
 				else if ($this->board->config->bd_query=="JOIN2") 
 				{
@@ -945,7 +955,7 @@ class board_view extends view_abstract implements viewInterface
 					$this->board->page_start = (int)$query_count > 0 ? $query_count : 0;
 					$this->board->page_end = (int)$this->board->page_start + $this->board->list_count - 1;
 					$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
-					$this->board->query = array_reverse($this->board->model->getDocumentListJOIN2($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
+					$this->board->result = array_reverse($this->board->query->getDocumentListJOIN2($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
 				} 
 				else 
 				{
@@ -963,7 +973,7 @@ class board_view extends view_abstract implements viewInterface
 					$gapPageNext = $this->board->model->getGapInModule($startPage, $endPage, $this->board->module_id)->data();
 					$this->board->page_end = $this->board->page_end + ($gapPageNext) + ($gapPagePrev);*/
 					
-					$this->board->query = array_reverse($this->board->model->getDocumentList($this->getParam(__MODULEID), $this->board->page_start, $this->board->page_end));
+					$this->board->result = array_reverse($this->board->query->getDocumentList($this->getParam(__MODULEID), $this->board->page_start, $this->board->page_end));
 				}
 				
 			}

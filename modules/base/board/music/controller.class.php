@@ -29,7 +29,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$parent_srl = $this->getParam('parent_srl');
 		
 		// Update parent_srl of category to root_srl
-		$this->board->model->updateCategoryParentSrl($category_srl, $parent_srl);
+		$this->board->query->updateCategoryParentSrl($category_srl, $parent_srl);
 	}
 	
 	function procBoardCategoryFolderOut() 
@@ -43,7 +43,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$category_srl = $this->getParam('category_srl');
 		
 		// Update parent_srl of category to null
-		$this->board->model->updateCategoryParentSrl($category_srl, null);
+		$this->board->query->updateCategoryParentSrl($category_srl, null);
 	}
 	
 	function procBoardCategoryRename() 
@@ -58,7 +58,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$text = $this->getParam('text');
 		
 		// Update category caption
-		$this->board->model->updateCategoryCaption($category_srl, $text);
+		$this->board->query->updateCategoryCaption($category_srl, $text);
 	}
 	
 	function procBoardCategoryMove() 
@@ -73,10 +73,10 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$parent_srl = $this->getParam('parent_srl');
 		
 		// Just exchange listorder of two items
-		$this->board->model->updateCategoryOrders($category_srl, $parent_srl);
+		$this->board->query->updateCategoryOrders($category_srl, $parent_srl);
 		
 		// Get a list order index
-		$categoryList = $this->board->model->getCategoryListWithoutSub($module);
+		$categoryList = $this->board->query->getCategoryListWithoutSub($module);
 		$listOrderArray = array_column($categoryList, "list_order");
 		$key = (array_search($category_srl, $listOrderArray) + 1);
 		
@@ -84,7 +84,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		{
 			// Get a prev listorder
 			$prevParent = array_search($parent_srl, $listOrderArray) - 1;
-			$uniquesrl = $this->board->model->getBetweenCategoryCount($categoryList[$prevParent]['list_order'], $category_srl, null);
+			$uniquesrl = $this->board->query->getBetweenCategoryCount($categoryList[$prevParent]['list_order'], $category_srl, null);
 			$startKey = ($key - $uniquesrl->data());
 			$endKey = ($key - 1);
 			
@@ -96,7 +96,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 				{
 					$target = $categoryList[$i]['list_order'];
 					$dest = $categoryList[$endKey]['list_order'];
-					$this->board->model->updateCategoryOrders($target, $dest);
+					$this->board->query->updateCategoryOrders($target, $dest);
 				}
 				
 			} 
@@ -112,7 +112,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 				{
 					$target = $categoryList[$i]['list_order'];
 					$dest = $categoryList[$key-1]['list_order'];
-					$this->board->model->updateCategoryOrders($target, $dest);
+					$this->board->query->updateCategoryOrders($target, $dest);
 				}
 			}
 		}
@@ -120,7 +120,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		{
 			// Get a next listorder
 			$nextParent = array_search($parent_srl, $listOrderArray) + 1;
-			$uniquesrl = $this->board->model->getCategoryUniqueReverse($category_srl, $categoryList[$nextParent]['list_order'], null);
+			$uniquesrl = $this->board->query->getCategoryUniqueReverse($category_srl, $categoryList[$nextParent]['list_order'], null);
 			
 			$startKey = $key;
 			$endKey = ($key - 1) + count($uniquesrl);
@@ -133,7 +133,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 				{
 					$target = $categoryList[$i]['list_order'];
 					$dest = $categoryList[$i-1]['list_order'];
-					$this->board->model->updateCategoryOrders($target, $dest);
+					$this->board->query->updateCategoryOrders($target, $dest);
 				}
 			} 
 			else if ($startKey > $endKey && $endKey < $key) 
@@ -148,7 +148,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 				{
 					$target = $categoryList[$i]['list_order'];
 					$dest = $categoryList[$i - 1]['list_order'];
-					$this->board->model->updateCategoryOrders($target, $dest);
+					$this->board->query->updateCategoryOrders($target, $dest);
 				}
 			}
 		}
@@ -167,7 +167,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		
 		$module = $this->getParam(__MODULEID);
 		$category_srl = $this->getParam("category_srl");
-		$this->board->model->deleteCategory($category_srl, $module);
+		$this->board->query->deleteCategory($category_srl, $module);
 		
 		// Redirect to Page
 		$args = va::args();
@@ -185,10 +185,10 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$module = $this->getParam(__MODULEID);
 		$type = $this->getParam("type");
 		$name = $this->getParam("name");
-		$ai = $this->board->model->getAutoIncrement("def_category");
+		$ai = $this->board->query->getAutoIncrement("def_category");
 		
 		// Insert new category
-		$this->board->model->insertCategory($ai, $type, $module, $name);
+		$this->board->query->insertCategory($ai, $type, $module, $name);
 		
 		// Redirect to Page
 		$args = va::args();
@@ -201,7 +201,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$module = $this->getParam(__MODULEID);
 		$request = new request();
 		$srl = $request::decodeBinaryNumberic($this->getParam('srl'));
-		$lyrics = htmlspecialchars_decode($this->board->model->getLysicsFull($module, $srl));
+		$lyrics = htmlspecialchars_decode($this->board->query->getLysicsFull($module, $srl));
 		
 		// If has lyric
 		if ($lyrics) 
@@ -274,7 +274,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 							{
 								// insert lyrics if found md5 hash
 								$lysics = $this->board->model->getLysics($md5);
-								$this->board->model->insertLysics('index', $srl, $lysics);
+								$this->board->query->insertLysics('index', $srl, $lysics);
 							}
 						}
 					}
@@ -290,7 +290,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->mid = $this->getParam(__MODULEID);
 		$this->post_data->srl = $this->getParam('srl');
 		
-		$this->board->model->deleteDocument($this->post_data->srl, $this->post_data->mid);
+		$this->board->query->deleteDocument($this->post_data->srl, $this->post_data->mid);
 		
 		$oFilesModel = $this->base->getModel('files');
 		$oFilesModel->deleteAllAttachmentFiles($this->post_data->srl);
@@ -328,11 +328,11 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->title = urldecode($this->getParam('title'));
 		$this->post_data->memberSrl = $this->base->getMemberSrl();
 		
-		$this->board->extra_var = $this->board->model->getExtraVar($this->getParam(__MODULEID));
+		$this->board->extra_var = $this->board->query->getExtraVar($this->getParam(__MODULEID));
 		
 		if (is_int($this->post_data->srl)) 
 		{
-			$this->board->document = $this->board->model->getDocumentItem($this->board->srl);
+			$this->board->document = $this->board->query->getDocumentItem($this->board->srl);
 			$memberSrl = $this->board->document['member_srl'];
 			
 			if ($this->post_data->memberSrl !== $memberSrl) 
@@ -373,7 +373,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		if ($this->post_data->srl) 
 		{
 			// Update document
-			$this->board->model->updateDocument(
+			$this->board->query->updateDocument(
 				$this->post_data->title,
 				$this->post_data->content,
 				date("Ymdhis"),
@@ -398,10 +398,10 @@ class board_controller extends controller_abstract implements controllerInterfac
 		else 
 		{
 			// Get Board Sequence
-			$lastId = $this->board->model->getBoardSequence($this->post_data->mid);
+			$lastId = $this->board->query->getBoardSequence($this->post_data->mid);
 			
 			// Insert Document
-			$this->board->model->insertDocument
+			$this->board->query->insertDocument
 			(
 				$this->post_data->title,
 				$this->post_data->content,
@@ -424,7 +424,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 				{
 					$extra_vars_key = $val['val'];
 					$extra_vars_val = $_POST[$val['val']];
-					$this->board->model->insertExtraVar($lastId, $extra_vars_key, $extra_vars_val);
+					$this->board->query->insertExtraVar($lastId, $extra_vars_key, $extra_vars_val);
 				}
 			}
 		}
@@ -461,7 +461,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->srl = $this->getParam('srl');
 		
 		// Get blamed count
-		$blamed_count = $this->board->model->getBlamedCount($this->post_data->srl);
+		$blamed_count = $this->board->query->getBlamedCount($this->post_data->srl);
 		if (isset($blamed_count['blamed']))
 		{
 			$blamed_count = $blamed_count['blamed'] + 1;
@@ -472,7 +472,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		}
 		
 		// Update blamed count
-		if ($this->board->model->UpdateBlamedCount($blamed_count, $this->post_data->srl)) 
+		if ($this->board->query->UpdateBlamedCount($blamed_count, $this->post_data->srl)) 
 		{
 			$this->setMessage($blamed_count);
 		} 
@@ -492,7 +492,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$target_srl = $this->getParam('target');
 		
 		// Get extravars in member
-		$mExvar = unserialize($this->board->model->getMemberExvar($_SESSION['logged_info']['user_id']));
+		$mExvar = unserialize($this->board->query->getMemberExvar($_SESSION['logged_info']['user_id']));
 		if (!isset($mExvar))
 		{
 			// Set extra info to empty array if not found extravars in member
@@ -509,7 +509,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 			array_push($mExvar['playlist'], $target_srl);
 		}
 		
-		if ($this->board->model->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 
+		if ($this->board->query->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 
 		{
 			return $this->setMessage("등록이 완료되었습니다.");
 		} 
@@ -530,17 +530,17 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->md = $this->getParam(__MODULEID);
 		$this->post_data->srl = $this->getParam('srl');
 		$this->post_data->point = $this->getParam('star');
-		$this->post_data->star = $this->board->model->getDocumentStarCount($this->post_data->srl);
-		$this->post_data->star_cnt = $this->board->model->getDocumentStarVotedCount($this->post_data->srl) + 1;
+		$this->post_data->star = $this->board->query->getDocumentStarCount($this->post_data->srl);
+		$this->post_data->star_cnt = $this->board->query->getDocumentStarVotedCount($this->post_data->srl) + 1;
 		
 		$current_star_count = ($this->post_data->star + $this->post_data->point);
 		
 		// Update doucment star count
-		if ($this->board->model->UpdateDocumentStarCount($star_count, $this->post_data->srl)) 
+		if ($this->board->query->UpdateDocumentStarCount($star_count, $this->post_data->srl)) 
 		{
 			$starCount = round($current_star_count / $this->post_data->star_cnt);
 			$this->setMessage($starCount);
-			$this->board->model->UpdateDocumentStarVotedCount($this->post_data->star_cnt, $this->post_data->srl);
+			$this->board->query->UpdateDocumentStarVotedCount($this->post_data->star_cnt, $this->post_data->srl);
 		}
 		else 
 		{
@@ -559,7 +559,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->srl = $this->getParam('srl');
 		
 		// Get voted count
-		$voted_count = $this->board->model->getVotedCount($this->post_data->srl);
+		$voted_count = $this->board->query->getVotedCount($this->post_data->srl);
 		
 		if (isset($voted_count->result))
 		{
@@ -571,7 +571,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		}
 		
 		// Update voted count
-		if ($this->board->model->UpdateVotedCount($voted_count, $this->post_data->srl)) 
+		if ($this->board->query->UpdateVotedCount($voted_count, $this->post_data->srl)) 
 		{
 			$this->setMessage($voted_count);
 		}
@@ -602,12 +602,12 @@ class board_controller extends controller_abstract implements controllerInterfac
 			if($this->post_data->pos < 0) $this->post_data->pos = 0;
 			
 			$oTagi = $this->post_data->pos+3;
-			$this->board_count = $this->board->model->getDocumentlistTagRelatedSrlCount($this->post_data->module_id,$this->post_data->tag);
+			$this->board_count = $this->board->query->getDocumentlistTagRelatedSrlCount($this->post_data->module_id,$this->post_data->tag);
 			$this->page = (int)ceil($oTagi/$this->list_count);
 			$this->page_count = (int)ceil($this->board_count/$this->list_count);
 			$this->page_navigation = $this->board->model->getPageArray($this->page_count,  $this->page);
 			
-			$oTagDocument = $this->board->model->getDocumentlistTagRelated($this->post_data->module_id, $this->post_data->pos, $this->list_count,$this->post_data->tag);
+			$oTagDocument = $this->board->query->getDocumentlistTagRelated($this->post_data->module_id, $this->post_data->pos, $this->list_count,$this->post_data->tag);
 			
 			$json = array();
 			if ($this->post_data->target=='Related') 
@@ -698,7 +698,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 	
 	function procRandomDocument() 
 	{
-		$lastId = $this->board->model->getBoardSequence('index');
+		$lastId = $this->board->query->getBoardSequence('index');
 		$srl = mt_rand(1, $lastId);
 		
 		$files = $this->getFileList($srl);
@@ -714,7 +714,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 	
 	function procRandomMusic() 
 	{
-		$lastId = $this->board->model->getBoardSequence('index');
+		$lastId = $this->board->query->getBoardSequence('index');
 		$srl = mt_rand(1, $lastId);
 		
 		$files = $this->getFileList($srl);
@@ -743,7 +743,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		// Update singer info
 		if ($this->hasGrant(true)) 
 		{
-			$this->board->model->UpdateArtist($this->post_data->srl, $this->post_data->md, $this->post_data->singer);
+			$this->board->query->UpdateArtist($this->post_data->srl, $this->post_data->md, $this->post_data->singer);
 			return $this->setMessage("성공적으로 변경했습니다.");
 		} 
 		else 
@@ -767,7 +767,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		// Update genre info
 		if ($this->hasGrant(true)) 
 		{
-			$this->board->model->UpdateGenre($this->post_data->srl, $this->post_data->md, $this->post_data->genre);
+			$this->board->query->UpdateGenre($this->post_data->srl, $this->post_data->md, $this->post_data->genre);
 			return $this->setMessage("성공적으로 변경했습니다.");
 		} 
 		else 

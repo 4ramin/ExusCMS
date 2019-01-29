@@ -318,15 +318,19 @@ final class init_view
 		if ($prefixHandler !== null) 
 		{
 			$this->requestHandler = sprintf("%s_%s", $this->moduleID, $prefixHandler);
-			$requestHandlerInterface = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.interface');
-			$requestHandlerAbstract = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.abstract');
 			
 			$abstractbaseComponent = sprintf("%s/%s.abstract.php", $this->moduleDirectory, $requestType);
+			$requestHandlerAbstract = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.abstract');
 			$this->base->includeFile($abstractbaseComponent, $requestHandlerAbstract, false);
 			
 			$interfacebaseComponent = sprintf("%s/%s.interface.php", $this->moduleDirectory, $requestType);
+			$requestHandlerInterface = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.interface');
 			$this->base->includeFile($interfacebaseComponent, $requestHandlerInterface, false);
 			$this->base->includeFile($baseComponent, $this->requestHandler);
+			
+			$requestHandlerQuery = sprintf("%s_%s", $this->moduleID, 'query');
+			$queryComponent = sprintf("%s/query.class.php", $this->moduleDirectory, $requestType);
+			$this->base->includeFile($queryComponent, $requestHandlerQuery, false);
 			
 			$baseDefined = sprintf("%s/base.defined.php", $this->moduleDirectory, $requestType);
 			
@@ -359,6 +363,15 @@ final class init_view
 	//Specifies bulletin board default properties.
 	function setBoardProperty() 
 	{
+		if (class_exists("board_query"))
+		{
+			$this->{$this->moduleID}->query = new board_query($this);
+		}
+		else
+		{
+			return $this->setError($this->lang['notfoundbaseresource']);
+		}
+		
 		if (class_exists("board_model"))
 		{
 			$this->{$this->moduleID}->model = new board_model($this);
@@ -374,10 +387,10 @@ final class init_view
 		}
 			
 		$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/skins", __MOD, $this->module);
-		$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
+		$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->query->get_skin($this->module));
 		
 		$this->{$this->moduleID}->tpl_url_path = sprintf("%s/board/%s/skins", __PATH, $this->module);
-		$this->{$this->moduleID}->skin_tpl_url_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_url_path, $this->board->model->get_skin($this->module));
+		$this->{$this->moduleID}->skin_tpl_url_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_url_path, $this->board->query->get_skin($this->module));
 	}
 	
 	//Specifies the model handler.
@@ -389,6 +402,14 @@ final class init_view
 		{
 			$this->{$this->moduleID}->model = new $this->modelObject($this);
 		}
+		
+		$this->queryObject = sprintf("%s_query", $this->moduleID);
+		
+		if (class_exists($this->queryObject))
+		{
+			$this->{$this->moduleID}->query = new $this->queryObject($this);
+		}
+		
 	}
 	
 	//Import the configuration file.
@@ -457,11 +478,16 @@ final class init_view
 	
 	function setBaseBoardProperty()
 	{
+		if (class_exists("board_query"))
+		{
+			$this->{$this->moduleID}->query = new board_query($this);
+		}
+		
 		$this->{$this->moduleID}->tpl_path = sprintf("%s/board/%s/skins", __MOD, $this->module);
-		$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->model->get_skin($this->module));
+		$this->{$this->moduleID}->skin_tpl_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_path, $this->board->query->get_skin($this->module));
 		
 		$this->{$this->moduleID}->tpl_url_path = sprintf("%s/board/%s/skins", __PATH, $this->module);
-		$this->{$this->moduleID}->skin_tpl_url_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_url_path, $this->board->model->get_skin($this->module));
+		$this->{$this->moduleID}->skin_tpl_url_path = sprintf("%s/%s", $this->{$this->moduleID}->tpl_url_path, $this->board->query->get_skin($this->module));
 	}
 	
 	//Specify the module property.
@@ -954,11 +980,13 @@ final class init_view
 		{
 			if (isset($this->board->srl)) 
 			{
-				$oBoardModel = $this->base->getModel('music');
-				$this->board->document = $oBoardModel->getDocumentItem($this->board->srl);
+				$oBoardQuery = $this->base->getQuery('music');
+				$this->board->document = $oBoardQuery->getDocumentItem($this->board->srl);
+				
 				$this->document_item = new board_item($this, $this->board->document);
 				$this->board->oDocument = $this->document_item;
 				$content = $this->board->oDocument->getContent();
+				
 				$oEditorModel = $this->base->getModel('editor');
 				$this->board->oDocument->setContent($oEditorModel->generateHTML($content, $this));
 			}

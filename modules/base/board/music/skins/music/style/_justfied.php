@@ -1,5 +1,5 @@
 <div class="justed_galler">
-   <?php foreach($this->board->query as $key=>$value): ?>
+   <?php foreach($this->board->result as $key=>$value): ?>
    <?php $this_file = $this->board->model->getFileList($value['srl']); ?>
    <div class="justified">
 		<div>

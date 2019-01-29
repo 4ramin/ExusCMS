@@ -2,7 +2,7 @@
 <?php $this->base->addCSS("/module/base/board/music/skins/music/css/author.css"); ?>
 
 <div class="list_area" style="background-color:#fff !important">
-<?php foreach($this->board->query as $key=>$value): ?>
+<?php foreach($this->board->result as $key=>$value): ?>
 	<div class="tags">
 		<?php echo html::element('a', $value['artist'], [
 			'style' => 'color:black;margin:auto',

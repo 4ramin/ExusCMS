@@ -14,13 +14,14 @@
 			if(!$document_srl || $document_srl <= -1) return;
 			
 			$oBoardModel = $this->base->getModel('music');
-			$oDocument = $oBoardModel->getDocumentItem($document_srl);
+			$oBoardQuery = $this->base->getQuery('music');
+			$oDocument = $oBoardQuery->getDocumentItem($document_srl);
 			
 			$oFileModel = $this->base->getModel('files');
 			$fileSequence = $oFileModel->getDocumentFileSequence($document_srl);
 			$FileList = $oFileModel->getFileList($fileSequence);
 			
-			if ($oBoardModel->getLysicsCount($oDocument['module'], $document_srl)->data() > 0)
+			if ($oBoardQuery->getLysicsCount($oDocument['module'], $document_srl)->data() > 0)
 			{
 				return;
 			}
@@ -36,7 +37,7 @@
 					{
 						$md5Hash = $oBoardModel->getMD5Hash($AudioFile);
 						$lyricsData = $oBoardModel->getLysics($md5Hash);
-						$oBoardModel->insertLysics($oDocument['module'], $document_srl, $oBoardModel->getLysics($md5Hash));
+						$oBoardQuery->insertLysics($oDocument['module'], $document_srl, $oBoardModel->getLysics($md5Hash));
 					}
 				}
 			}

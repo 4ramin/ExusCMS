@@ -42,17 +42,17 @@ abstract class view_abstract extends board
 	
 	public function getAllOriginAlbum() 
 	{
-		return $this->board->model->getAllOriginAlbum($this->board->album);
+		return $this->board->query->getAllOriginAlbum($this->board->album);
 	}
 	
 	public function getOriginAlbumbysrl() 
 	{
-		return $this->board->model->getOriginAlbumbysrl($this->board->related);
+		return $this->board->query->getOriginAlbumbysrl($this->board->related);
 	}
 	
 	public function updateReadedCount() 
 	{
-		$this->board->model->UpdateReadedCount($this->board->readed_count, $this->board->srl);
+		$this->board->query->UpdateReadedCount($this->board->readed_count, $this->board->srl);
 	}
 	
 	public function getSkinXmlContents()
@@ -83,117 +83,117 @@ abstract class view_abstract extends board
 	
 	public function getDocumentCountbyCategory()
 	{
-		return $this->board->model->getDocumentCountbyCategory($this->board->module_id, $this->getParam('category'));
+		return $this->board->query->getDocumentCountbyCategory($this->board->module_id, $this->getParam('category'));
 	}
 	
 	public function getDocumentlistBetweenbyCategory()
 	{
-		return $this->board->model->getDocumentlistBetweenbyCategory($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->getParam('category'));
+		return $this->board->query->getDocumentlistBetweenbyCategory($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->getParam('category'));
 	}
 	
 	public function getDocumentlistBetweenbyCategoryArticle()
 	{
-		return $this->board->model->getDocumentlistBetweenbyCategoryArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->category, $this->board->keyword, $this->board->type);
+		return $this->board->query->getDocumentlistBetweenbyCategoryArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->category, $this->board->keyword, $this->board->type);
 	}
 
 	public function getDocumentItem()
 	{
-		return $this->board->model->getDocumentItem($this->board->srl);
+		return $this->board->query->getDocumentItem($this->board->srl);
 	}
 	
 	public function getTagList()
 	{
-		return $this->board->model->getTagList();
+		return $this->board->query->getTagList();
 	}
 	
 	public function getDocumentCountbyTag()
 	{
-		return $this->board->model->getDocumentCountbyTag($this->board->module_id, $this->board->tag);
+		return $this->board->query->getDocumentCountbyTag($this->board->module_id, $this->board->tag);
 	}
 	
 	public function getDocumentCountbyBoardId()
 	{
-		return $this->board->model->getDocumentCountbyBoardId($this->board->module_id);
+		return $this->board->query->getDocumentCountbyBoardId($this->board->module_id);
 	}
 	
 	public function getPopularDocumentList()
 	{
-		return $this->board->model->getPopularDocumentList($this->board->module_id, 0, $this->board->page_start, $this->board->list_count);
+		return $this->board->query->getPopularDocumentList($this->board->module_id, 0, $this->board->page_start, $this->board->list_count);
 	}
 	
 	public function getDocumentlistBetweenbyGenre()
 	{
-		return $this->board->model->getDocumentlistBetweenbyGenre($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->genre);
+		return $this->board->query->getDocumentlistBetweenbyGenre($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->genre);
 	}
 	
 	public function getDocumentlistBetweenbyOriginTitle()
 	{
-		return $this->board->model->getDocumentlistBetweenbyOriginTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumentlistBetweenbyOriginTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumenCountbyOriginTitle()
 	{
-		return $this->board->model->getDocumenCountbyOriginTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumenCountbyOriginTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumentlistBetweenbyOriginAlbum()
 	{
-		return $this->board->model->getDocumentlistBetweenbyOriginAlbum($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumentlistBetweenbyOriginAlbum($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumenCountbyOriginAlbum()
 	{
-		return $this->board->model->getDocumenCountbyOriginAlbum($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumenCountbyOriginAlbum($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumentlistBetweenbyAuthor()
 	{
-		return $this->board->model->getDocumentlistBetweenbyAuthor($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumentlistBetweenbyAuthor($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumenCountbyAuthor()
 	{
-		return $this->board->model->getDocumenCountbyAuthor($this->board->module_id, $this->board->page_start, $page_end, $this->board->keyword);
+		return $this->board->query->getDocumenCountbyAuthor($this->board->module_id, $this->board->page_start, $page_end, $this->board->keyword);
 	}
 	
 	public function getDocumentlistBetweenbyTag()
 	{
-		return $this->board->model->getDocumentlistBetweenbyTag($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumentlistBetweenbyTag($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumenCountbyTag()
 	{
-		return $this->board->model->getDocumenCountbyTag($this->board->module_id, $this->board->page_start, $page_end, $this->board->keyword);
+		return $this->board->query->getDocumenCountbyTag($this->board->module_id, $this->board->page_start, $page_end, $this->board->keyword);
 	}
 	
 	public function getDocumentlistBetweenbyTitle()
 	{
-		return $this->board->model->getDocumentlistBetweenbyTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumentlistBetweenbyTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumenCountbyTitle()
 	{
-		return $this->board->model->getDocumenCountbyTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
+		return $this->board->query->getDocumenCountbyTitle($this->board->module_id, $this->board->page_start, $this->board->keyword);
 	}
 	
 	public function getDocumentListbyColumn()
 	{
-		return $this->board->model->getDocumentListbyColumn($this->board->module_id, $this->board->page_start, $this->board->keyword, $this->board->type);
+		return $this->board->query->getDocumentListbyColumn($this->board->module_id, $this->board->page_start, $this->board->keyword, $this->board->type);
 	}
 	
 	public function getDocumenCountbyColumn()
 	{
-		return $this->board->model->getDocumenCountbyColumn($this->board->module_id, $this->board->page_start, $this->board->keyword, $this->board->type);
+		return $this->board->query->getDocumenCountbyColumn($this->board->module_id, $this->board->page_start, $this->board->keyword, $this->board->type);
 	}
 	
 	public function getDocumentCountbyGenre()
 	{
-		return $this->board->model->getDocumentCountbyGenre($this->board->module_id, $this->board->genre);
+		return $this->board->query->getDocumentCountbyGenre($this->board->module_id, $this->board->genre);
 	}
 	
 	public function getDocumentListbyArticle($article)
 	{
-		return $this->board->model->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, $article);
+		return $this->board->query->getDocumentListbyArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, $article);
 	}
 	
 	public function getVotedCommentList($moduleid, $srl, $cpage, $ccount) 
@@ -205,22 +205,22 @@ abstract class view_abstract extends board
 	
 	public function getDocumentlistBetweenCategory()
 	{
-		return $this->board->model->getDocumentlistBetweenCategory($this->board->module_id, $this->board->page_start, $page_end, $this->board->tag);
+		return $this->board->query->getDocumentlistBetweenCategory($this->board->module_id, $this->board->page_start, $page_end, $this->board->tag);
 	}
 	
 	public function getTagRelatedDocumentSrl()
 	{
-		return $this->board->model->getTagRelatedDocumentSrl($this->board->module_id, $this->board->document['tag']);
+		return $this->board->query->getTagRelatedDocumentSrl($this->board->module_id, $this->board->document['tag']);
 	}
 	
 	public function getDocumentListInDocumentSrls($documentSrls)
 	{
-		return $this->board->model->getDocumentListInDocumentSrls($documentSrls, $this->board->module_id, $this->board->page_start);
+		return $this->board->query->getDocumentListInDocumentSrls($documentSrls, $this->board->module_id, $this->board->page_start);
 	}
 	
 	public function getRelatedTagList($list_count)
 	{
-		return $this->board->model->getRelatedTagList($this->board->module_id, $this->board->relatedTagList->currentTagIndex, $list_count, $this->board->document['tag']);
+		return $this->board->query->getRelatedTagList($this->board->module_id, $this->board->relatedTagList->currentTagIndex, $list_count, $this->board->document['tag']);
 	}
 	
 	public function getBlamedCommentList($moduleid, $srl, $cpage, $ccount) 
@@ -266,17 +266,17 @@ abstract class view_abstract extends board
 	
 	public function getAlbum()
 	{
-		return $this->board->model->getAlbum($this->board->page_start);
+		return $this->board->query->getAlbum($this->board->page_start);
 	}
 	
 	public function getCategoryList()
 	{
-		return $this->board->model->getCategoryList($this->board->module_id);
+		return $this->board->query->getCategoryList($this->board->module_id);
 	}
 	
 	public function getOriginAlbum()
 	{
-		return $this->board->model->getOriginAlbum($this->board->page_start);
+		return $this->board->query->getOriginAlbum($this->board->page_start);
 	}
 	
 	public function getModuleID()
@@ -286,7 +286,7 @@ abstract class view_abstract extends board
 		
 	public function getPopularFilesCount()
 	{
-		return $this->board->model->getPopularFilesCount($this->board->module_id, $this->board->popular_count);
+		return $this->board->query->getPopularFilesCount($this->board->module_id, $this->board->popular_count);
 	}
 	
 	public function setTagTplPath()
@@ -301,7 +301,7 @@ abstract class view_abstract extends board
 	
 	public function getCurrentUserExtraVars()
 	{
-		$memberExtraVars = $this->board->model->getMemberExvar($this->getUserId());
+		$memberExtraVars = $this->board->query->getMemberExvar($this->getUserId());
 		return unserialize($memberExtraVars);
 	}
 	
@@ -322,7 +322,7 @@ abstract class view_abstract extends board
 	
 	public function getCategoryListWithoutSubCategory()
 	{
-		return $this->board->model->getCategoryListWithoutSubCategory($this->board->module_id);
+		return $this->board->query->getCategoryListWithoutSubCategory($this->board->module_id);
 	}
 	
 	public function getCurrentRelatedTagListPage()

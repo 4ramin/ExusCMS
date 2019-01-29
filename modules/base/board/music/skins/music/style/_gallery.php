@@ -9,7 +9,7 @@ jQuery(function($){
 </script>
 
 <ol class="bd_lst bd_tmb_lst gall_style img_load tmb_bg clear">
-   <?php foreach($this->board->query as $key=>$document): ?>
+   <?php foreach($this->board->result as $key=>$document): ?>
    <?php $this_file = $this->board->model->getFileList($document['srl']); ?>
    <li>
       <div class="tmb_wrp ribbon_v fin_load">

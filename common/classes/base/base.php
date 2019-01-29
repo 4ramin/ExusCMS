@@ -638,6 +638,11 @@
 			return (object)$this->getExtension('item', $module);
 		}
 		
+		function getQuery($module) 
+		{
+			return (object)$this->getExtension('query', $module);
+		}
+		
 		function getModel($module) 
 		{
 			return (object)$this->getExtension('model', $module);

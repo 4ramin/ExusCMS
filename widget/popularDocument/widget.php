@@ -11,8 +11,8 @@
 		{
 			$this->base = new base();
 			
-			$oBoardModel = $this->base->getModel('music');
-			$commentList = $oBoardModel->getPopularDocumentList("index", 2, 1, 20);
+			$oBoardQuery = $this->base->getQuery('music');
+			$commentList = $oBoardQuery->getPopularDocumentList("index", 2, 1, 20);
 			
 			$oBoardItem = $this->base->getItem('music');
 			$oCommentItem = $oBoardItem->__registry($this, $commentList);

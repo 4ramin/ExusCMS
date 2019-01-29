@@ -69,7 +69,7 @@
 }
 </style>
 	<ol class="bd_lst bd_tmb_lst gall_style img_load tmb_bg clear">
-	<?php foreach($this->board->query as $key=>$document): ?>
+	<?php foreach($this->board->result as $key=>$document): ?>
 		<li>
 		<div class="caption_bar"></div>
 		<span class="frame"></span>
