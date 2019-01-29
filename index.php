@@ -5,9 +5,9 @@
  *
  * @author exuscms
  * @copyright (c) Copyright exuscms
- * @license GPLv2 (http://www.gnu.org/licenses/gpl-3.0.html)
+ * @license GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
  */
- 
+
 define('__FLOWER__', TRUE);
 define('__ROOT', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
 define('__DIR', dirname(__FILE__));

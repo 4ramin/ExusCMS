@@ -38,11 +38,11 @@
 		
 		function dispAdminBoardList() 
 		{
-			$oBoardQuery = $this->base->getQuery('music');
+			$oBoardModel = $this->base->getModel('music');
 			
 			$this->admin->list_count = 20;
 			$this->admin->page = $this->base->get_params('page') ? $this->base->get_params('page') : 1;
-			$this->admin->document_count = $oBoardQuery->getBoardAllCount();
+			$this->admin->document_count = $oBoardModel->getBoardAllCount();
 			$this->admin->page_count = (int)ceil($this->admin->document_count / $this->admin->list_count);
 			$this->admin->page_start = $this->admin->document_count - ($this->admin->page * $this->admin->list_count) + 1;
 			$this->admin->page_end = $this->admin->page_start + $this->admin->list_count - 1;
@@ -112,10 +112,10 @@
 		
 		function dispAdminDocumentList() 
 		{
-			$oBoardQuery = $this->base->getQuery('music');
+			$oBoardModel = $this->base->getModel('music');
 			$this->admin->list_count = 20;
 			$this->admin->page = $this->base->get_params('page') ? $this->base->get_params('page') : 1;
-			$this->admin->document_count = $oBoardQuery->getDocumentAllCount();
+			$this->admin->document_count = $oBoardModel->getDocumentAllCount();
 			$this->admin->page_count = (int)ceil($this->admin->document_count / $this->admin->list_count);
 			$this->admin->page_start = $this->admin->document_count - ($this->admin->page * $this->admin->list_count) + 1;
 			$this->admin->page_end = $this->admin->page_start + $this->admin->list_count - 1;
@@ -153,10 +153,10 @@
 		
 		function dispAdminPage() 
 		{
-			$oBoardQuery = $this->base->getQuery('music');
-			$this->admin->member_list = $oBoardQuery->getMemberListbySelect(5);
-			$this->admin->document_list = $oBoardQuery->getDocumentListbySelect(5);
-			$this->admin->document_count = $oBoardQuery->getDocumentAllCount();
+			$oBoardModel = $this->base->getModel('music');
+			$this->admin->member_list = $oBoardModel->getMemberListbySelect(5);
+			$this->admin->document_list = $oBoardModel->getDocumentListbySelect(5);
+			$this->admin->document_count = $oBoardModel->getDocumentAllCount();
 			
 			$oCommentModel = $this->base->getModel('comment');
 			$this->admin->comment_list = $oCommentModel->getCommentListbySelect(5);

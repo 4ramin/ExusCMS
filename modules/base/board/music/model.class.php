@@ -23,7 +23,7 @@ class board_model extends board
 			}
 			else
 			{
-				$this->board->config = json_decode($this->board->query->getModuleConfig($this->board->module_id));
+				$this->board->config = json_decode($this->getModuleConfig($this->board->module_id));
 			}
 			
 			$_SESSION['__BOARD_CONFIG__'.$this->board->module_id] = $this->board->config;
