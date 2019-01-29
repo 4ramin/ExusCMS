@@ -11,11 +11,8 @@ core_flower.bdstyle = "<?php echo $_GET['bdstyle'] ? $_GET['bdstyle'] : $this->b
 			
 			<?php if(isset($this->board->document) && is_array($this->board->document)) include('view.php');?>
 			
-			
 			<div class="documentAjax">
-				<div id="content_view" class="list_area contentArea">
-				
-				</div>
+				<div id="content_view" class="list_area contentArea"></div>
 			</div>
 			
 			<div id="boardListWrap" class="boardListWrap">
