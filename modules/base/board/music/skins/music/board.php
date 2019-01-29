@@ -136,11 +136,12 @@ core_flower.bdstyle = "<?php echo $_GET['bdstyle'] ? $_GET['bdstyle'] : $this->b
 							1
 						</a>
 						<span class="pg_area">
-						<?php if(is_array($this->board->page_navigation)): ?>
-							<?php foreach($this->board->page_navigation as $key=>$value): ?>
-								<a class="navi_page<?php echo $_GET['page'] == $value ?  " current_page": "" ?>" href="<?php echo str::getUrl(__MODULEID,$_GET[__MODULEID],'page',$value,'srl',''); ?>"><?php echo $value?></a>
-							<?php endforeach; ?>
-						<?php endif;?>
+							<?php while($this->board->page_navigation->hasNextPage()):?>
+								<?php echo html::element('a', $this->board->page_navigation->getCurrentPage(), [
+									'class' => sprintf("navi_page%s", ($this->board->page_navigation->isCurrentPage() ?  " current_page": "")),
+									'href' => $this->board->page_navigation->getPageLink()
+								]);?>
+							<?php endwhile;?>
 						</span>
 						<a>...</a>
 						<a class="navi_page" href="<?php echo str::getUrl(__MODULEID,$_GET[__MODULEID],'page',$this->board->page_count,'srl',''); ?>">

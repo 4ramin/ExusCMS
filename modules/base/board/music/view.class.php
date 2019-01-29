@@ -146,7 +146,7 @@ class board_view extends view_abstract implements viewInterface
 	{
 		if (!$this->hasGrant(false)) 
 		{
-			return $this->board->query->dispMemberLogin();
+			return $this->board->model->dispMemberLogin();
 		}
 		
 		if (!$this->hasGrant(true)) 
@@ -466,7 +466,7 @@ class board_view extends view_abstract implements viewInterface
 	protected function getPagination() 
 	{
 		$this->board->page_count = ceil($this->board->document_count / $this->board->list_count);
-		$this->board->page_navigation = $this->board->model->getPageArray($this->board->page_count, $this->board->page);
+		$this->board->page_navigation = new Pagenation($this->board->page_count, $this->board->page);
 	}
 	
 	/** 
