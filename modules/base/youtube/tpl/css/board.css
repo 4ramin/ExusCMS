@@ -1,4 +1,72 @@
-@charset "utf-8";.minimalizeWindow {
+@charset "utf-8";
+
+.thumb{
+	position:relative;
+}
+.item{
+    position: relative;
+    float: left;
+    display: flow-root;
+    width: 300px;
+    height: 320px;
+    margin: 3px 5px;
+}
+.title{
+	font-size:12px;
+	color:#383838;
+	font-weight:bold;
+}
+.description{
+	font-size:12px;
+	color:#144fda;
+}
+.author{
+	font-size:12px;
+	color:#8c1313;
+}
+.regdate{
+	font-size:12px;
+	color:#000000;
+}.tmb{
+	width:210px;
+	height:117px
+}
+.boardStyleGallery .thumbnailWrap,
+.boardStyleGallery .gall_style2 .thumbnailWrap{
+	position:relative;
+	max-width:225px;
+    vertical-align: text-bottom;
+}
+.boardStyleGallery li{
+	width:210px;
+	height:100px;
+	margin: 1px 1px;
+}
+.autor_search{
+	max-width:205px;
+}
+.sm2_btn{
+	top: 125px !important;
+}
+.dbt,.dbt2,.dbt3,.dbt4{
+	top: 125px !important;
+}
+.sm360_btn{
+	top: 100px !important;
+}
+
+.title_album{
+	max-height: 3.2rem;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+}
+.minimalizeWindow {
 	position: fixed;
 	bottom: 10px;
 	left: 10px;

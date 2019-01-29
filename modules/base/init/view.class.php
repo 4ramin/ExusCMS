@@ -1264,7 +1264,7 @@ final class init_view
 			}
 			else 
 			{
-				throw new Exception(sprintf($lang['nonexistentmodule'], $module));
+				throw new Exception(sprintf($this->lang['nonexistentmodule'], $module));
 			}
 		} 
 		else 
@@ -1283,7 +1283,7 @@ final class init_view
 			{
 				call_user_func(array($oModule, $this->action));
 			}
-			else if (isset($default_action)) 
+			else if (isset($default_action) && !empty($default_action) && is_object($oModule)) 
 			{
 				if (method_exists($oModule, $default_action) && !in_array($this->action, $private_action)) 
 				{
@@ -1292,7 +1292,7 @@ final class init_view
 			} 
 			else 
 			{
-				throw new Exception(sprintf($lang['nonexistentmodule'], $module));
+				throw new Exception(sprintf($this->lang['nonexistentmodule'], $module));
 			}
 			
 		}

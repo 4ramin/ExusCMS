@@ -158,7 +158,7 @@ class board_model extends board
 					
 					if (file_exists($image)) 
 					{
-						$this->UpdateThumbMd5($value['srl'], $value['module'], md5(file_get_contents($image)));
+						$this->board->query->UpdateThumbMd5($value['srl'], $value['module'], md5(file_get_contents($image)));
 					}
 				} 
 				else 

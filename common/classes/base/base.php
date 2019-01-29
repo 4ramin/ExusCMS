@@ -552,13 +552,6 @@
 					include_once $base_class;
 				}
 				
-				if (file_exists($model_class)) 
-				{
-					include_once($model_class);
-					$this->modelObject = $this->moduler.'_model';
-					$this->{$this->moduler}->model = new $this->modelObject($this);
-				}
-				
 				include_once $components;
 				
 				$this->request_method = strtoupper($this->getReq());
@@ -572,6 +565,18 @@
 				$interfaceComponents = sprintf("%s/%s.interface.php", $this->module_dir, $type);
 				$this->includeFile($interfaceComponents, $request_handler_interface, false);
 				
+				$this->{$this->moduler} = new stdClass();
+				
+				if ($type !== 'query' && file_exists($query_class)) 
+				{
+					include_once($query_class);
+					$this->queryObject = $this->moduler.'_query';
+					if (class_exists($this->queryObject))
+					{
+						$this->{$this->moduler}->query = new $this->queryObject($this);
+					}
+				}
+				
 				$extend = sprintf("%s_%s",$this->moduler, $type);
 				
 				if ($extend) 
@@ -579,15 +584,13 @@
 					$this->moduler_handler = (object)new $extend();
 				}
 				
-				$this->{$this->moduler} = new stdClass();
-				
-				if (file_exists($query_class)) 
+				if ($type !== 'model' && file_exists($model_class)) 
 				{
-					include_once($query_class);
-					$this->queryObject = $this->moduler.'_query';
-					if (class_exists($this->queryObject))
+					include_once($model_class);
+					$this->modelObject = $this->moduler.'_model';
+					if (class_exists($this->modelObject))
 					{
-						$this->{$this->moduler}->query = new $this->queryObject($this);
+						$this->{$this->moduler}->model = new $this->modelObject($this);
 					}
 				}
 				

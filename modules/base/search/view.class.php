@@ -25,11 +25,12 @@
 		function search() 
 		{
 			$oBoardModel = $this->base->getModel('music');
+			$oBoardQuery = $this->base->getQuery('music');
 			$this->search->list_count = 20;
 			$this->search->page = $this->base->get_params('page') ? $this->base->get_params('page') : 1;
 			$this->search->keyword = $this->base->get_params('keyword');
 			$this->search->page_start = ($this->search->page - 1) * $this->search->list_count;
-			$this->search->query = $oBoardModel->getAllDocumentListbyColumn($this->search->page_start, $this->search->keyword, 'title');
+			$this->search->query = $oBoardQuery->getAllDocumentListbyColumn($this->search->page_start, $this->search->keyword, 'title');
 			
 			foreach ($this->search->query as $key => $val) 
 			{
@@ -37,7 +38,7 @@
 				$this->search->search_list[$val['srl']] = $this->searchitem;
 			}
 			
-			$this->search->count = $oBoardModel->getAllDocumentListbyColumnCount($this->search->keyword,'title');
+			$this->search->count = $oBoardQuery->getAllDocumentListbyColumnCount($this->search->keyword,'title');
 			$this->search->page_count = ceil($this->search->count / $this->search->list_count);
 			$this->search->page_navigation = $oBoardModel->getPageArray($this->search->page_count, $this->search->page);
 			
