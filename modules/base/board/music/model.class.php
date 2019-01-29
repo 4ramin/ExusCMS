@@ -77,7 +77,7 @@ class board_model extends board
 	
 	function getExtraVarsHTML($val) 
 	{
-		$type = $this->getExtraVarTypebyName($val['name'], 'type');
+		$type = $this->board->query->getExtraVarTypebyName($val['name'], 'type');
 		$variable = $val['val'];
 		
 		switch($type) 

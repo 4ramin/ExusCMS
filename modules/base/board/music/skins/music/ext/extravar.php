@@ -5,7 +5,7 @@
 		<tbody>
 			<?php foreach($this->board->extra_vars as $key=>$val): ?>
 				<tr class="bg1">
-					<th style="background-color:#fbfbfb" scope="row"><?php echo $this->board->model->getExtraVarTypebyName($val['name'], 'title'); ?></th>
+					<th style="background-color:#fbfbfb" scope="row"><?php echo $this->board->query->getExtraVarTypebyName($val['name'], 'title'); ?></th>
 					<td style="background-color:#fefefe"><?php echo $this->board->model->getExtraVarsHTML($val); ?></td>
 				</tr>
 			<?php endforeach; ?>
