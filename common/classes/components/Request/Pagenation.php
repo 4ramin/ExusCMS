@@ -23,6 +23,9 @@ class Pagenation
 	 */
 	function __construct($total_count, $current_page = 1, $list_count = 10) 
 	{
+		$page_margin = 0;
+		$first_page = 0;
+		
 		$list_count_rel = ceil($list_count / 2);
 		$total_count = ($total_count < 0) ? 1 : $total_count;
 		
