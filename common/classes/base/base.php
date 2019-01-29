@@ -543,6 +543,7 @@
 			$base_class = sprintf("%s/%s.class.php", $this->module_dir, 'base');
 			$components = sprintf("%s/%s.class.php", $this->module_dir, $type);
 			$model_class = sprintf("%s/%s.model.php", $this->module_dir, 'model');
+			$query_class = sprintf("%s/query.class.php", $this->module_dir);
 			
 			if (file_exists($components) && is_file($components) && file_exists($base_class)) 
 			{
@@ -553,7 +554,6 @@
 				
 				if (file_exists($model_class)) 
 				{
-					exit($model_class);
 					include_once($model_class);
 					$this->modelObject = $this->moduler.'_model';
 					$this->{$this->moduler}->model = new $this->modelObject($this);
@@ -580,6 +580,17 @@
 				}
 				
 				$this->{$this->moduler} = new stdClass();
+				
+				if (file_exists($query_class)) 
+				{
+					include_once($query_class);
+					$this->queryObject = $this->moduler.'_query';
+					if (class_exists($this->queryObject))
+					{
+						$this->{$this->moduler}->query = new $this->queryObject($this);
+					}
+				}
+				
 				if (method_exists($this->moduler_handler,'init') && $this->moduler != 'init') 
 				{
 					$this->{$this->moduler} = $this->moduler_handler->init($this);
@@ -602,6 +613,11 @@
 					{
 						$this->{$this->moduler}->tpl_path = sprintf("%s/%s/tpl/",__MOD, $this->moduler);
 					}
+				}
+				
+				if ($type === 'model') 
+				{
+				
 				}
 				
 				if (!is_object($this->moduler_handler)) 
