@@ -26,11 +26,20 @@ class Pagenation
 			$first_page = $page_margin > $list_count ? 0 : -1;
 		}
 		
+		if ($current_page > $total_count - ($list_count - 1) && $current_page < $total_count - ($list_count_rel - 1)) 
+		{
+			echo 'test';
+			$page_margin = $current_page - $list_count_rel;
+			$first_page = $page_margin > $list_count ? 0 : -1;
+		}
+		
 		$this->page_margin = $page_margin;
 		$this->first_page = $first_page;
 		$this->total_count = $total_count;
 		$this->current_page = $current_page;
 		$this->list_count = $list_count;
+		echo print_r($this)."/".$current_page."/".($total_count - ($list_count - 1));
+		
 	}
 	
 	function getLastPage()
