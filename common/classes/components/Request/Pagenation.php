@@ -26,7 +26,7 @@ class Pagenation
 		$page_margin = 0;
 		$first_page = 0;
 		
-		$list_count_rel = ceil($list_count / 2);
+		$half_page_count = ceil($list_count / 2);
 		$last_page = ($last_page < 0) ? 1 : $last_page;
 		
 		if ($last_page > $list_count)
@@ -36,15 +36,15 @@ class Pagenation
 				$page_margin = $last_page - $list_count;
 				$first_page = $page_margin < $list_count ? 0 : -1;
 			}
-			else if ($current_page > $list_count_rel) 
+			else if ($current_page > $half_page_count) 
 			{
-				$page_margin = $current_page - ($list_count_rel);
+				$page_margin = $current_page - ($half_page_count);
 				$first_page = $page_margin > $list_count ? 0 : -1;
 			}
 			
-			if ($current_page > $last_page - ($list_count - 1) && $current_page < $last_page - ($list_count_rel - 1)) 
+			if ($current_page > $last_page - ($list_count - 1) && $current_page < $last_page - ($half_page_count - 1)) 
 			{
-				$page_margin = $current_page - $list_count_rel;
+				$page_margin = $current_page - $half_page_count;
 				$first_page = $page_margin > $list_count ? 0 : -1;
 			}
 		}
