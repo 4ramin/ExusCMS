@@ -1,71 +1,69 @@
 <?php
 
-	if(!defined("__FLOWER__")) exit();
-
-	class zlib
+class zlib
+{
+	
+	/**
+	 * unzip
+	 *
+	 * @param  string args->from
+	 * @param  string args->to
+	 *
+	 */
+	public static function unzip($args)
 	{
+		$source = $args->from;
+		$dest   = $args->to;
 		
-		/**
-		 * unzip
-		 *
-		 * @param  string args->from
-		 * @param  string args->to
-		 *
-		 */
-		public static function unzip($args)
+		if(is_file($source) && file_exists($source) && filesize($source) > 0)
 		{
-			$source = $args->from;
-			$dest   = $args->to;
-			
-			if(is_file($source) && file_exists($source) && filesize($source) > 0)
+			$fp = fopen($source,'rb');  
+			if($fp)
 			{
-				$fp = fopen($source,'rb');  
-				if($fp)
-				{
-					$uncompresscontents = fread($fp,filesize($source));  
-					fclose($fp);  
+				$uncompresscontents = fread($fp,filesize($source));  
+				fclose($fp);  
 
-					$uncompressing = gzuncompress($uncompresscontents);  
+				$uncompressing = gzuncompress($uncompresscontents);  
 
-					if($uncompressing)
-					{
-						$fp = fopen($dest, 'wb');  
-						fwrite($fp, $uncompressing);  
-						fclose($fp);
-					}
-				}
-				else
+				if($uncompressing)
 				{
-					return FALSE;
+					$fp = fopen($dest, 'wb');  
+					fwrite($fp, $uncompressing);  
+					fclose($fp);
 				}
 			}
+			else
+			{
+				return FALSE;
+			}
 		}
+	}
+	
+	/**
+	 * zip
+	 *
+	 * @param  string args->from
+	 * @param  string args->to
+	 *
+	 */
+	public static function zip($args)
+	{
 		
-		/**
-		 * zip
-		 *
-		 * @param  string args->from
-		 * @param  string args->to
-		 *
-		 */
-		public static function zip($args)
-		{
-			
-			$sorce = $args->from;
-			$dest  = $args->to;
+		$sorce = $args->from;
+		$dest  = $args->to;
 
-			$fp=fopen($sorce,'rb');  
-			$compresscontents = fread($fp,filesize($sorce));  
-			fclose($fp);  
+		$fp=fopen($sorce,'rb');  
+		$compresscontents = fread($fp,filesize($sorce));  
+		fclose($fp);  
 
-			$compressing = gzcompress($compresscontents);  
+		$compressing = gzcompress($compresscontents);  
 
-			$fp = fopen($dest, 'wb');  
-			fwrite($fp, $compressing);  
-			fclose($fp);
-			
-		}
+		$fp = fopen($dest, 'wb');  
+		fwrite($fp, $compressing);  
+		fclose($fp);
 		
 	}
+	
+}
 
 ?>
