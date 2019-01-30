@@ -35,6 +35,9 @@ abstract class view_abstract extends board
 		return $this->property;
 	}
 	
+	/**
+	 * Check that document is exists
+	 */
 	public function isDocumentExists()
 	{
 		if (isset($this->board->document))
@@ -45,6 +48,9 @@ abstract class view_abstract extends board
 		return false;
 	}
 	
+	/**
+	 * Check that srl is exists
+	 */
 	public function isSrlExists()
 	{
 		if (isset($this->board->srl))
@@ -55,6 +61,9 @@ abstract class view_abstract extends board
 		return false;
 	}
 	
+	/**
+	 * Check that request type is ajax
+	 */
 	public function isAjaxRequest()
 	{
 		if ($this->board->isAjax === true)
@@ -65,6 +74,9 @@ abstract class view_abstract extends board
 		return false;
 	}
 	
+	/**
+	 * Check that logged user is author of current document
+	 */
 	public function isDocumentAuthor()
 	{
 		$memberSrl = $this->base->getMemberSrl();
@@ -112,16 +124,25 @@ abstract class view_abstract extends board
 		return null;
 	}
 	
+	/**
+	 * Get a current listcount
+	 */
 	public function getCurrentListCount()
 	{
 		return ($this->board->page - 1) * $this->board->list_count;
 	}
 	
+	/**
+	 * Get a readed count of current document
+	 */
 	public function getReadedCount() 
 	{
 		return ++$this->board->document['readed'];
 	}
 	
+	/**
+	 * Set board tpl
+	 */
 	public function setBoardSkin() 
 	{
 		$skin = $this->base->get('skin');
@@ -400,21 +421,33 @@ abstract class view_abstract extends board
 		return unserialize($memberExtraVars);
 	}
 	
+	/**
+	 * Set Tpl of Board Screen
+	 */
 	public function setBoardTplPath()
 	{
 		$this->base->set('skin', sprintf(__BOARD_TPL__, $this->board->skin_tpl_path));
 	}
 	
+	/**
+	 * Set Tpl of View Screen
+	 */
 	public function setViewTplPath()
 	{
 		$this->base->set('skin', sprintf(__VIEW_TPL__, $this->board->skin_tpl_path));
 	}
 	
+	/**
+	 * Set Tpl of Write Screen
+	 */
 	public function setWriteTplPath()
 	{
 		$this->base->set('skin', sprintf(__WRITE_TPL__, $this->board->skin_tpl_path));
 	}
 	
+	/**
+	 * Set Tpl of Album View Screen
+	 */
 	public function setAlbumViewTplPath()
 	{
 		$this->base->set('skin', sprintf(__ALBUM_VIEW_TPL__, $this->board->skin_tpl_path));
@@ -599,16 +632,25 @@ abstract class view_abstract extends board
 		return $fileList;
 	}
 	
+	/**
+	 * Get logged userid
+	 */
 	public function getUserId() 
 	{
 		return $this->base->getUserId();
 	}
 	
+	/**
+	 * Check user is logged in
+	 */
 	public function isLogged() 
 	{
 		return $this->base->isLogged();
 	}
 	
+	/**
+	 * Get a editor
+	 */
 	public function getEditor() 
 	{
 		$oEditorView = $this->base->getView('editor');

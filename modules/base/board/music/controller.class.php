@@ -358,7 +358,6 @@ class board_controller extends controller_abstract implements controllerInterfac
 			$this->post_data->fileSequence = null;
 		}
 		
-		// If not set category_srl, set category_srl value 0
 		if (!$this->hasCategory())
 		{
 			$this->post_data->category_srl = 0;
@@ -374,7 +373,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 			return $this->setError($this->board->lang['insertcontent']);
 		}
 		
-		// Update document
+		// Update Document
 		if ($this->hasSrl()) 
 		{
 			$this->updateDocument();
@@ -383,7 +382,6 @@ class board_controller extends controller_abstract implements controllerInterfac
 			
 			db::commit();
 			
-			// Redirect to document
 			$this->redirectToDocumentPage();
 		} 
 		// Insert Document
