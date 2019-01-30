@@ -56,7 +56,8 @@ class board_query extends BaseObject
 		return db::Query('SELECT','def_document_music',
 		[
 			['', 'module', '=', ':module', $module],
-			['ORDER', 'srl_bd', 'desc']
+			['ORDER', 'srl_bd', 'desc'],
+			['LIMIT', ':pgx', 0, ':pgy', 1]
 		],'srl_bd', 'one')+1;
 	}
 
@@ -1009,14 +1010,23 @@ class board_query extends BaseObject
 	 */
 	function getDocumentCountbyBoardId($module) 
 	{
-		if (!isset($_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module])) 
-		{
-			$_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module] = db::Query('SELECT','def_document_music',[
-				['', 'module', '=', ':args1', $module]
-			],'count(*)', 'one');
-		}
+		$prefix = sprintf('__DOCUMENT__COUNT__QUERY__%s', $module);
 		
-		return $_GLOBALS['__DOCUMENT__COUNT__QUERY__'.$module];
+		if (!isset($_GLOBALS[$prefix])) 
+		{
+			$count = db::Query('SELECT','def_document_music',[
+				['', 'module', '=', ':args1', $module]
+			],'count(*) as `count`', 'one');
+			
+			$_GLOBALS[$prefix] = $count;
+			
+			return $_GLOBALS[$prefix];
+		}
+		else
+		{
+			echo $module.$_GLOBALS[$prefix];
+			return $_GLOBALS[$prefix];
+		}
 	}
 	
 /* Document List */
@@ -1387,9 +1397,10 @@ class board_query extends BaseObject
 		],'def_document_music.*, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence) as `file_count`', 'all');
 	}
 	
-	function getDocumentlistJOIN2($module, $page_start, $board_count) 
+	// EXPLAIN SELECT def_document_music.* , (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd AND c.module = 'index' ORDER BY c.comment_srl) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence AND b.module = 'index' AND b.srl = def_document_music.srl) as `file_count` FROM def_document_music JOIN (SELECT srl_bd FROM def_document_music WHERE module = 'index' ORDER BY srl_bd LIMIT 1000000, 20) AS t ON t.srl_bd = def_document_music.srl_bd
+	function getDocumentlistJOIN($module, $page_start, $board_count) 
 	{
-		$sth = $this->pdo->prepare("SELECT t.*, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = t.srl_bd) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = t.file_sequence) as `file_count` FROM (SELECT srl FROM def_document_music WHERE module = :module ORDER BY srl LIMIT :page_start, :page_end) q JOIN def_document_music t ON t.srl = q.srl");
+		$sth = $this->pdo->prepare("SELECT def_document_music.*, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence) as `file_count` FROM def_document_music JOIN (SELECT srl_bd FROM def_document_music WHERE module = :module ORDER BY srl LIMIT :page_start, :page_end) AS t ON t.srl_bd = def_document_music.srl_bd; ");
 		$sth->bindParam(':module', $module, PDO::PARAM_STR);
 		$sth->bindParam(':page_start', $page_start, PDO::PARAM_INT);
 		$sth->bindParam(':page_end', $board_count, PDO::PARAM_INT);
@@ -1397,12 +1408,15 @@ class board_query extends BaseObject
 		return $sth->fetchAll();
 	}
 	
-	function getDocumentlistJOIN($module, $page_start, $board_count) 
+	// EXPLAIN SELECT def_document_music.*, count(def_file.srl), count(def_comment.comment_srl), def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = 'index' LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = 'index' LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = 'index' GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT 0, 20;
+	function getDocumentListLeftJOIN($module, $page_start, $board_count) 
 	{
-		$sth = $this->pdo->prepare("SELECT def_document_music.*, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence) as `file_count` FROM def_document_music JOIN (SELECT srl FROM def_document_music WHERE module = :module ORDER BY srl LIMIT :page_start, :page_end) AS t ON t.srl = def_document_music.srl; ");
-		$sth->bindParam(':module', $module, PDO::PARAM_STR);
-		$sth->bindParam(':page_start', $page_start, PDO::PARAM_INT);
-		$sth->bindParam(':page_end', $board_count, PDO::PARAM_INT);
+		$sth = $this->pdo->prepare("SELECT def_document_music.*, count(def_file.srl), count(def_comment.comment_srl), def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = :module1 LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = :module2 LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = :module3 GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT :pgx, :pgy; ");
+		$sth->bindParam(':module1', $module, PDO::PARAM_STR);
+		$sth->bindParam(':module2', $module, PDO::PARAM_STR);
+		$sth->bindParam(':module3', $module, PDO::PARAM_STR);
+		$sth->bindParam(':pgx', $page_start, PDO::PARAM_INT);
+		$sth->bindParam(':pgy', $board_count, PDO::PARAM_INT);
 		$sth->execute();
 		return $sth->fetchAll();
 	}

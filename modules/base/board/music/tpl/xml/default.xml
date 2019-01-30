@@ -27,8 +27,8 @@
 				<options value="JOIN">
 					<title>JOIN을 기준으로 문서를 가져옵니다.</title>
 				</options>
-				<options value="JOIN2">
-					<title>JOIN을 기준으로 문서를 가져옵니다.</title>
+				<options value="LEFTJOIN">
+					<title>LEFT JOIN을 기준으로 문서를 가져옵니다.</title>
 				</options>
 			</var>
 			<var name="popular_count" type="text">

@@ -731,7 +731,7 @@ class board_view extends view_abstract implements viewInterface
 	}
 
 	function dispBoardContent() 
-	{
+	{	
 		if (!isset($this->board->config)) 
 		{
 			$this->board->config = new stdClass();
@@ -949,13 +949,13 @@ class board_view extends view_abstract implements viewInterface
 					$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
 					$this->board->result = array_reverse($this->board->query->getDocumentListJOIN($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
 				} 
-				else if ($this->board->config->bd_query=="JOIN2") 
+				else if ($this->board->config->bd_query=="LEFTJOIN") 
 				{
 					$query_count = $this->board->document_count - ($this->board->page * $this->board->list_count);
 					$this->board->page_start = (int)$query_count > 0 ? $query_count : 0;
 					$this->board->page_end = (int)$this->board->page_start + $this->board->list_count - 1;
 					$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
-					$this->board->result = array_reverse($this->board->query->getDocumentListJOIN2($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
+					$this->board->result = array_reverse($this->board->query->getDocumentListLEFTJOIN($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
 				} 
 				else 
 				{

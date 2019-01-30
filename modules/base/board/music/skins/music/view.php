@@ -113,13 +113,13 @@
 			<div style="display: inline-block;width: 100%;" class="">
 				<?php if($this->board->config->show_sns==1):?>
 					<div style="padding: 18px 0px;height: 55px;float:left">
-						<a style="float:left" onclick="$.core.SNS.twitter(<?php echo http::generateParameter($this->board->oDocument->getSNSLink(), $this->board->oDocument->getTitle()); ?>)">
+						<a style="float:left" onclick="$.core.SNS.twitter(<?php echo html::generateParameter($this->board->oDocument->getSNSLink(), $this->board->oDocument->getTitle()); ?>)">
 							<div class="twitter_sns"><i class="fa fa-twitter"></i></div>
 						</a>
-						<a style="float:left" onclick="$.core.SNS.googlePlus(<?php echo http::generateParameter($this->board->oDocument->getSNSLink(), $this->board->oDocument->getTitle()); ?>)">
+						<a style="float:left" onclick="$.core.SNS.googlePlus(<?php echo html::generateParameter($this->board->oDocument->getSNSLink(), $this->board->oDocument->getTitle()); ?>)">
 							<div class="googleplus_sns"><i class="fa fa-google-plus"></i></div>
 						</a>
-						<a style="float:left" onclick="$.core.SNS.pinterest(<?php echo http::generateParameter($this->board->oDocument->getSNSLink(), $this->board->oDocument->getTitle()); ?>)">
+						<a style="float:left" onclick="$.core.SNS.pinterest(<?php echo html::generateParameter($this->board->oDocument->getSNSLink(), $this->board->oDocument->getTitle()); ?>)">
 							<div class="pinterest_sns"><i class="fa fa-pinterest" aria-hidden="true"></i></div>
 						</a>
 					</div>

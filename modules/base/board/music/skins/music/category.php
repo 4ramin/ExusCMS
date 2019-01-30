@@ -39,7 +39,7 @@
 		
 		<select class="sel_cate" name="sort" id="sort" onchange="categoryAjax(this.options[this.selectedIndex].value);">
 			<option value="<?php echo str::getUrl('',__MODULEID,$this->base->get_params(__MODULEID),'bdstyle',$this->base->get_params('bdstyle'));?>" <?php echo !$this->base->get_params('category')=="" ? 'selected="selected"' : ''?>>
-				모두 (<?php echo $this->board->query->getDocumentCountbyBoardId($this->base->get_params(__MODULEID));?>)
+				모두 (<?php echo $this->board->document_count;?>)
 			</option>
 			<?php foreach($this->board->category_list as $key=>$val):?>
 			<?php echo html::element('option', $val['name'].' ('.$val['count'].')', $this->base->get_params('category') == $val['category_srl'] ? [
