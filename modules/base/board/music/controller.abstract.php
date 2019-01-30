@@ -60,6 +60,105 @@ abstract class controller_abstract extends board
 		return $request::decodeBinaryNumberic($this->getParam('srl'));
 	}
 	
+	public function getNextSequence()
+	{
+		return $this->board->query->getBoardSequence($this->post_data->mid);
+	}
+	
+	public function setRedirectSrl()
+	{
+		$this->board->redirectSrl = 0;
+		if (isset($this->board->lastID)) 
+		{
+			$this->board->redirectSrl = $this->board->lastID;
+		}
+		else
+		{
+			$this->board->redirectSrl = $this->post_data->srl;
+		}
+	}
+	
+	public function clearCache()
+	{
+		if (isset($this->post_data->mid)) 
+		{
+			unset($GLOBALS['__DOCUMENT__COUNT__QUERY__'.$this->post_data->mid]);
+		}
+	}
+	
+	public function unsetFileSequence()
+	{
+		if (isset($_SESSION['target_srl']))
+		{
+			unset($_SESSION['target_srl']);
+		}
+	}
+	
+	public function hasCategory()
+	{
+		if (isset($this->post_data->category_srl))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function hasContent()
+	{
+		if (isset($this->post_data->content))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function hasTitle()
+	{
+		if (isset($this->post_data->title))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function hasSrl()
+	{
+		if (!is_int($this->post_data->srl))
+		{
+			return false;
+		}
+		
+		if (isset($this->post_data->srl))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function insertExtraVars()
+	{
+		foreach ($this->board->extra_var as $val) 
+		{
+			if (isset($_POST[$val['val']])) 
+			{
+				$extra_vars_key = $val['val'];
+				$extra_vars_val = $_POST[$val['val']];
+				$this->board->query->insertExtraVar($this->board->lastID, $extra_vars_key, $extra_vars_val);
+			}
+		}
+	}
+	
+	public function redirectBySrl()
+	{
+		$args = va::args();
+		$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->board->redirectSrl);
+		header::move($args);
+	}
+	
 	public function insertDocumentItem()
 	{
 		$this->board->query->insertDocument(
@@ -69,7 +168,7 @@ abstract class controller_abstract extends board
 			$this->post_data->nickname,
 			$this->post_data->mid,
 			$this->post_data->category_srl,
-			$lastId,
+			$this->board->lastID,
 			$this->post_data->fileSequence,
 			$this->post_data->tag_list,
 			$this->post_data->memberSrl

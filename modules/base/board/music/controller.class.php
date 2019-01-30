@@ -315,6 +315,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 			return $this->setError($this->board->lang['invalidtoken']);
 		}
 		
+		// Start database transaction
 		db::begin();
 		
 		$this->post_data = new stdClass();
@@ -335,7 +336,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->board->extra_var = $this->board->query->getExtraVar($this->getParam(__MODULEID));
 		
 		// If update document, make sure that user is document author
-		if (is_int($this->post_data->srl)) 
+		if ($this->hasSrl()) 
 		{
 			if (!$this->isDocumentAuthor()) 
 			{
@@ -357,76 +358,64 @@ class board_controller extends controller_abstract implements controllerInterfac
 			$this->post_data->fileSequence = null;
 		}
 		
-		if (!isset($this->post_data->category_srl)) $this->post_data->category_srl = 0;
+		// If not set category_srl, set category_srl value 0
+		if (!$this->hasCategory())
+		{
+			$this->post_data->category_srl = 0;
+		}
 		
-		if (!isset($this->post_data->title)) 
+		if (!$this->hasTitle()) 
 		{
 			return $this->setError($this->board->lang['inserttitle']);
 		}
 		
-		if (!isset($this->post_data->content)) 
+		if (!$this->hasContent()) 
 		{
 			return $this->setError($this->board->lang['insertcontent']);
 		}
 		
-		if ($this->post_data->srl) 
+		// Update document
+		if ($this->hasSrl()) 
 		{
 			// Update document
 			$this->updateDocument();
 			
-			if (isset($_SESSION['target_srl']))
-			{
-				unset($_SESSION['target_srl']);
-			}
+			// Unset not using file sequence
+			$this->unsetFileSequence();
 			
+			// Database commit
 			db::commit();
 			
 			// Redirect to document
 			$this->redirectToDocumentPage();
 		} 
+		// Insert Document
 		else 
 		{
-			// Get Board Sequence
-			$lastId = $this->board->query->getBoardSequence($this->post_data->mid);
+			// Get Next Sequence
+			$this->board->lastId = $this->getNextSequence();
 			
 			// Insert Document
 			$this->insertDocumentItem();
 			
+			// Get a last srl
 			$this->board->lastID = $this->pdo->lastInsertId('srl');
 
+			// Insert Extravars to doucment
+			$this->insertExtraVars();
+			
+			// Database commit
 			db::commit();
 			
-			// Insert Extravars to doucment
-			foreach ($this->board->extra_var as $key=>$val) 
-			{
-				if (isset($_POST[$val['val']])) 
-				{
-					$extra_vars_key = $val['val'];
-					$extra_vars_val = $_POST[$val['val']];
-					$this->board->query->insertExtraVar($lastId, $extra_vars_key, $extra_vars_val);
-				}
-			}
+			// Clear board cache
+			$this->clearCache();
+			
+			// Set redirect srl for redirect by srl
+			$this->setRedirectSrl();
+			
+			// Redirect to document
+			$this->redirectBySrl();
 		}
-		
-		if (isset($this->post_data->mid)) 
-		{
-			unset($GLOBALS['__DOCUMENT__COUNT__QUERY__'.$this->post_data->mid]);
-		}
-		
-		$this->board->redirectSrl = 0;
-		if (isset($this->board->lastID)) 
-		{
-			$this->board->redirectSrl = $this->board->lastID;
-		}
-		else
-		{
-			$this->board->redirectSrl = $this->post_data->srl;
-		}
-		
-		// Redirect to document
-		$args = va::args();
-		$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->board->redirectSrl);
-		header::move($args);
 	}
 	
 	function procBoardBlame() 
