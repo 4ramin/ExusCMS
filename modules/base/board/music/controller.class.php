@@ -181,26 +181,27 @@ class board_controller extends controller_abstract implements controllerInterfac
 			return $this->setError($this->board->lang['notpermit']);
 		}
 		
-		$module = $this->getParam(__MODULEID);
-		$type = $this->getParam("type");
-		$name = $this->getParam("name");
-		$ai = $this->board->query->getAutoIncrement("def_category");
+		$this->post_data->module = $this->getParam(__MODULEID);
+		$this->post_data->type = $this->getParam("type");
+		$this->post_data->name = $this->getParam("name");
+		$this->post_data->ai = $this->board->query->getAutoIncrement("def_category");
 		
 		// Insert new category
-		$this->board->query->insertCategory($ai, $type, $module, $name);
+		$this->insertCategory();
 		
 		// Redirect to Page
-		$args = va::args();
-		$args->location = str::getUrl('', __MODULEID, $module, 'act', 'dispBoardCategorySetup');
-		header::move($args);
+		$this->redirectToCategorySetup();
 	}
 	
 	function getAudiolyrics() 
 	{
-		$module = $this->getParam(__MODULEID);
 		$request = new request();
-		$srl = $request::decodeBinaryNumberic($this->getParam('srl'));
-		$lyrics = htmlspecialchars_decode($this->board->query->getLysicsFull($module, $srl));
+		
+		$this->post_data = new stdClass();
+		$this->post_data->module = $this->getParam(__MODULEID);
+		$this->post_data->srl = $this->getDecodedSrl();
+		
+		$lyrics = $this->getLyrics();
 		
 		// If has lyric
 		if ($lyrics) 
@@ -258,12 +259,13 @@ class board_controller extends controller_abstract implements controllerInterfac
 				// Get file list in document srl
 				$file_list = $this->getFileList($srl);
 				
-				foreach ($file_list as $key=>$value) 
+				foreach ($file_list as $fileInfo) 
 				{
 					// If extension type of file is audio
-					if (maya::execute('@\@!mp3||wav!', $value['files'],'boolean')) 
+					if (maya::execute('@\@!mp3||wav!', $fileInfo['files'],'boolean')) 
 					{
-						$filename = __DIR.__FILE__ATTACH.$value['target'].'/'.$value['files'];
+						$filename = sprintf("%s%s%s/%s", __DIR, __FILE__ATTACH, $fileInfo['target'], $fileInfo['files']);
+						
 						// If file exists
 						if (file_exists($filename)) 
 						{
@@ -291,7 +293,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		
 		db::begin();
 		
-		$this->deleteDocument();
+		$this->deleteDocumentItem();
 		
 		$this->deleteAttachmentFiles();
 		
@@ -303,7 +305,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 	
 	function insertDocument() 
 	{
-		if ($this->isLogged() !== true) 
+		if (!$this->isLogged()) 
 		{
 			return $this->setError($this->board->lang['notlogged']);
 		}
@@ -332,12 +334,10 @@ class board_controller extends controller_abstract implements controllerInterfac
 		
 		$this->board->extra_var = $this->board->query->getExtraVar($this->getParam(__MODULEID));
 		
+		// If update document, make sure that user is document author
 		if (is_int($this->post_data->srl)) 
 		{
-			$this->board->document = $this->board->query->getDocumentItem($this->board->srl);
-			$memberSrl = $this->board->document['member_srl'];
-			
-			if ($this->post_data->memberSrl !== $memberSrl) 
+			if (!$this->isDocumentAuthor()) 
 			{
 				return $this->setError($this->board->lang['notpermit']);
 			}
@@ -352,12 +352,9 @@ class board_controller extends controller_abstract implements controllerInterfac
 			$this->post_data->nickname = "익명";
 		}
 		
-		if (isset($_SESSION['target_srl'])) 
+		if (!$this->isValidFileSequence()) 
 		{
-			if ($_SESSION['target_srl'] != $this->post_data->fileSequence) 
-			{
-				$this->post_data->fileSequence = null;
-			}
+			$this->post_data->fileSequence = null;
 		}
 		
 		if (!isset($this->post_data->category_srl)) $this->post_data->category_srl = 0;
@@ -375,17 +372,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		if ($this->post_data->srl) 
 		{
 			// Update document
-			$this->board->query->updateDocument(
-				$this->post_data->title,
-				$this->post_data->content,
-				date("Ymdhis"),
-				$this->post_data->nickname,
-				$this->post_data->mid,
-				$this->post_data->category_srl,
-				$this->post_data->srl,
-				$this->post_data->fileSequence,
-				$this->post_data->tag_list
-			);
+			$this->updateDocument();
 			
 			if (isset($_SESSION['target_srl']))
 			{
@@ -403,19 +390,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 			$lastId = $this->board->query->getBoardSequence($this->post_data->mid);
 			
 			// Insert Document
-			$this->board->query->insertDocument
-			(
-				$this->post_data->title,
-				$this->post_data->content,
-				date("Ymdhis"),
-				$this->post_data->nickname,
-				$this->post_data->mid,
-				$this->post_data->category_srl,
-				$lastId,
-				$this->post_data->fileSequence,
-				$this->post_data->tag_list,
-				$this->post_data->memberSrl
-			);
+			$this->insertDocumentItem();
 			
 			$this->board->lastID = $this->pdo->lastInsertId('srl');
 

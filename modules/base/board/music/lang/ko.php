@@ -66,5 +66,6 @@
 	$lang['invalidtoken'] = "토큰이 올바르지 않습니다.";
 	$lang['alreadyinsertedmusic'] = "이미 등록된 음악입니다.";
 	$lang['notfoundlyrics'] = "가사가 존재하지 않습니다.";
+	$lang['invalidrequest'] = "잘못된 요청입니다.";
 
 ?>
