@@ -165,21 +165,21 @@ class board_query extends BaseObject
 		$sth->execute();
 	}
 	
-	function UpdateBitrate($get_serial, $bitrate):bool
+	function UpdateBitrate($srl, $bitrate):bool
 	{
 		$sth = $this->pdo->prepare("UPDATE def_document_music SET bitrate = :bitrate WHERE srl = :srl");
 		$sth->bindParam(':bitrate', $bitrate, PDO::PARAM_STR);
-		$sth->bindParam(':srl', $get_serial, PDO::PARAM_INT);
+		$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
 		$sth->execute();
 		return TRUE;
 	}
 	
 	/**
-	 * Upload Document Artist
+	 * Update document artist original
 	 *
 	 * @param string $artist
-	 * @param string $get_board
-	 * @param int $get_serial
+	 * @param string $module
+	 * @param int $srl
 	 */
 	function UpdateAlbumOnly($srl, $mid, $album):bool
 	{
@@ -192,18 +192,18 @@ class board_query extends BaseObject
 	}
 	
 	/**
-	 * upload document artist
+	 * Update document artist
 	 *
 	 * @param string $artist
-	 * @param string $get_board
-	 * @param int $get_serial
+	 * @param string $module
+	 * @param int $srl
 	 */
-	function UpdateTitleOnly($get_serial, $get_board, $title):bool
+	function UpdateTitleOnly($srl, $module, $title):bool
 	{
 		$sth = $this->pdo->prepare("UPDATE def_document_music SET title_only = :title WHERE srl = :srl AND module = :mid");
 		$sth->bindParam(':title', $title, PDO::PARAM_STR);
-		$sth->bindParam(':srl', $get_serial, PDO::PARAM_INT);
-		$sth->bindParam(':mid', $get_board, PDO::PARAM_STR);
+		$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
+		$sth->bindParam(':mid', $module, PDO::PARAM_STR);
 		$sth->execute();
 		return TRUE;
 	}
@@ -211,13 +211,13 @@ class board_query extends BaseObject
 	/**
 	 * upload file key
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
-	function UpdateFileKey($get_serial):bool
+	function UpdateFileKey($srl):bool
 	{
 		$sth = $this->pdo->prepare("UPDATE def_file SET keyres = :rndkey WHERE target = :srl");
 		$sth->bindParam(':rndkey', md5(str::getRandomString(10)), PDO::PARAM_STR);
-		$sth->bindParam(':srl', $get_serial, PDO::PARAM_INT);
+		$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
 		$sth->execute();
 		
 		return true;
@@ -239,7 +239,7 @@ class board_query extends BaseObject
 	 * update genre
 	 *
 	 * @param string $genre
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function insertOriginAlbum($album) 
 	{
@@ -267,7 +267,7 @@ class board_query extends BaseObject
 	/**
 	 * 댓글 추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function insertExtraVar($target_srl, $name, $val) 
 	{
@@ -749,19 +749,19 @@ class board_query extends BaseObject
 	/**
 	 * 비추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
-	function getBlamedCount($get_serial) 
+	function getBlamedCount($srl) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['', 'srl', '=', ':srl', $get_serial]
+			['', 'srl', '=', ':srl', $srl]
 		],'blamed', 'one');
 	}
 
 	/**
 	 * 댓글 추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function getDocumentStarCount($srl) 
 	{
@@ -773,7 +773,7 @@ class board_query extends BaseObject
 	/**
 	 * 댓글 추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function getDocumentStarVotedCount($srl) 
 	{
@@ -785,7 +785,7 @@ class board_query extends BaseObject
 	/**
 	 * 댓글 추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function getExtraVar($module) 
 	{
@@ -797,7 +797,7 @@ class board_query extends BaseObject
 	/**
 	 * 댓글 추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function getExtraVarTypebyName($name, $type) 
 	{
@@ -809,7 +809,7 @@ class board_query extends BaseObject
 	/**
 	 * 댓글 추천 값을 가져온다.
 	 *
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
 	function getExtraVars($target_srl) 
 	{
@@ -862,13 +862,13 @@ class board_query extends BaseObject
 	 * 추천 업데이트
 	 *
 	 * @param int $voted_count
-	 * @param int $get_serial
+	 * @param int $srl
 	 */
-	function UpdateVotedCount($voted_count, $get_serial) 
+	function UpdateVotedCount($voted_count, $srl) 
 	{
 		return db::Query('UPDATE','def_document_music',[
 			['WHERE', 'voted', '=', ':args1', $voted_count],
-			['', 'srl', '=', ':args2', $get_serial]
+			['', 'srl', '=', ':args2', $srl]
 		],'', 'boolean');
 	}
 		
@@ -882,10 +882,10 @@ class board_query extends BaseObject
 		],'count(*)', 'one');
 	}
 	
-	function getDocumentCountbyGenre($get_board, $genre) 
+	function getDocumentCountbyGenre($module, $genre) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['AND', 'module', '=', ':args1', $get_board],
+			['AND', 'module', '=', ':args1', $module],
 			['', 'genre', '=', ':args2', $genre]
 		],'count(*)', 'one');
 	}
@@ -1050,7 +1050,7 @@ class board_query extends BaseObject
 	function getDocumentlistBetweenAuthor($module, $page_start, $page_end, $tag) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['AND', 'module', '=', ':args1', $get_board],
+			['AND', 'module', '=', ':args1', $module],
 			['', 'artist', 'LIKE', ':args2', "%$tag%"],
 			['ORDER', 'srl_bd', 'desc'],
 			['LIMIT', ':pgx', $page_start],
@@ -1078,15 +1078,15 @@ class board_query extends BaseObject
 	/**
 	 * 태그 연관글 문서 리스트를 가져온다.
 	 *
-	 * @param str $get_board
+	 * @param str $module
 	 * @param int $page_start
 	 * @param int $page_end
 	 * @param str $tag
 	 */
-	function getRelatedTagList($get_board, $page_start, $page_end, $tag) 
+	function getRelatedTagList($module, $page_start, $page_end, $tag) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['AND', 'module', '=', ':args1', $get_board],
+			['AND', 'module', '=', ':args1', $module],
 			['', 'tag', 'LIKE', ':args2', "%$tag%"],
 			['ORDER', 'srl_bd', 'desc'],
 			['LIMIT', ':pgx', $page_start ? $page_start : 0, ':pgy', 5],
@@ -1096,13 +1096,13 @@ class board_query extends BaseObject
 	/**
 	 * 임의의 문서를 가져온다.
 	 *
-	 * @param str $get_board
+	 * @param str $module
 	 * @param int $page_start
 	 */
-	function getRandomDocumentList($get_board, $page_start) 
+	function getRandomDocumentList($module, $page_start) 
 	{
 		$sth = $this->pdo->prepare("SELECT * FROM def_document_music WHERE module = :bd ORDER BY srl_bd desc LIMIT :pgx, 1");
-		$sth->bindParam(':bd', $get_board, PDO::PARAM_STR);
+		$sth->bindParam(':bd', $module, PDO::PARAM_STR);
 		$sth->bindParam(':pgx', $page_start, PDO::PARAM_INT);
 		$sth->execute();
 		return $sth->fetchAll();
@@ -1111,10 +1111,10 @@ class board_query extends BaseObject
 	/**
 	 * 임의의 문서를 가져온다.
 	 *
-	 * @param str $get_board
+	 * @param str $module
 	 * @param int $page_start
 	 */
-	function getDocumentListInDocumentSrls($array, $get_board, $page_start) 
+	function getDocumentListInDocumentSrls($array, $module, $page_start) 
 	{
 		return db::Query('SELECT','def_document_music',[
 			['', 'srl', 'IN', '[]', $array]
@@ -1192,20 +1192,20 @@ class board_query extends BaseObject
 
 	/* * */
 	
-	function getDocumentlistBetweenbyCategory($get_board, $page_start, $page_end, $get_category) 
+	function getDocumentlistBetweenbyCategory($module, $page_start, $page_end, $get_category) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['AND', 'module', '=', ':args1', $get_board],
+			['AND', 'module', '=', ':args1', $module],
 			['', 'category_srl', '=', ':args2', $get_category],
 			['ORDER', 'srl_bd', 'desc'],
 			['LIMIT', ':pgx', $page_start, ':pgy', $page_end],
 		],'*', 'all');
 	}
 
-	function getDocumentlistBetweenbyCategoryArticle($get_board, $page_start, $page_end, $get_category, $keyword, $target) 
+	function getDocumentlistBetweenbyCategoryArticle($module, $page_start, $page_end, $get_category, $keyword, $target) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['AND', 'module', '=', ':args1', $get_board],
+			['AND', 'module', '=', ':args1', $module],
 			['AND', 'category_srl', '=', ':args2', $get_category],
 			['', $target, 'LIKE', ':args3', "%$keyword%"],
 			['ORDER', 'srl_bd', 'desc'],
@@ -1340,14 +1340,14 @@ class board_query extends BaseObject
 		],'*', 'all');
 	}
 	
-	function UpdateReadedCount($readed_count, $get_serial) {
-		if (!isset($_SESSION['readed_document'][$get_serial.$_SERVER['REMOTE_ADDR']])) 
+	function UpdateReadedCount($readed_count, $srl) {
+		if (!isset($_SESSION['readed_document'][$srl.$_SERVER['REMOTE_ADDR']])) 
 		{
-			$_SESSION['readed_document'][$get_serial.$_SERVER['REMOTE_ADDR']] = TRUE;
+			$_SESSION['readed_document'][$srl.$_SERVER['REMOTE_ADDR']] = TRUE;
 			db::Query('UPDATE','def_document_music',
 			[
 				['WHERE', 'readed', '=', ':args1', $readed_count],
-				['', 'srl', '=', ':args2', $get_serial]
+				['', 'srl', '=', ':args2', $srl]
 			],'', 'boolean');
 		}
 	}
@@ -1356,24 +1356,24 @@ class board_query extends BaseObject
 	 * 문서 목록을 가져온다(정렬)
 	 *
 	 * @param string $module
-	 * @param   str  $get_board
+	 * @param   str  $module
 	 * @param   int  $page_start
 	 * @param   int  $list_count
 	 * @param   str  $article
 	 */
-	function getDocumentListbyArticle($get_board, $page_start, $list_count, $article) 
+	function getDocumentListbyArticle($module, $page_start, $list_count, $article) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['', 'module', '=', ':args1', $get_board],
+			['', 'module', '=', ':args1', $module],
 			['ORDER', $article, 'desc'],
 			['LIMIT', ':pgx', $page_start, ':pgy', $list_count],
 		],'*', 'all');
 	}
 
-	function getDocumentlistBetweenbyGenre($get_board, $page_start, $list_count, $genre) 
+	function getDocumentlistBetweenbyGenre($module, $page_start, $list_count, $genre) 
 	{
 		return db::Query('SELECT','def_document_music',[
-			['AND', 'module', '=', ':args1', $get_board],
+			['AND', 'module', '=', ':args1', $module],
 			['', 'genre', '=', ':args2', $genre],
 			['ORDER', 'srl_bd', 'desc'],
 			['LIMIT', ':pgx', $page_start, ':pgy', $list_count],
@@ -1446,15 +1446,15 @@ class board_query extends BaseObject
 	 * 문서의 아티스트를 업데이트한다.
 	 *
 	 * @param string $artist
-	 * @param string $get_board
-	 * @param int $get_serial
+	 * @param string $module
+	 * @param int $srl
 	 */
-	function UpdateArtist($get_serial, $get_board, $artist) 
+	function UpdateArtist($srl, $module, $artist) 
 	{
 		return db::Query('UPDATE','def_document_music',[
 			['WHERE', 'artist', '=', ':args1', $artist],
-			['AND', 'module', '=', ':args2', $get_board],
-			['', 'srl', '=', ':args3', $get_serial]
+			['AND', 'module', '=', ':args2', $module],
+			['', 'srl', '=', ':args3', $srl]
 		],'', 'boolean');
 	}
 	
@@ -1462,15 +1462,15 @@ class board_query extends BaseObject
 	 * 문서의 아티스트를 업데이트한다.
 	 *
 	 * @param string $artist
-	 * @param string $get_board
-	 * @param int $get_serial
+	 * @param string $module
+	 * @param int $srl
 	 */
-	function UpdatePlayTime($get_serial, $get_board, $artist) 
+	function UpdatePlayTime($srl, $module, $artist) 
 	{
 		return db::Query('UPDATE','def_document_music',[
 			['WHERE', 'playtime', '=', ':args1', $artist],
-			['AND', 'module', '=', ':args2', $get_board],
-			['', 'srl', '=', ':args3', $get_serial]
+			['AND', 'module', '=', ':args2', $module],
+			['', 'srl', '=', ':args3', $srl]
 		],'', 'boolean');
 	}
 	
@@ -1478,14 +1478,14 @@ class board_query extends BaseObject
 	 * upload document artist
 	 *
 	 * @param string $artist
-	 * @param string $get_board
-	 * @param int $get_serial
+	 * @param string $module
+	 * @param int $srl
 	 */
-	function UpdateGenreOnly($get_serial, $get_board, $album) 
+	function UpdateGenreOnly($srl, $module, $album) 
 	{
 		return db::Query('UPDATE','def_document_music',[
-			['WHERE', 'srl', '=', ':args1', $get_serial],
-			['AND', 'module', '=', ':args2', $get_board],
+			['WHERE', 'srl', '=', ':args1', $srl],
+			['AND', 'module', '=', ':args2', $module],
 			['', 'genre_only', '=', ':args3', $album]
 		],'', 'boolean');
 	}
@@ -1494,15 +1494,15 @@ class board_query extends BaseObject
 	 * upload document artist
 	 *
 	 * @param string $artist
-	 * @param string $get_board
-	 * @param int $get_serial
+	 * @param string $module
+	 * @param int $srl
 	 */
-	function UpdateGenre($get_serial, $get_board, $album) 
+	function UpdateGenre($srl, $module, $album) 
 	{
 		return db::Query('UPDATE','def_document_music',[
 			['WHERE', 'genre', '=', ':args1', $album],
-			['AND', 'module', '=', ':args2', $get_board],
-			['', 'srl', '=', ':args3', $get_serial]
+			['AND', 'module', '=', ':args2', $module],
+			['', 'srl', '=', ':args3', $srl]
 		],'', 'boolean');
 	}
 

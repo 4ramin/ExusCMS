@@ -313,27 +313,36 @@ final class init_view
 	//Get the module class.
 	function loadModuleClass($baseComponent, $requestType) 
 	{
-		$prefixHandler = $this->requestMethod === "GET" ? 'view' : ($this->requestMethod === "POST" ? 'controller' : null);
+		$prefixHandler = $this->requestMethod === "GET" ? 'view' : 
+						($this->requestMethod === "POST" ? 'controller' : null);
 
 		if ($prefixHandler !== null) 
 		{
 			$this->requestHandler = sprintf("%s_%s", $this->moduleID, $prefixHandler);
 			
+			// Abstract
 			$abstractbaseComponent = sprintf("%s/%s.abstract.php", $this->moduleDirectory, $requestType);
 			$requestHandlerAbstract = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.abstract');
 			$this->base->includeFile($abstractbaseComponent, $requestHandlerAbstract, false);
 			
+			// Interface
 			$interfacebaseComponent = sprintf("%s/%s.interface.php", $this->moduleDirectory, $requestType);
 			$requestHandlerInterface = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.interface');
 			$this->base->includeFile($interfacebaseComponent, $requestHandlerInterface, false);
 			$this->base->includeFile($baseComponent, $this->requestHandler);
 			
+			// Abstract
+			$dtobaseComponent = sprintf("%s/%s.dto.php", $this->moduleDirectory, $requestType);
+			$requestHandlerDTO = sprintf("%s_%s%s", $this->moduleID, $prefixHandler, '.dto');
+			$this->base->includeFile($dtobaseComponent, $requestHandlerDTO, false);
+			
+			// Query
 			$requestHandlerQuery = sprintf("%s_%s", $this->moduleID, 'query');
 			$queryComponent = sprintf("%s/query.class.php", $this->moduleDirectory, $requestType);
 			$this->base->includeFile($queryComponent, $requestHandlerQuery, false);
 			
+			// Base
 			$baseDefined = sprintf("%s/base.defined.php", $this->moduleDirectory, $requestType);
-			
 			if (file_exists($baseDefined)) 
 			{
 				include($baseDefined);
@@ -363,6 +372,11 @@ final class init_view
 	//Specifies bulletin board default properties.
 	function setBoardProperty() 
 	{
+		if (class_exists("board_dto"))
+		{
+			$this->{$this->moduleID}->dto = new board_dto($this);
+		}
+		
 		if (class_exists("board_query"))
 		{
 			$this->{$this->moduleID}->query = new board_query($this);
@@ -408,6 +422,13 @@ final class init_view
 		if (class_exists($this->queryObject))
 		{
 			$this->{$this->moduleID}->query = new $this->queryObject($this);
+		}
+		
+		$this->dtoObject = sprintf("%s_dto", $this->moduleID);
+		
+		if (class_exists($this->dtoObject))
+		{
+			$this->{$this->moduleID}->dto = new $this->dtoObject($this);
 		}
 		
 	}

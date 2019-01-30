@@ -35,6 +35,23 @@ abstract class view_abstract extends board
 		return $this->property;
 	}
 	
+	public function isDocumentAuthor()
+	{
+		$memberSrl = $this->base->getMemberSrl();
+		$oDocumentMemberSrl = $this->board->document['member_srl'];
+		if ($memberSrl === $oDocumentMemberSrl)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function setDocumentTitle()
+	{
+		$this->base->set('document_title', $this->board->document['title']);
+	}
+	
 	public function getCurrentCommentListCount() 
 	{
 		return ($this->board->cpage - 1) * $this->board->comment_listcount;
@@ -229,7 +246,35 @@ abstract class view_abstract extends board
 		
 		return $oCommentModel->getBlamedCommentList($moduleid, $srl, $cpage, $ccount);
 	}
+	
+	public function getDocumentListGAP()
+	{
+		$startPage = 1;
+		$endPage = $this->board->page_start > 1 ? $this->board->page_start : 1;
+		$gapPagePrev = $this->board->model->getGapInModule($startPage, $endPage, $this->board->module_id)->data();
+		$this->board->page_start = $this->board->page_start + ($gapPagePrev);
+	
+		$startPage = $this->board->page_start > 1 ? $this->board->page_start : 1;
+		$endPage = $this->board->page_end;
+		$gapPageNext = $this->board->model->getGapInModule($startPage, $endPage, $this->board->module_id)->data();
+		$this->board->page_end = $this->board->page_end + ($gapPageNext) + ($gapPagePrev);
+	}
+	
+	public function getDocumentListLEFTJOIN()
+	{
+		return array_reverse($this->board->query->getDocumentListLEFTJOIN($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
+	}
+	
+	public function getDocumentListJOIN()
+	{
+		return array_reverse($this->board->query->getDocumentListJOIN($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count));
+	}
 			
+	public function getDocumentListLIMIT()
+	{
+		return $this->board->query->getDocumentListLIMIT($this->getParam(__MODULEID), $this->board->page_start, $this->board->board_count);
+	}
+	
 	public function getCommentList() 
 	{
 		$oCommentModel = $this->base->getModel('comment');
@@ -244,6 +289,11 @@ abstract class view_abstract extends board
 		return $oCommentModel->getCommentCount($moduleid, $srl);
 	}
 	
+	public function getDocumentCountbyCategoryArticle()
+	{
+		return $this->board->query->getDocumentCountbyCategoryArticle($this->board->module_id, $this->getParam('category'), $this->board->keyword, $this->board->type);
+	}
+	
 	public function setEditor()
 	{
 		$this->base->set('editor', $this->getEditor());
@@ -256,7 +306,7 @@ abstract class view_abstract extends board
 	
 	public function setDeleteDocumentTplPath()
 	{
-		$this->base->set('skin', sprintf("%s/delete.php", $this->board->skin_tpl_path));
+		$this->base->set('skin', sprintf(__DELETE_TPL__, $this->board->skin_tpl_path));
 	}
 	
 	public function getSrl()
@@ -296,7 +346,7 @@ abstract class view_abstract extends board
 	
 	public function setAuthorTplPath()
 	{
-		$this->base->set('skin', sprintf("%s/author.php", $this->board->skin_tpl_path));
+		$this->base->set('skin', sprintf(__AUTHOR_TPL__, $this->board->skin_tpl_path));
 	}
 	
 	public function getCurrentUserExtraVars()
@@ -307,7 +357,17 @@ abstract class view_abstract extends board
 	
 	public function setBoardTplPath()
 	{
-		$this->base->set('skin', sprintf("%s/board.php", $this->board->skin_tpl_path));
+		$this->base->set('skin', sprintf(__BOARD_TPL__, $this->board->skin_tpl_path));
+	}
+	
+	public function setWriteTplPath()
+	{
+		$this->base->set('skin', sprintf(__WRITE_TPL__, $this->board->skin_tpl_path));
+	}
+	
+	public function setAlbumViewTplPath()
+	{
+		$this->base->set('skin', sprintf(__ALBUM_VIEW_TPL__, $this->board->skin_tpl_path));
 	}
 	
 	public function setAlbumTplPath()
@@ -361,6 +421,98 @@ abstract class view_abstract extends board
 		$list_count = $this->getParam('list_count') ? $this->getParam('list_count') : $list_count;
 		
 		return $list_count;
+	}
+	
+	public function sortByStarCount()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("star");
+	}
+	
+	public function sortByRegdate()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("regdate");
+	}
+	
+	public function sortByCategory()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("category");
+	}
+	
+	public function sortByVotedCount()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("voted");
+	}
+	
+	public function sortByArtist()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("artist");
+	}
+	
+	public function sortByDownloadCount()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getPopularDocumentList();
+	}
+	
+	public function sortByPlaytime()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("playtime");
+	}
+	
+	public function sortByReadedCount()
+	{
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentListbyArticle("readed");
+	}
+	
+	public function setTitleOriginList()
+	{
+		$this->board->document_count = $this->getDocumenCountbyOriginTitle();
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentlistBetweenbyOriginTitle();
+	}
+	
+	public function setAlbumOriginList()
+	{
+		$this->board->document_count = $this->getDocumenCountbyOriginAlbum();
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentlistBetweenbyOriginAlbum();
+	}
+	
+	public function setArtistList()
+	{
+		$this->board->document_count = $this->getDocumenCountbyAuthor();
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentlistBetweenbyAuthor();
+	}
+	
+	public function setTagList()
+	{
+		$this->board->document_count = $this->getDocumenCountbyTag();
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentlistBetweenbyTag();
+	}
+	
+	public function setTitleList()
+	{
+		$this->board->document_count = $this->getDocumenCountbyTitle();
+		$this->board->page_start = $this->getCurrentListCount();
+		$this->board->result = $this->getDocumentlistBetweenbyTitle();
+	}
+	
+	public function setDocumentRange()
+	{
+		$query_count = $this->board->document_count - ($this->board->page * $this->board->list_count);
+		
+		$this->board->page_start = (int)$query_count > 0 ? $query_count : 0;
+		$this->board->page_end = (int)$this->board->page_start + $this->board->list_count - 1;
+		$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
 	}
 	
 	public function getFileList($srl) 

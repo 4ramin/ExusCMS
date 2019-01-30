@@ -873,7 +873,7 @@ class db
 	/**
 	 * pdo transaction
 	 */
-	public static function ready() 
+	public static function begin() 
 	{
 		self::$link->beginTransaction();
 	}
