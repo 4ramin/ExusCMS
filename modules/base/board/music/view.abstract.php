@@ -565,6 +565,31 @@ abstract class view_abstract extends board
 		$this->board->board_count = (int)$query_count > 0 ? $this->board->list_count : $this->board->list_count + $query_count;
 	}
 	
+	public function isDefaultXMLExists()
+	{
+		if (!isset($this->board->xml_path))
+		{
+			return false;
+		}
+		
+		if (file_exists($this->board->xml_path)) 
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function setDefaultXMLPath()
+	{
+		$this->board->xml_path = $this->getTpl(__DEFAULT_XML__);
+	}
+	
+	public function getModuleLayout()
+	{
+		return $this->board->query->getModuleLayoutbyModuleID($this->board->module_id);
+	}
+	
 	public function getFileList($srl) 
 	{
 		$oFilesModel = $this->base->getModel('files');

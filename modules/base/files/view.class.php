@@ -146,10 +146,18 @@ class files_view extends files
 		$this->files->target = $this->base->get_params('target');
 		$this->files->album = $this->files->model->getOriginAlbumbysrl($this->files->target);
 		$this->files->item_popular = $this->files->model->getOriginAlbumFilesAll($this->files->album);
-		$this->files->file_list = $this->files->model->getFileItemsArray($this->files->item_popular);
+		$this->files->file_list = $this->files->model->getFileItemsArray(($this->files->item_popular));
 		
 		$zip_path = sprintf("%s/file/zip_output", __DIR);
-		$this->files->zip_file = sprintf("%s/album_%s.zip", $zip_path, $this->files->target);
+		if (is_dir($zip_path))
+		{
+			$this->files->zip_file = sprintf("%s/album_%s.zip", $zip_path, $this->files->target);
+		}
+		
+		if (!$this->files->zip_file)
+		{
+			return;
+		}
 		
 		$zipFileList = array();
 		
@@ -177,7 +185,6 @@ class files_view extends files
 		}
 		
 		$fp = fopen($this->files->zip_file, 'rb');
-		
 		if (!$fp)
 		{
 			return '파일이 존재하지 않음';
@@ -198,7 +205,7 @@ class files_view extends files
 		$filename = $this->files->model->getAttachOrigin($this->files->download, $this->files->md5);
 		$down_count = $this->files->model->getFileDownCount($this->files->download, $this->files->md5);
 		
-		foreach ($filename as $key=>$value) 
+		foreach ($filename as $value) 
 		{
 			$uploaded_filename = sprintf("%s%s%s/%s", __DIR, __FILE__ATTACH, $this->files->download, $this->files->md5);
 			

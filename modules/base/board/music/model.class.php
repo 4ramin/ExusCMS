@@ -214,9 +214,9 @@ class board_model extends board
 		
 		if ($mediaInfo['album_only'] != null || $mediaInfo['album_only'] == 'None') 
 		{
-			if ($this->getOriginAlbumCountbyAlbum($mediaInfo['album_only']) == 0) 
+			if ($this->board->query->getOriginAlbumCountbyAlbum($mediaInfo['album_only']) == 0) 
 			{
-				$this->insertOriginAlbum($mediaInfo['album_only']);
+				$this->board->query->insertOriginAlbum($mediaInfo['album_only']);
 			}
 		}
 		
@@ -247,7 +247,7 @@ class board_model extends board
 				$id3_title = 'None';
 			}
 			
-			$this->UpdateTitleOnly($mediaInfo['srl'], $mediaInfo['module'], $id3_title);
+			$this->board->query->UpdateTitleOnly($mediaInfo['srl'], $mediaInfo['module'], $id3_title);
 			$mediaInfo['title_only'] = $id3_title;
 			
 			$id3_album = $id3Info['comments']['album'][0];
@@ -256,7 +256,7 @@ class board_model extends board
 				$id3_album = 'None';
 			}
 			
-			$this->UpdateAlbumOnly($mediaInfo['srl'], $mediaInfo['module'], $id3_album);
+			$this->board->query->UpdateAlbumOnly($mediaInfo['srl'], $mediaInfo['module'], $id3_album);
 			$mediaInfo['album_only'] = $id3_album;
 		}
 		
@@ -268,7 +268,7 @@ class board_model extends board
 				$bitrate = "Unknown";
 			}
 			
-			$this->UpdateBitrate($mediaInfo['srl'], $bitrate);
+			$this->board->query->UpdateBitrate($mediaInfo['srl'], $bitrate);
 		}
 	
 		if ($mediaInfo['playtime'] == null || $mediaInfo['playtime'] == 0) 
@@ -281,7 +281,7 @@ class board_model extends board
 					$artist = 0;
 				}
 				
-				$this->UpdatePlayTime($mediaInfo['srl'], $mediaInfo['module'], $artist);
+				$this->board->query->UpdatePlayTime($mediaInfo['srl'], $mediaInfo['module'], $artist);
 		   }
 		}
 		
@@ -293,14 +293,14 @@ class board_model extends board
 				$artist = 'None';
 			}
 			
-			$this->UpdateArtist($mediaInfo['srl'], $mediaInfo['module'], $artist);
+			$this->board->query->UpdateArtist($mediaInfo['srl'], $mediaInfo['module'], $artist);
 		} 
 		else 
 		{
-			$oAuthorCnt = $this->getAuthorCount($mediaInfo['artist']);
+			$oAuthorCnt = $this->board->query->getAuthorCount($mediaInfo['artist']);
 			if ($oAuthorCnt == 0) 
 			{
-				$this->insertAuthor($mediaInfo['artist']);
+				$this->board->query->insertAuthor($mediaInfo['artist']);
 			}
 		}
 		

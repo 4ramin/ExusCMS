@@ -166,14 +166,15 @@ class board_view extends view_abstract implements viewInterface
 		
 		if (!$this->hasGrant(true)) 
 		{
-			return $this->board->query->dispMemberLogin();
+			return $this->board->model->dispMemberLogin();
 		}
 		
 		$this->board->module_id = $this->getModuleID();
-		$this->board->skin = $this->board->query->getModuleLayoutbyBoard($this->board->module_id);
-		$this->board->xml_path = $this->getTpl('xml/default.xml');
+		$this->board->skin = $this->getModuleLayout();
 		
-		if (file_exists($this->board->xml_path)) 
+		$this->setDefaultXMLPath();
+		
+		if ($this->isDefaultXMLExists()) 
 		{
 			if (isset($this->board->config->multiorder_option)) 
 			{
@@ -292,7 +293,7 @@ class board_view extends view_abstract implements viewInterface
 		}
 		
 		$this->board->module_id = $this->getModuleID();
-		$this->board->skin = $this->board->query->getModuleLayoutbyBoard($this->board->module_id);
+		$this->board->skin = $this->getModuleLayout();
 		$this->board->xml_path = sprintf(__SKIN_XML__, $this->board->skin_tpl_path);
 		
 		$this->board->xmlContent = $this->getSkinXmlContents();
@@ -740,8 +741,8 @@ class board_view extends view_abstract implements viewInterface
 		$this->board->srl = $this->getSrl();
 		$this->board->list_count = $this->getListCount();
 		$this->board->page = $this->getPage();
-		$this->board->genre = $this->getParam('genre');
 		$this->board->category = $this->getCategorySrl();
+		$this->board->genre = $this->getParam('genre');
 		$this->board->sortIndex = $this->getParam('sort_index');
 		$this->board->module_id = $this->getModuleID();
 		$this->board->keyword = $this->getParam('keyword');

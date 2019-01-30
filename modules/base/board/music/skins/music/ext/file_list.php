@@ -35,7 +35,7 @@
 			<?php
 				echo html::element('a', html::element('i', '', ['class'=>'fa fa-file-archive-o', 'aria-hidden'=>'true']).' '.$this->board->lang['albumdownload'], [
 					'style' => 'float:right;margin-right:10px',
-					'href' => str::getUrl(__MODULEID, 'files', __ACTION, 'AlbumDownload', 'target', $this->board->model->getOriginalAlbumSrlbyAlbum($this->board->document['album_only']))
+					'href' => str::getUrl(__MODULEID, 'files', __ACTION, 'AlbumDownload', 'target', $this->board->query->getOriginalAlbumSrlbyAlbum($this->board->document['album_only']))
 				]);
 			?>
 		<?php endif;?>

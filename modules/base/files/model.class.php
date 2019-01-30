@@ -117,7 +117,7 @@ class files_model extends files
 	 */
 	function getOriginAlbumFilesAll($album) 
 	{
-		$sth = $this->pdo->prepare("SELECT srl FROM def_document_music WHERE album_only = :album ORDER BY album_only asc");
+		$sth = $this->pdo->prepare("SELECT file_sequence FROM def_document_music WHERE album_only = :album ORDER BY album_only asc");
 		$sth->bindParam(':album', $album, PDO::PARAM_STR);
 		$sth->execute();
 		return $sth->fetchAll();
@@ -134,6 +134,8 @@ class files_model extends files
 
 	function getFileItemsArray($array) 
 	{
+		$in_query = "";
+		
 		$i = 0;
 		foreach($array as $key=>$value) 
 		{
@@ -147,7 +149,7 @@ class files_model extends files
 		$i = 0;
 		foreach ($array as $key=>$value) 
 		{
-			$sth->bindParam(":" . ++$i, $value['srl']);
+			$sth->bindParam(":" . ++$i, $value['file_sequence']);
 		}
 		
 		$sth->execute();

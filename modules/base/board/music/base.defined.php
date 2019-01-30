@@ -10,6 +10,7 @@ define('__DELETE_TPL__', "%s/delete.php");
 define('__AUTHOR_TPL__', "%s/author.php");
 define('__BOARD_TPL__', "%s/board.php");
 define('__VIEW_TPL__', "%s/view.php");
+define('__DEFAULT_XML__', 'xml/default.xml');
 define('__ORIGIN_VIEW_TPL__', "%s/origin_view.php");
 define('__ALBUM_VIEW_TPL__', "%s/album_view.php");
 define('__SCRIPT_DOCUMENT_NOT_FOUND__', "<script>alert('대상을 찾을 수 없습니다.');</script>");

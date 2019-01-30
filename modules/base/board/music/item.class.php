@@ -226,11 +226,11 @@ class board_item extends BaseObject
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileInfo) 
+		foreach ($this->file_list as $fileInfo) 
 		{
 			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) 
 			{
-				$this->board->model->chkId3Tags($this->query, $fileInfo['files'], $fileSequence);
+				$this->board->model->chkId3Tags($this->query, $fileInfo['files'], $this->fileSequence);
 				return true;
 			}
 		}
@@ -305,7 +305,7 @@ class board_item extends BaseObject
 			{
 				if ($fileList['keyres'] == NULL) 
 				{
-					$this->board->model->UpdateFileKey($this->fileSequence);
+					$this->board->query->UpdateFileKey($this->fileSequence);
 				}
 				
 				$link = sprintf("%s%s%d/%s", __SUB, __FILE__ATTACH, $this->fileSequence, $fileList['files']);

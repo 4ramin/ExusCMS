@@ -211,7 +211,7 @@
 				<options value="1">
 					<title>분석하지 않음</title>
 				</options>
-				<options value="">
+				<options value="2">
 					<title>사용안함</title>
 				</options>
 			</var>

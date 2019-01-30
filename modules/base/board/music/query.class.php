@@ -674,7 +674,7 @@ class board_query extends BaseObject
 	 *
 	 * @param string $module
 	 */
-	function getModuleLayoutbyBoard($module) 
+	function getModuleLayoutbyModuleID($module) 
 	{
 		return db::Query('SELECT','def_module',[
 			['', 'bdname', '=', ':args1', $module]
@@ -1412,7 +1412,7 @@ class board_query extends BaseObject
 	// EXPLAIN SELECT def_document_music.*, count(def_file.srl), count(def_comment.comment_srl), def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = 'index' LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = 'index' LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = 'index' GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT 0, 20;
 	function getDocumentListLeftJOIN($module, $page_start, $board_count) 
 	{
-		$sth = $this->pdo->prepare("SELECT def_document_music.*, count(def_file.srl), count(def_comment.comment_srl), def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = :module1 LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = :module2 LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = :module3 GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT :pgx, :pgy; ");
+		$sth = $this->pdo->prepare("SELECT def_document_music.*, count(def_file.srl) as `file_count`, count(def_comment.comment_srl) as `comment_count`, def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = :module1 LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = :module2 LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = :module3 GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT :pgx, :pgy; ");
 		$sth->bindParam(':module1', $module, PDO::PARAM_STR);
 		$sth->bindParam(':module2', $module, PDO::PARAM_STR);
 		$sth->bindParam(':module3', $module, PDO::PARAM_STR);
