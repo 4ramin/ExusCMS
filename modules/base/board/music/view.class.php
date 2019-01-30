@@ -448,9 +448,9 @@ class board_view extends view_abstract implements viewInterface
 	
 	protected function ajaxCall() 
 	{
-		if ($this->board->isAjax == TRUE) 
+		if ($this->isAjaxRequest()) 
 		{
-			if (!isset($this->board->srl)) 
+			if (!$this->isSrlExists()) 
 			{
 				$this->setBoardSkin();
 			} 
@@ -479,7 +479,7 @@ class board_view extends view_abstract implements viewInterface
 		if (isset($this->board->srl)) 
 		{
 			$this->board->document = $this->getDocumentItem();
-			$this->board->extra_vars = $this->board->query->getExtraVars($this->board->srl);
+			$this->board->extra_vars = $this->getDocumentExtraVars();
 			
 			if (!is_array($this->board->document)) 
 			{
@@ -584,7 +584,7 @@ class board_view extends view_abstract implements viewInterface
 	
 	function getCommentPage() 
 	{
-		if ($this->board->isAjax ==	TRUE) 
+		if ($this->isAjaxRequest()) 
 		{
 			//댓글 목록
 			$this->board->srl = $this->getSrl();

@@ -45,6 +45,26 @@ abstract class view_abstract extends board
 		return false;
 	}
 	
+	public function isSrlExists()
+	{
+		if (isset($this->board->srl))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function isAjaxRequest()
+	{
+		if ($this->board->isAjax === true)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public function isDocumentAuthor()
 	{
 		$memberSrl = $this->base->getMemberSrl();
@@ -123,6 +143,11 @@ abstract class view_abstract extends board
 		return $this->board->query->getDocumentlistBetweenbyCategoryArticle($this->board->module_id, $this->board->page_start, $this->board->list_count, $this->board->category, $this->board->keyword, $this->board->type);
 	}
 
+	public function getDocumentExtraVars()
+	{
+		return $this->board->query->getExtraVars($this->board->srl);
+	}
+	
 	public function getDocumentItem()
 	{
 		return $this->board->query->getDocumentItem($this->board->srl);
