@@ -165,14 +165,13 @@ class board_controller extends controller_abstract implements controllerInterfac
 			return $this->setError($this->board->lang['notpermit']);
 		}
 		
-		$module = $this->getParam(__MODULEID);
-		$category_srl = $this->getParam("category_srl");
-		$this->board->query->deleteCategory($category_srl, $module);
+		$this->post_data->module = $this->getParam(__MODULEID);
+		$this->post_data->category_srl = $this->getParam("category_srl");
+		
+		$this->deleteCategory();
 		
 		// Redirect to Page
-		$args = va::args();
-		$args->location = str::getUrl('', __MODULEID, $module, 'act', 'dispBoardCategorySetup');
-		header::move($args);
+		$this->redirectToCategorySetup();
 	}
 	
 	function procInsertCategory() 
@@ -292,17 +291,14 @@ class board_controller extends controller_abstract implements controllerInterfac
 		
 		db::begin();
 		
-		$this->board->query->deleteDocument($this->post_data->srl, $this->post_data->mid);
+		$this->deleteDocument();
 		
-		$oFilesModel = $this->base->getModel('files');
-		$oFilesModel->deleteAllAttachmentFiles($this->post_data->srl);
+		$this->deleteAttachmentFiles();
 		
 		db::commit();
 			
 		// Redirect to document
-		$args = va::args();
-		$args->location = str::getUrl('', __MODULEID, $this->post_data->mid);
-		header::move($args);
+		$this->redirectToModule();
 	}
 	
 	function insertDocument() 
@@ -399,9 +395,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 			db::commit();
 			
 			// Redirect to document
-			$args = va::args();
-			$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->post_data->srl);
-			header::move($args);
+			$this->redirectToDocumentPage();
 		} 
 		else 
 		{
@@ -569,7 +563,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->srl = $this->getParam('srl');
 		
 		// Get voted count
-		$voted_count = $this->board->query->getVotedCount($this->post_data->srl);
+		$voted_count = $this->getVotedCount();
 		
 		if (isset($voted_count->result))
 		{
@@ -753,7 +747,7 @@ class board_controller extends controller_abstract implements controllerInterfac
 		// Update singer info
 		if ($this->hasGrant(true)) 
 		{
-			$this->board->query->UpdateArtist($this->post_data->srl, $this->post_data->md, $this->post_data->singer);
+			$this->updateArtist();
 			return $this->setMessage("성공적으로 변경했습니다.");
 		} 
 		else 
@@ -777,7 +771,8 @@ class board_controller extends controller_abstract implements controllerInterfac
 		// Update genre info
 		if ($this->hasGrant(true)) 
 		{
-			$this->board->query->UpdateGenre($this->post_data->srl, $this->post_data->md, $this->post_data->genre);
+			$this->updateGenre();
+			
 			return $this->setMessage("성공적으로 변경했습니다.");
 		} 
 		else 

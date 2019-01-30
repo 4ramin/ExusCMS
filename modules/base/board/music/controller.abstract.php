@@ -28,9 +28,39 @@ abstract class controller_abstract extends board
 		return $this->base->response("type", "success", "html", $msg);
 	}
 	
+	public function redirectToCategorySetup()
+	{
+		$args = va::args();
+		$args->location = str::getUrl('', __MODULEID, $this->post_data->module, 'act', 'dispBoardCategorySetup');
+		header::move($args);
+	}
+	
 	public function setError($errorMsg)
 	{
 		return $this->base->response("type", "error", "html", $errorMsg);
+	}
+	
+	public function deleteCategory()
+	{
+		$this->board->query->deleteCategory($this->post_data->category_srl, $this->post_data->module);
+	}
+	
+	public function redirectToModule()
+	{
+		$args = va::args();
+		$args->location = str::getUrl('', __MODULEID, $this->post_data->mid);
+		header::move($args);
+	}
+	
+	public function deleteAttachmentFiles()
+	{
+		$oFilesModel = $this->base->getModel('files');
+		$oFilesModel->deleteAllAttachmentFiles($this->post_data->srl);
+	}
+	
+	public function deleteDocument()
+	{
+		$this->board->query->deleteDocument($this->post_data->srl, $this->post_data->mid);
 	}
 	
 	public function getUserId()
@@ -46,6 +76,28 @@ abstract class controller_abstract extends board
 	public function hasGrant($hasAdmin)
 	{
 		return $this->base->hasGrant($hasAdmin);
+	}
+	
+	public function updateArtist()
+	{
+		$this->board->query->UpdateArtist($this->post_data->srl, $this->post_data->md, $this->post_data->singer);
+	}
+	
+	public function redirectToDocumentPage()
+	{
+		$args = va::args();
+		$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->post_data->srl);
+		header::move($args);
+	}
+	
+	public function getVotedCount()
+	{
+		return $this->board->query->getVotedCount($this->post_data->srl);
+	}
+	
+	public function updateGenre()
+	{
+		$this->board->query->UpdateGenre($this->post_data->srl, $this->post_data->md, $this->post_data->genre);
 	}
 	
 	public function getFileList($srl)
