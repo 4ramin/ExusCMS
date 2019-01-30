@@ -881,7 +881,7 @@ class db
 	/**
 	 * pdo commit
 	 */
-	public static function submit() 
+	public static function commit() 
 	{
 		self::$link->commit();
 	}

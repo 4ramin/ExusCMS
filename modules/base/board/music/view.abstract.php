@@ -35,6 +35,16 @@ abstract class view_abstract extends board
 		return $this->property;
 	}
 	
+	public function isDocumentExists()
+	{
+		if (isset($this->board->document))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public function isDocumentAuthor()
 	{
 		$memberSrl = $this->base->getMemberSrl();
@@ -309,6 +319,16 @@ abstract class view_abstract extends board
 		$this->base->set('skin', sprintf(__DELETE_TPL__, $this->board->skin_tpl_path));
 	}
 	
+	public function getDocumentCommentCounts()
+	{
+		return $this->getCommentCount($this->board->module_id, $this->board->srl);
+	}
+	
+	public function getPagenation()
+	{
+		return new Pagenation($this->board->page_count, $this->board->page);
+	}
+	
 	public function getSrl()
 	{
 		return $this->getParam('srl');
@@ -358,6 +378,11 @@ abstract class view_abstract extends board
 	public function setBoardTplPath()
 	{
 		$this->base->set('skin', sprintf(__BOARD_TPL__, $this->board->skin_tpl_path));
+	}
+	
+	public function setViewTplPath()
+	{
+		$this->base->set('skin', sprintf(__VIEW_TPL__, $this->board->skin_tpl_path));
 	}
 	
 	public function setWriteTplPath()

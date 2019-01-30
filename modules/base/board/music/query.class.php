@@ -278,38 +278,39 @@ class board_query extends BaseObject
 		$sth->execute();
 	}
 	
-	function updateDocument($post_title, $post_content, $post_date, $nickname, $post_board, $get_category, $board_serial, $file_sequence, $tag) 
+	function updateDocument($title, $content, $regdate, $nickname, $module, $category_srl, $srl, $file_sequence, $tag) 
 	{
 		return db::Query('UPDATE','def_document_music', [
-			[',', 'title', '=', ':args1', $post_title],
+			[',', 'title', '=', ':args1', $title],
 			[',', 'file_sequence', '=', ':args2', $file_sequence],
 			[',', 'tag', '=', ':args3', $tag],
-			['WHERE', 'content', '=', ':args4', $post_content],
-			['', 'srl', '=', ':args5', $board_serial]
+			[',', 'category_srl', '=', ':args4', $category_srl],
+			['WHERE', 'content', '=', ':args5', $content],
+			['', 'srl', '=', ':args6', $srl]
 		],'', 'boolean');
 	}
 	
 	/**
 	 * 문서를 입력한다
 	 *
-	 * @param string $post_title
-	 * @param string $post_content
-	 * @param string $post_date
+	 * @param string $title
+	 * @param string $content
+	 * @param string $regdate
 	 * @param string $nickname
-	 * @param string $post_board
-	 * @param int $get_category
-	 * @param int $board_serial
+	 * @param string $module
+	 * @param int $category_srl
+	 * @param int $srl
 	 */
-	function insertDocument($post_title, $post_content, $post_date, $nickname, $post_board, $get_category, $board_serial, $file_sequence, $tag, $membersrl) 
+	function insertDocument($title, $content, $regdate, $nickname, $module, $category_srl, $srl, $file_sequence, $tag, $membersrl) 
 	{
 		$sth = $this->pdo->prepare("INSERT INTO def_document_music (title, content, nick_name, module, regdate, category_srl, srl_bd, file_sequence, tag, member_srl) VALUES (:title, :content, :nick_name, :module, :date, :category_srl, :srlbd, :file_sequence, :tag, :member_srl)");
-		$sth->bindParam(':title', $post_title, PDO::PARAM_STR);
-		$sth->bindParam(':content', $post_content, PDO::PARAM_STR);
+		$sth->bindParam(':title', $title, PDO::PARAM_STR);
+		$sth->bindParam(':content', $content, PDO::PARAM_STR);
 		$sth->bindParam(':nick_name', $nickname, PDO::PARAM_STR);
-		$sth->bindParam(':module', $post_board, PDO::PARAM_STR);
-		$sth->bindParam(':date', $post_date, PDO::PARAM_STR);
-		$sth->bindParam(':category_srl', $get_category, PDO::PARAM_INT);
-		$sth->bindParam(':srlbd', $board_serial, PDO::PARAM_INT);
+		$sth->bindParam(':module', $module, PDO::PARAM_STR);
+		$sth->bindParam(':date', $regdate, PDO::PARAM_STR);
+		$sth->bindParam(':category_srl', $category_srl, PDO::PARAM_INT);
+		$sth->bindParam(':srlbd', $srl, PDO::PARAM_INT);
 		$sth->bindParam(':file_sequence', $file_sequence, PDO::PARAM_INT);
 		$sth->bindParam(':tag', $tag, PDO::PARAM_STR);
 		$sth->bindParam(':member_srl', $membersrl, PDO::PARAM_INT);
@@ -1192,21 +1193,21 @@ class board_query extends BaseObject
 
 	/* * */
 	
-	function getDocumentlistBetweenbyCategory($module, $page_start, $page_end, $get_category) 
+	function getDocumentlistBetweenbyCategory($module, $page_start, $page_end, $category_srl) 
 	{
 		return db::Query('SELECT','def_document_music',[
 			['AND', 'module', '=', ':args1', $module],
-			['', 'category_srl', '=', ':args2', $get_category],
+			['', 'category_srl', '=', ':args2', $category_srl],
 			['ORDER', 'srl_bd', 'desc'],
 			['LIMIT', ':pgx', $page_start, ':pgy', $page_end],
 		],'*', 'all');
 	}
 
-	function getDocumentlistBetweenbyCategoryArticle($module, $page_start, $page_end, $get_category, $keyword, $target) 
+	function getDocumentlistBetweenbyCategoryArticle($module, $page_start, $page_end, $category_srl, $keyword, $target) 
 	{
 		return db::Query('SELECT','def_document_music',[
 			['AND', 'module', '=', ':args1', $module],
-			['AND', 'category_srl', '=', ':args2', $get_category],
+			['AND', 'category_srl', '=', ':args2', $category_srl],
 			['', $target, 'LIKE', ':args3', "%$keyword%"],
 			['ORDER', 'srl_bd', 'desc'],
 			['LIMIT', ':pgx', $page_start, ':pgy', $page_end],

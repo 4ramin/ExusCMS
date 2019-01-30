@@ -48,7 +48,7 @@ class board_view extends view_abstract implements viewInterface
 			$this->board->document = $this->getDocumentItem();
 			
 			// Document not found
-			if (!$this->board->document) 
+			if (!$this->isDocumentExists()) 
 			{
 				return $this->base->set_error("게시글이 존재하지 않습니다.");
 			}
@@ -465,7 +465,7 @@ class board_view extends view_abstract implements viewInterface
 	protected function getPagination() 
 	{
 		$this->board->page_count = ceil($this->board->document_count / $this->board->list_count);
-		$this->board->page_navigation = new Pagenation($this->board->page_count, $this->board->page);
+		$this->board->page_navigation = $this->getPagenation();
 	}
 	
 	/** 
@@ -503,7 +503,7 @@ class board_view extends view_abstract implements viewInterface
 				//댓글 목록
 				$this->board->cpage = $this->getCommentCPage();
 				$this->board->comment_listcount = $this->getCommentListCount();
-				$this->board->comment_count = $this->getCommentCount($this->board->module_id, $this->board->srl);
+				$this->board->comment_count = $this->getDocumentCommentCounts();
 				
 				if ($this->board->comment_listcount > 0) 
 				{
@@ -523,7 +523,7 @@ class board_view extends view_abstract implements viewInterface
 				//읽기문서에서 목록을 보여주지 않도록 설정하였다면
 				if ($this->board->config->list_view_on == 1) 
 				{
-					$this->base->set('skin', sprintf("%s/view.php", $this->board->skin_tpl_path));
+					$this->setViewTplPath();
 				}
 				
 				$this->setDocumentTitle();
@@ -572,10 +572,10 @@ class board_view extends view_abstract implements viewInterface
 					}
 				}
 				
-				foreach ($this->board->relatedTagList->tag_list as $relatedTagItem) 
+				foreach ($this->board->relatedTagList->tag_list as $tagItem) 
 				{
-					$this->relatedTagItem = new tag_item($this, $relatedTagItem);
-					$this->board->relatedTagList->related_tag_list[$relatedTagItem['srl']] = $this->relatedTagItem;
+					$this->relatedTagItem = new tag_item($this, $tagItem);
+					$this->board->relatedTagList->related_tag_list[$tagItem['srl']] = $this->relatedTagItem;
 				}
 				
 			}
