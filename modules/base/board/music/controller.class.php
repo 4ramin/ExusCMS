@@ -377,13 +377,10 @@ class board_controller extends controller_abstract implements controllerInterfac
 		// Update document
 		if ($this->hasSrl()) 
 		{
-			// Update document
 			$this->updateDocument();
 			
-			// Unset not using file sequence
 			$this->unsetFileSequence();
 			
-			// Database commit
 			db::commit();
 			
 			// Redirect to document
@@ -392,28 +389,22 @@ class board_controller extends controller_abstract implements controllerInterfac
 		// Insert Document
 		else 
 		{
-			// Get Next Sequence
 			$this->board->lastId = $this->getNextSequence();
 			
-			// Insert Document
 			$this->insertDocumentItem();
 			
 			// Get a last srl
 			$this->board->lastID = $this->pdo->lastInsertId('srl');
 
-			// Insert Extravars to doucment
 			$this->insertExtraVars();
 			
-			// Database commit
 			db::commit();
 			
 			// Clear board cache
 			$this->clearCache();
 			
-			// Set redirect srl for redirect by srl
 			$this->setRedirectSrl();
 			
-			// Redirect to document
 			$this->redirectBySrl();
 		}
 	}
