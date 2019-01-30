@@ -156,7 +156,7 @@ class board_item extends BaseObject
 	{
 		$this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileInfo) 
+		foreach ($this->file_list as $fileInfo) 
 		{
 			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) 
 			{
@@ -208,7 +208,7 @@ class board_item extends BaseObject
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileInfo) 
+		foreach ($this->file_list as $fileInfo) 
 		{
 			if (maya::execute('@\||/@+.+!jpg||png!', $fileInfo['files'],'boolean')) 
 			{
@@ -247,7 +247,7 @@ class board_item extends BaseObject
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileInfo) 
+		foreach ($this->file_list as $fileInfo) 
 		{
 			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'], 'boolean')) 
 			{
@@ -265,9 +265,10 @@ class board_item extends BaseObject
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileInfo) 
+		foreach ($this->file_list as $fileInfo) 
 		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) 
+			{
 				return sprintf("%s%s%s/%s", __SUB, __FILE__ATTACH, $fileInfo['target'], $fileInfo['files']);
 			}
 		}
@@ -282,9 +283,10 @@ class board_item extends BaseObject
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileList) 
+		foreach ($this->file_list as $fileList) 
 		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) 
+			{
 				return str::getUrl('', __MODULEID, 'files', 'act', 'FileDownload', 'download', $this->fileSequence, 'target', $fileList['files'], 'key', $fileList['keyres']);
 			}
 		}
@@ -299,7 +301,7 @@ class board_item extends BaseObject
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $key=>$fileList) 
+		foreach ($this->file_list as $fileList) 
 		{
 			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) 
 			{
@@ -426,7 +428,8 @@ class board_item extends BaseObject
 		
 		foreach ($oThumbAlbum as $fileInfo) 
 		{
-			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) {
+			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) 
+			{
 				return $this->base->makeThumbnail($fileInfo['files'], $fileInfo['target'], $this->board->config->thumbnail_width, $this->board->config->thumbnail_height);
 			}
 		}
