@@ -290,11 +290,15 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$this->post_data->mid = $this->getParam(__MODULEID);
 		$this->post_data->srl = $this->getParam('srl');
 		
+		db::begin();
+		
 		$this->board->query->deleteDocument($this->post_data->srl, $this->post_data->mid);
 		
 		$oFilesModel = $this->base->getModel('files');
 		$oFilesModel->deleteAllAttachmentFiles($this->post_data->srl);
 		
+		db::commit();
+			
 		// Redirect to document
 		$args = va::args();
 		$args->location = str::getUrl('', __MODULEID, $this->post_data->mid);
@@ -312,6 +316,8 @@ class board_controller extends controller_abstract implements controllerInterfac
 		{
 			return $this->setError($this->board->lang['invalidtoken']);
 		}
+		
+		db::begin();
 		
 		$this->post_data = new stdClass();
 		$this->post_data->mid = $this->getParam(__MODULEID);
@@ -390,6 +396,8 @@ class board_controller extends controller_abstract implements controllerInterfac
 				unset($_SESSION['target_srl']);
 			}
 			
+			db::commit();
+			
 			// Redirect to document
 			$args = va::args();
 			$args->location = str::getUrl('', __MODULEID, $this->post_data->mid, 'srl', $this->post_data->srl);
@@ -417,6 +425,8 @@ class board_controller extends controller_abstract implements controllerInterfac
 			
 			$this->board->lastID = $this->pdo->lastInsertId('srl');
 
+			db::commit();
+			
 			// Insert Extravars to doucment
 			foreach ($this->board->extra_var as $key=>$val) 
 			{
@@ -492,24 +502,24 @@ class board_controller extends controller_abstract implements controllerInterfac
 		$target_srl = $this->getParam('target');
 		
 		// Get extravars in member
-		$mExvar = unserialize($this->board->query->getMemberExvar($_SESSION['logged_info']['user_id']));
-		if (!isset($mExvar))
+		$userExtraVars = unserialize($this->board->query->getMemberExvar($_SESSION['logged_info']['user_id']));
+		if (!isset($userExtraVars))
 		{
 			// Set extra info to empty array if not found extravars in member
-			$mExvar = $mExvar['playlist'] = Array();
+			$userExtraVars = $userExtraVars['playlist'] = Array();
 		} 
 		else 
 		{
 			// If found playlist target in extravars in member
-			if (is_array($mExvar['playlist']) && in_array($target_srl, $mExvar['playlist'])) 
+			if (is_array($userExtraVars['playlist']) && in_array($target_srl, $userExtraVars['playlist'])) 
 			{
 				return $this->setError($this->board->lang['alreadyinsertedmusic']);
 			}
 			
-			array_push($mExvar['playlist'], $target_srl);
+			array_push($userExtraVars['playlist'], $target_srl);
 		}
 		
-		if ($this->board->query->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($mExvar))) 
+		if ($this->board->query->UpdateMemberInfo($_SESSION['logged_info']['user_id'], serialize($userExtraVars))) 
 		{
 			return $this->setMessage("등록이 완료되었습니다.");
 		} 
